@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_wallet"
+            android:icon="@drawable/ic_wallet_24dp"
+            android:title="@string/wallet"/>
+        <item
+            android:id="@+id/nav_budget"
+            android:icon="@drawable/ic_budget_24dp"
+            android:title="@string/budget" />
+        <item
+            android:id="@+id/nav_routine"
+            android:icon="@drawable/ic_routine_24dp"
+            android:title="@string/routine" />
+        <item
+            android:id="@+id/nav_graph"
+            android:icon="@drawable/ic_graph_24dp"
+            android:title="@string/graph" />
+        <item
+            android:id="@+id/nav_settings"
+            android:icon="@drawable/ic_settings_24dp"
+            android:title="@string/settings" />
+    </group>
+</menu>

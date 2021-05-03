@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@+id/nav_home">
+
+    <fragment
+        android:id="@+id/nav_home"
+        android:name="com.simoale.debitcredit.ui.home.HomeFragment"
+        android:label="@string/menu_home"
+        tools:layout="@layout/fragment_home" />
+
+    <fragment
+        android:id="@+id/nav_wallet"
+        android:name="com.simoale.debitcredit.ui.wallet.WalletFragment"
+        android:label="@string/wallet"
+        tools:layout="@layout/fragment_wallet" />
+
+    <fragment
+        android:id="@+id/nav_routine"
+        android:name="com.simoale.debitcredit.ui.routine.RoutineFragment"
+        android:label="@string/routine"
+        tools:layout="@layout/fragment_budget" />
+    <fragment
+        android:id="@+id/nav_graphs"
+        android:name="com.simoale.debitcredit.ui.graphs.GraphsFragment"
+        android:label="graphs"
+        tools:layout="@layout/fragment_graphs" />
+    <fragment
+        android:id="@+id/nav_settings"
+        android:name="com.simoale.debitcredit.ui.settings.SettingsFragment"
+        android:label="settings"
+        tools:layout="@layout/fragment_settings" />
+    <activity
+        android:id="@+id/nav_budget"
+        android:name="com.simoale.debitcredit.ui.budget.BudgetFragment"
+        android:label="budget"
+        tools:layout="@layout/fragment_budget" />
+</navigation>
