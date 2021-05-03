@@ -15,4 +15,9 @@
     <string name="routine">routine</string>
     <string name="graph">graph</string>
     <string name="settings">settings</string>
+    <string name="wallet_image">wallet image</string>
+    <string name="wallet_name">wallet name</string>
+    <string name="wallet_balance">wallet balance</string>
+    <string name="wallet_more_menu">wallet more menu</string>
+    <string name="add">add</string>
 </resources>
