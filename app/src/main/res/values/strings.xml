@@ -20,4 +20,5 @@
     <string name="wallet_balance">wallet balance</string>
     <string name="wallet_more_menu">wallet more menu</string>
     <string name="add">add</string>
+    <string name="home">home</string>
 </resources>
