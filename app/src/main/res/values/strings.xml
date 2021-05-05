@@ -25,4 +25,9 @@
     <string name="budget_balance">budget balance</string>
     <string name="budget_renovation">budget renovation</string>
     <string name="budget_more_menu">budget more menu</string>
+    <string name="initial_amount">initial amount</string>
+    <string name="take_a_picture">take a picture</string>
+    <string name="save">Save</string>
+    <string name="cancel">Cancel</string>
+    <string name="captured_image">captured image</string>
 </resources>

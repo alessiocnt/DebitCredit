@@ -8,9 +8,12 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.Navigation;
 
 import com.anychart.AnyChart;
 import com.anychart.AnyChartView;
@@ -23,6 +26,7 @@ import com.anychart.graphics.vector.Fill;
 import com.anychart.graphics.vector.SolidFill;
 import com.anychart.graphics.vector.text.HAlign;
 import com.anychart.graphics.vector.text.VAlign;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.simoale.debitcredit.R;
 
 public class HomeFragment extends Fragment {
@@ -210,5 +214,17 @@ public class HomeFragment extends Fragment {
 
         anyChartView.setChart(circularGauge);
         return this.view;
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        view.findViewById(R.id.fab_add).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Navigation.findNavController(view).navigate(R.id.nav_settings);
+            }
+        });
     }
 }
