@@ -30,4 +30,9 @@
     <string name="save">Save</string>
     <string name="cancel">Cancel</string>
     <string name="captured_image">captured image</string>
+    <string name="routine_name">routine name</string>
+    <string name="routine_more_menu">routine more menu</string>
+    <string name="routine_frequency">routine frequency</string>
+    <string name="routine_start">routine start</string>
+    <string name="routine_import">routine import</string>
 </resources>
