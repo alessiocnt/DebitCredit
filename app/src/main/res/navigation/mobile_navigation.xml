@@ -51,7 +51,7 @@
         android:name="com.simoale.debitcredit.ui.wallet.NewWalletFragment"
         android:label="new_wallet"
         tools:layout="@layout/new_wallet" />
-    <activity
+    <fragment
         android:id="@+id/nav_budget"
         android:name="com.simoale.debitcredit.ui.budget.BudgetFragment"
         android:label="budget"
