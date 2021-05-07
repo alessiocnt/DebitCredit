@@ -35,4 +35,9 @@
     <string name="routine_frequency">routine frequency</string>
     <string name="routine_start">routine start</string>
     <string name="routine_import">routine import</string>
+    <string name="in">In</string>
+    <string name="out">Out</string>
+    <string name="exchange">Exchange</string>
+    <string name="amount">Amount</string>
+    <string name="description">Description</string>
 </resources>
