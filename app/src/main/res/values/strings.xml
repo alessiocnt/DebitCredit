@@ -45,4 +45,7 @@
     <string name="details">details</string>
     <string name="category">Category</string>
     <string name="tag">Tag</string>
+    <string name="transaction_date">transaction date</string>
+    <string name="transaction_amount">transaction amount</string>
+    <string name="transaction_name">transaction name</string>
 </resources>
