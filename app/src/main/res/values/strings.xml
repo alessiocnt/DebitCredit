@@ -10,7 +10,7 @@
     <string name="menu_home">Home</string>
     <string name="menu_gallery">Gallery</string>
     <string name="menu_slideshow">Slideshow</string>
-    <string name="wallet">wallet</string>
+    <string name="wallet">Wallet</string>
     <string name="budget">budget</string>
     <string name="routine">routine</string>
     <string name="graph">graph</string>
@@ -48,4 +48,11 @@
     <string name="transaction_date">transaction date</string>
     <string name="transaction_amount">transaction amount</string>
     <string name="transaction_name">transaction name</string>
+    <string name="payee">Payee</string>
+    <string name="add_payee">add payee</string>
+    <string name="add_category">add category</string>
+    <string name="extra">Extra</string>
+    <string name="save_location">Save location</string>
+    <string name="note">Note</string>
+    <string name="image_taken">image taken</string>
 </resources>

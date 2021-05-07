@@ -5,16 +5,16 @@
     app:startDestination="@id/newInTransactionFragment">
 
     <fragment
-        android:id="@+id/newInTransactionFragment"
-        android:name="com.simoale.debitcredit.ui.transactions.NewInTransactionFragment"
-        android:label="NewInTransactionFragment" />
-    <fragment
-        android:id="@+id/newOutTransactionFragment"
-        android:name="com.simoale.debitcredit.ui.transactions.NewOutTransactionFragment"
-        android:label="NewOutTransactionFragment" />
-    <fragment
         android:id="@+id/newExchangeTransactionFragment"
         android:name="com.simoale.debitcredit.ui.transactions.NewExchangeTransactionFragment"
         android:label="NewExchangeTransactionFragment" />
+    <fragment
+        android:id="@+id/newTransactionTabFragment"
+        android:name="com.simoale.debitcredit.ui.transactions.NewTransactionTabFragment"
+        android:label="NewTransactionTabFragment" />
+    <fragment
+        android:id="@+id/newInTransactionFragment"
+        android:name="com.simoale.debitcredit.ui.transactions.NewInTransactionFragment"
+        android:label="NewInTransactionFragment" />
 
 </navigation>

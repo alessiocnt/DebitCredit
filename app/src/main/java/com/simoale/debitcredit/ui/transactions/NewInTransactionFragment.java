@@ -15,7 +15,7 @@ public class NewInTransactionFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
-        View root = inflater.inflate(R.layout.new_transaction_in, container, false);
+        View root = inflater.inflate(R.layout.new_transaction, container, false);
 
         return root;
     }
