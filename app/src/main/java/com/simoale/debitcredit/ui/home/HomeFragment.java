@@ -4,14 +4,10 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
 
@@ -40,18 +36,17 @@ public class HomeFragment extends Fragment {
                 new ViewModelProvider(this).get(HomeViewModel.class);
         this.view = inflater.inflate(R.layout.fragment_home, container, false);
         /**final TextView textView = root.findViewById(R.id.text_home);
-        homeViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
-            @Override
-            public void onChanged(@Nullable String s) {
-                textView.setText(s);
-            }
+         homeViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
+        @Override public void onChanged(@Nullable String s) {
+        textView.setText(s);
+        }
         });**/
 
         AnyChartView anyChartView = view.findViewById(R.id.home_budget_chart);
         anyChartView.setProgressBar(view.findViewById(R.id.home_budget_progress_bar));
 
         CircularGauge circularGauge = AnyChart.circular();
-        circularGauge.data(new SingleValueDataSet(new Integer[] { 90, 15, 90, 15, 90}));
+        circularGauge.data(new SingleValueDataSet(new Integer[]{90, 15, 90, 15, 90}));
         circularGauge.fill("#fff")
                 .stroke(null)
                 .padding(0d, 0d, 0d, 0d)
@@ -220,10 +215,18 @@ public class HomeFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        view.findViewById(R.id.fab_add).setOnClickListener(new View.OnClickListener() {
+//        view.findViewById(R.id.fab_add).setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Navigation.findNavController(view).navigate(R.id.nav_settings);
+//            }
+//        });
+
+        FloatingActionButton fab = view.findViewById(R.id.fab_add);
+        fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Navigation.findNavController(view).navigate(R.id.nav_settings);
+                Navigation.findNavController(view).navigate(R.id.action_nav_home_to_new_wallet);
             }
         });
     }
