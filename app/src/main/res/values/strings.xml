@@ -41,7 +41,7 @@
     <string name="amount">Amount</string>
     <string name="description">Description</string>
     <string name="search_transaction">search transaction</string>
-    <string name="search">search</string>
+    <string name="search">Search</string>
     <string name="details">details</string>
     <string name="category">Category</string>
     <string name="tag">Tag</string>
