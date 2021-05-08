@@ -7,14 +7,8 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
-import androidx.navigation.ui.AppBarConfiguration;
-import androidx.navigation.ui.NavigationUI;
 
-import com.google.android.material.navigation.NavigationView;
 import com.simoale.debitcredit.R;
 
 public class NewTransactionTabFragment extends Fragment {
@@ -22,7 +16,7 @@ public class NewTransactionTabFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        NavController navController = Navigation.findNavController(getActivity(), R.id.transaction_fragment_holder);
+//        NavController navController = Navigation.findNavController(getActivity(), R.id.transaction_fragment_holder);
     }
 
 

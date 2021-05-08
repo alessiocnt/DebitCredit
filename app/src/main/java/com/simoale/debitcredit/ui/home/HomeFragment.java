@@ -226,7 +226,7 @@ public class HomeFragment extends Fragment {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Navigation.findNavController(view).navigate(R.id.action_nav_home_to_new_wallet);
+                Navigation.findNavController(view).navigate(R.id.action_nav_home_to_newTransactionTabFragment);
             }
         });
     }

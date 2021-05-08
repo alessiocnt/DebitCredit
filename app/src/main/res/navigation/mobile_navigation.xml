@@ -10,9 +10,10 @@
         android:name="com.simoale.debitcredit.ui.home.HomeFragment"
         android:label="@string/menu_home"
         tools:layout="@layout/fragment_home">
+
         <action
-            android:id="@+id/action_nav_home_to_new_wallet"
-            app:destination="@id/new_wallet" />
+            android:id="@+id/action_nav_home_to_newTransactionTabFragment"
+            app:destination="@id/newTransactionTabFragment2" />
     </fragment>
 
     <fragment
@@ -20,6 +21,9 @@
         android:name="com.simoale.debitcredit.ui.wallet.WalletFragment"
         android:label="@string/wallet"
         tools:layout="@layout/fragment_wallet">
+        <action
+            android:id="@+id/action_nav_wallet_to_new_wallet"
+            app:destination="@id/new_wallet" />
         <action
             android:id="@+id/action_walletFragment_to_walletDetailsFragment"
             app:destination="@id/wallet_details_fragment" />
@@ -56,4 +60,9 @@
         android:name="com.simoale.debitcredit.ui.budget.BudgetFragment"
         android:label="budget"
         tools:layout="@layout/fragment_budget" />
+    <fragment
+        android:id="@+id/newTransactionTabFragment2"
+        android:name="com.simoale.debitcredit.ui.transactions.NewTransactionTabFragment"
+        android:label="NewTransactionTabFragment"
+        tools:layout="@layout/new_transaction" />
 </navigation>

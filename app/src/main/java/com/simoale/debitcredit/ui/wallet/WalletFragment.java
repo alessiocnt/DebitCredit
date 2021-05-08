@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -30,11 +31,13 @@ public class WalletFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         FloatingActionButton fab = view.findViewById(R.id.fab_add);
+        Button showDet = view.findViewById(R.id.show_wallet_details);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Navigation.findNavController(view).navigate(R.id.action_walletFragment_to_walletDetailsFragment);
+                Navigation.findNavController(view).navigate(R.id.action_nav_wallet_to_new_wallet);
             }
         });
+        showDet.setOnClickListener((v) -> Navigation.findNavController(v).navigate(R.id.action_walletFragment_to_walletDetailsFragment));
     }
 }
