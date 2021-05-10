@@ -2,7 +2,7 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/transaction_navigation"
-    app:startDestination="@id/newInTransactionFragment">
+    app:startDestination="@id/newTransactionFragment">
 
     <fragment
         android:id="@+id/newExchangeTransactionFragment"
@@ -11,10 +11,17 @@
     <fragment
         android:id="@+id/newTransactionTabFragment"
         android:name="com.simoale.debitcredit.ui.transactions.NewTransactionTabFragment"
-        android:label="NewTransactionTabFragment" />
+        android:label="NewTransactionTabFragment" >
+        <action
+            android:id="@+id/action_newTransactionTabFragment_to_newTransactionFragment"
+            app:destination="@id/newTransactionFragment" />
+        <action
+            android:id="@+id/action_newTransactionTabFragment_to_newExchangeTransactionFragment"
+            app:destination="@id/newExchangeTransactionFragment" />
+    </fragment>
     <fragment
-        android:id="@+id/newInTransactionFragment"
-        android:name="com.simoale.debitcredit.ui.transactions.NewInTransactionFragment"
-        android:label="NewInTransactionFragment" />
+        android:id="@+id/newTransactionFragment"
+        android:name="com.simoale.debitcredit.ui.transactions.NewTransactionFragment"
+        android:label="NewTransactionFragment" />
 
 </navigation>
