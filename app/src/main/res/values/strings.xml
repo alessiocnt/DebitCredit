@@ -58,4 +58,5 @@
     <string name="position">position</string>
     <string name="from_wallet">From wallet</string>
     <string name="to_wallet">To wallet</string>
+    <string name="budget_limit">Limit</string>
 </resources>
