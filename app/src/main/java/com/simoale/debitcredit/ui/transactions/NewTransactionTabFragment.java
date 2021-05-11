@@ -8,7 +8,6 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.material.tabs.TabLayout;
@@ -39,7 +38,7 @@ public class NewTransactionTabFragment extends Fragment {
 
     private void setUpTabPager(View view) {
         ViewPager viewPager = getActivity().findViewById(R.id.transaction_viewPager_holder);
-        PagerAdapter pageAdapter = new com.simoale.debitcredit.ui.transactions.PagerAdapter(requireActivity().getSupportFragmentManager(), getTabList());
+        PagerAdapter pageAdapter = new PagerAdapter(requireActivity().getSupportFragmentManager(), getTabList());
         viewPager.setAdapter(pageAdapter);
         // Tab switching
         TabLayout tl = view.findViewById(R.id.tabLayout);

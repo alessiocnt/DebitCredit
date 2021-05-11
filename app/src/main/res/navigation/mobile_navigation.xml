@@ -45,11 +45,6 @@
         android:label="@string/routine"
         tools:layout="@layout/fragment_budget" />
     <fragment
-        android:id="@+id/nav_graphs"
-        android:name="com.simoale.debitcredit.ui.graphs.GraphsFragment"
-        android:label="graphs"
-        tools:layout="@layout/fragment_graphs" />
-    <fragment
         android:id="@+id/nav_settings"
         android:name="com.simoale.debitcredit.ui.settings.SettingsFragment"
         android:label="settings"
@@ -74,4 +69,9 @@
         android:name="com.simoale.debitcredit.ui.transactions.TransactionDetailsFragment"
         android:label="TransactionDetailsFragment"
         tools:layout="@layout/transaction_details" />
+    <fragment
+        android:id="@+id/nav_graphs"
+        android:name="com.simoale.debitcredit.ui.graphs.GraphsFragment"
+        android:label="fragment_graphs"
+        tools:layout="@layout/fragment_graphs" />
 </navigation>
