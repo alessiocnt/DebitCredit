@@ -12,6 +12,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.anychart.APIlib;
 import com.anychart.AnyChart;
 import com.anychart.AnyChartView;
 import com.anychart.chart.common.dataentry.DataEntry;
@@ -50,15 +51,19 @@ public class GraphsFragment extends Fragment {
 
 
         AnyChartView anyChartView = root.findViewById(R.id.line_chart);
-        anyChartView.setProgressBar(root.findViewById(R.id.graphs_progress_bar));
+        anyChartView.setProgressBar(root.findViewById(R.id.line_chart_progress_bar));
+        APIlib.getInstance().setActiveAnyChartView(anyChartView);
+
+
+
         Cartesian cartesian = AnyChart.line();
         cartesian.animation(true);
         cartesian.padding(10d, 20d, 5d, 20d);
-        cartesian.crosshair().enabled(true);
+        /**cartesian.crosshair().enabled(true);
         cartesian.crosshair()
-                .yLabel(true)
+                .yLabel(true);
                 // TODO ystroke
-                .yStroke((Stroke) null, null, null, (String) null, (String) null);
+                //.yStroke((Stroke) new Stroke("3, red"), 1, null, (String) null, (String) null);**/
 
         cartesian.tooltip().positionMode(TooltipPositionMode.POINT);
 
@@ -146,10 +151,10 @@ public class GraphsFragment extends Fragment {
 
         /***************************/
 
-        AnyChartView anyChartView2 = root.findViewById(R.id.candle_chart);
-        anyChartView2.setProgressBar(root.findViewById(R.id.graphs_progress_bar));
+        AnyChartView columnChartView = root.findViewById(R.id.candle_chart);
+        columnChartView.setProgressBar(root.findViewById(R.id.candle_chart_progress_bar));
+        APIlib.getInstance().setActiveAnyChartView(columnChartView);
 
-        Cartesian cartesian2 = AnyChart.column();
 
         List<DataEntry> data = new ArrayList<>();
         data.add(new ValueDataEntry("Rouge", 80540));
@@ -162,33 +167,8 @@ public class GraphsFragment extends Fragment {
         data.add(new ValueDataEntry("Eyeliner", 213210));
         data.add(new ValueDataEntry("Eyeshadows", 249980));
 
-        Column column = cartesian2.column(data);
-
-        column.tooltip()
-                .titleFormat("{%X}")
-                .position(Position.CENTER_BOTTOM)
-                .anchor(Anchor.CENTER_BOTTOM)
-                .offsetX(0d)
-                .offsetY(5d)
-                .format("${%Value}{groupsSeparator: }");
-
-        cartesian2.animation(true);
-        cartesian2.title("Top 10 Cosmetic Products by Revenue");
-
-        cartesian2.yScale().minimum(0d);
-
-        cartesian2.yAxis(0).labels().format("${%Value}{groupsSeparator: }");
-
-        cartesian2.tooltip().positionMode(TooltipPositionMode.POINT);
-        cartesian2.interactivity().hoverMode(HoverMode.BY_X);
-
-        cartesian2.xAxis(0).title("Product");
-        cartesian2.yAxis(0).title("Revenue");
-
-        anyChartView2.setChart(cartesian2);
-
-
-
+        Chart columnChart = new ColumnChart(columnChartView, data, "Top 10 Cosmetic", "prod", "revenue");
+        columnChart.instantiateChart();
 
         return root;
     }
