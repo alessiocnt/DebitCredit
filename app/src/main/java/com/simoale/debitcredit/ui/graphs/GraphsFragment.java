@@ -34,12 +34,11 @@ import java.util.List;
 
 public class GraphsFragment extends Fragment {
 
-    private GraphsViewModel graphsViewModel;
+    // private GraphsViewModel graphsViewModel;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        graphsViewModel =
-                new ViewModelProvider(this).get(GraphsViewModel.class);
+       // graphsViewModel = new ViewModelProvider(this).get(GraphsViewModel.class);
         View root = inflater.inflate(R.layout.fragment_graphs, container, false);
        /** final TextView textView = root.findViewById(R.id.text_home);
         graphsViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
