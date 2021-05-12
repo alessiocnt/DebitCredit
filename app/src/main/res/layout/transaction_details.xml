@@ -11,15 +11,13 @@
 
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/transaction_details_transaction_info"
+            style="@style/CustomCard"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="16dp"
-            app:cardBackgroundColor="@color/white"
             app:cardCornerRadius="@dimen/cardview_default_radius"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:strokeColor="@color/material_on_surface_stroke"
-            app:strokeWidth="1dp">
+            app:layout_constraintTop_toTopOf="parent">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
@@ -67,15 +65,13 @@
 
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/transaction_details_transaction_extra"
+            style="@style/CustomCard"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="16dp"
-            app:cardBackgroundColor="@color/white"
             app:cardCornerRadius="@dimen/cardview_default_radius"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/transaction_details_transaction_info"
-            app:strokeColor="@color/material_on_surface_stroke"
-            app:strokeWidth="1dp">
+            app:layout_constraintTop_toBottomOf="@id/transaction_details_transaction_info">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
@@ -112,15 +108,13 @@
 
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/transaction_details_transaction_photos"
+            style="@style/CustomCard"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="16dp"
-            app:cardBackgroundColor="@color/white"
             app:cardCornerRadius="@dimen/cardview_default_radius"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/transaction_details_transaction_extra"
-            app:strokeColor="@color/material_on_surface_stroke"
-            app:strokeWidth="1dp">
+            app:layout_constraintTop_toBottomOf="@id/transaction_details_transaction_extra">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
