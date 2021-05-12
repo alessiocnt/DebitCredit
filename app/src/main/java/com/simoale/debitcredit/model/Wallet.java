@@ -12,7 +12,7 @@ public class Wallet {
 
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "wallet_id")
-    private int id;
+    private int walletId;
     @ColumnInfo(name = "wallet_name")
     private String name;
     @ColumnInfo(name = "wallet_description")
@@ -29,7 +29,7 @@ public class Wallet {
         this.image = image;
     }
 
-    public int getId() { return id; }
+    public int getId() { return walletId; }
 
     public String getName() {
         return name;
@@ -47,8 +47,8 @@ public class Wallet {
         return image;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setId(int walletId) {
+        this.walletId = walletId;
     }
 
     public void setName(String name) {

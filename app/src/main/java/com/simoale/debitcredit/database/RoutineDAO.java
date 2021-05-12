@@ -7,9 +7,6 @@ import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 import androidx.room.Transaction;
 
-import com.simoale.debitcredit.model.Budget;
-import com.simoale.debitcredit.model.CategoryWithBudgets;
-import com.simoale.debitcredit.model.CategoryWithRoutines;
 import com.simoale.debitcredit.model.Routine;
 import com.simoale.debitcredit.model.WalletWithRoutines;
 
@@ -23,10 +20,6 @@ public interface RoutineDAO {
     @Transaction
     @Query("SELECT * from routine ORDER BY routine_name DESC")
     LiveData<List<Routine>> getRoutines();
-
-    @Transaction
-    @Query("SELECT * from category")
-    public List<CategoryWithRoutines> getCategoryWithRoutines();
 
     @Transaction
     @Query("SELECT * from category")

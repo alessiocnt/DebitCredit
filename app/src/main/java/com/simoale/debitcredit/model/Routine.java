@@ -14,7 +14,7 @@ public class Routine {
 
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "routine_id")
-    private int id;
+    private int routineId;
     @ColumnInfo(name = "routine_name")
     private String name;
     @ColumnInfo(name = "routine_amount")
@@ -40,7 +40,7 @@ public class Routine {
         this.repeatInterval = repeatInterval;
     }
 
-    public int getId() { return id; }
+    public int getId() { return routineId; }
 
     public String getName() {
         return name;
@@ -70,8 +70,8 @@ public class Routine {
         return repeatInterval;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setId(int routineId) {
+        this.routineId = routineId;
     }
 
     public void setName(String name) {

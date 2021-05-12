@@ -2,6 +2,7 @@ package com.simoale.debitcredit.model;
 
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
+import androidx.room.ForeignKey;
 import androidx.room.PrimaryKey;
 
 import java.util.Date;
@@ -14,7 +15,7 @@ public class Budget {
 
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "budget_id")
-    private int id;
+    private int budgetId;
     @ColumnInfo(name = "budget_name")
     private String name;
     @ColumnInfo(name = "budget_category_id")
@@ -37,7 +38,7 @@ public class Budget {
         this.repeatInterval = repeatInterval;
     }
 
-    public int getId() { return id; }
+    public int getId() { return budgetId; }
 
     public String getName() {
         return name;
@@ -63,8 +64,8 @@ public class Budget {
         return repeatInterval;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setId(int budgetId) {
+        this.budgetId = budgetId;
     }
 
     public void setName(String name) {

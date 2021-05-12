@@ -7,16 +7,18 @@ import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 import androidx.room.Transaction;
 
-import com.simoale.debitcredit.model.Budget;
+import com.simoale.debitcredit.model.Category;
+import com.simoale.debitcredit.model.Tag;
+import com.simoale.debitcredit.model.Wallet;
 
 import java.util.List;
 
 @Dao
-public interface BudgetDAO {
+public interface TagDAO {
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    void addBudget(Budget budget);
+    void addTag(Tag tag);
 
     @Transaction
-    @Query("SELECT * from budget ORDER BY budget_name DESC")
-    LiveData<List<Budget>> getBudgets();
+    @Query("SELECT * from tag ORDER BY tag_name DESC")
+    LiveData<List<Tag>> getTags();
 }

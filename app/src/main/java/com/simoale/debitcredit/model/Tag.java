@@ -2,33 +2,32 @@ package com.simoale.debitcredit.model;
 
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
-import androidx.room.ForeignKey;
 import androidx.room.PrimaryKey;
 
 /**
  * Class which represents a category with its information
  */
-@Entity(tableName="category")
-public class Category {
+@Entity(tableName="tag")
+public class Tag {
 
     @PrimaryKey(autoGenerate = true)
-    @ColumnInfo(name = "category_id")
-    private int categoryId;
-    @ColumnInfo(name = "category_name")
+    @ColumnInfo(name = "tag_id")
+    private int tagId;
+    @ColumnInfo(name = "tag_name")
     private String name;
 
-    public Category(String name) {
+    public Tag(String name) {
         this.name = name;
     }
 
-    public int getId() { return categoryId; }
+    public int getId() { return tagId; }
 
     public String getName() {
         return name;
     }
 
-    public void setId(int categoryId) {
-        this.categoryId = categoryId;
+    public void setId(int tagId) {
+        this.tagId = tagId;
     }
 
     public void setName(String name) {
