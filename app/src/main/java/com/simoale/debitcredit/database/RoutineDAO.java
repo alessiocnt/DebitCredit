@@ -8,7 +8,6 @@ import androidx.room.Query;
 import androidx.room.Transaction;
 
 import com.simoale.debitcredit.model.Routine;
-import com.simoale.debitcredit.model.WalletWithRoutines;
 
 import java.util.List;
 
@@ -20,8 +19,4 @@ public interface RoutineDAO {
     @Transaction
     @Query("SELECT * from routine ORDER BY routine_name DESC")
     LiveData<List<Routine>> getRoutines();
-
-    @Transaction
-    @Query("SELECT * from category")
-    public List<WalletWithRoutines> getWalletWithRoutines();
 }

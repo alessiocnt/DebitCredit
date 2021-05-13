@@ -7,29 +7,36 @@ import androidx.room.PrimaryKey;
 
 import java.util.Date;
 
-/**
- * Class which represents a wallet with its information (name, description, image)
- */
-@Entity(tableName="budget")
+import static androidx.room.ForeignKey.CASCADE;
+import static androidx.room.ForeignKey.RESTRICT;
+
+@Entity(tableName="budget",
+    foreignKeys = {
+        @ForeignKey(entity = Category.class,
+                parentColumns = "category_id",
+                childColumns = "budget_category_id",
+                onDelete = RESTRICT,
+                onUpdate = CASCADE)
+    })
 public class Budget {
 
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "budget_id")
-    private int budgetId;
+    public int budgetId;
     @ColumnInfo(name = "budget_name")
-    private String name;
+    public String name;
     @ColumnInfo(name = "budget_category_id")
-    private int categoryId;
+    public int categoryId;
     @ColumnInfo(name = "budget_limit")
-    private float limit;
+    public float limit;
     @ColumnInfo(name = "budget_date")
-    private Date date;
+    public String date;
     @ColumnInfo(name = "budget_repeat_number")
-    private int repeatNumber;
+    public int repeatNumber;
     @ColumnInfo(name = "budget_repeat_interval")
-    private String repeatInterval;
+    public String repeatInterval;
 
-    public Budget(String name, int categoryId, float limit, Date date, int repeatNumber, String repeatInterval) {
+    public Budget(String name, int categoryId, float limit, String date, int repeatNumber, String repeatInterval) {
         this.name = name;
         this.categoryId = categoryId;
         this.limit = limit;
@@ -52,7 +59,7 @@ public class Budget {
         return limit;
     }
 
-    public Date getDate() {
+    public String getDate() {
         return date;
     }
 
@@ -78,7 +85,7 @@ public class Budget {
 
     public void setLimit(float limit) { this.limit = limit; }
 
-    public void setDate(Date date) {
+    public void setDate(String date) {
         this.date = date;
     }
 

@@ -19,7 +19,7 @@ public class Wallet {
     private String description;
     @ColumnInfo(name = "wallet_balance")
     private int balance;
-    @ColumnInfo(name = "item_image")
+    @ColumnInfo(name = "wallet_image")
     private String image;
 
     public Wallet(String name, String description, int balance, String image) {

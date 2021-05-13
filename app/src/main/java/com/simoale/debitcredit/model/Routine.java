@@ -2,14 +2,30 @@ package com.simoale.debitcredit.model;
 
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
+import androidx.room.ForeignKey;
 import androidx.room.PrimaryKey;
 
 import java.util.Date;
 
+import static androidx.room.ForeignKey.CASCADE;
+import static androidx.room.ForeignKey.RESTRICT;
+
 /**
  * Class which represents a wallet with its information (name, description, image)
  */
-@Entity(tableName="routine")
+@Entity(tableName="routine",
+    foreignKeys = {
+        @ForeignKey(entity = Category.class,
+                parentColumns = "categoryId",
+                childColumns = "categoryId",
+                onDelete = RESTRICT,
+                onUpdate = CASCADE),
+        @ForeignKey(entity = Wallet.class,
+                parentColumns = "walletId",
+                childColumns = "walletId",
+                onDelete = RESTRICT,
+                onUpdate = CASCADE)
+    })
 public class Routine {
 
     @PrimaryKey(autoGenerate = true)

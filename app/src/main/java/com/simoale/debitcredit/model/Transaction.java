@@ -14,11 +14,28 @@ import static androidx.room.ForeignKey.RESTRICT;
  * Class which represents a transaction with its information
  */
 @Entity(tableName="transaction",
-        foreignKeys = @ForeignKey(entity = Category.class,
+    foreignKeys = {
+        @ForeignKey(entity = Category.class,
                 parentColumns = "categoryId",
                 childColumns = "categoryId",
                 onDelete = RESTRICT,
-                onUpdate = CASCADE))
+                onUpdate = CASCADE),
+        @ForeignKey(entity = Wallet.class,
+                parentColumns = "walletId",
+                childColumns = "walletIdFrom",
+                onDelete = RESTRICT,
+                onUpdate = CASCADE),
+        @ForeignKey(entity = Wallet.class,
+                parentColumns = "walletId",
+                childColumns = "walletIdTo",
+                onDelete = RESTRICT,
+                onUpdate = CASCADE),
+        @ForeignKey(entity = Payee.class,
+                parentColumns = "payeeId",
+                childColumns = "payeeId",
+                onDelete = RESTRICT,
+                onUpdate = CASCADE)
+    })
 public class Transaction {
 
     @PrimaryKey(autoGenerate = true)
@@ -38,8 +55,6 @@ public class Transaction {
     private int walletIdFrom;
     @ColumnInfo(name = "transaction_wallet_id_to")
     private int walletIdTo;
-    @ColumnInfo(name = "transaction_tag_id")
-    private int tagId;
     @ColumnInfo(name = "transaction_location")
     private String location;
     @ColumnInfo(name = "transaction_note")
@@ -56,7 +71,6 @@ public class Transaction {
         this.date = date;
         this.walletIdFrom = walletIdFrom;
         this.walletIdTo = walletIdTo;
-        this.tagId = tagId;
         this.location = location;
         this.note = note;
         this.image = image;
@@ -92,10 +106,6 @@ public class Transaction {
 
     public int getWalletIdTo() {
         return walletIdTo;
-    }
-
-    public int getTagId() {
-        return tagId;
     }
 
     public String getLocation() {
@@ -140,10 +150,6 @@ public class Transaction {
 
     public void setWalletIdTo(int walletIdTo) {
         this.walletIdTo = walletIdTo;
-    }
-
-    public void setTagId(int tagId) {
-        this.tagId = tagId;
     }
 
     public void setLocation(String location) {
