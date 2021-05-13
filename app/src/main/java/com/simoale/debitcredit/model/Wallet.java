@@ -7,12 +7,12 @@ import androidx.room.PrimaryKey;
 /**
  * Class which represents a wallet with its information (name, description, image)
  */
-@Entity(tableName="wallet")
+@Entity(tableName = "wallet")
 public class Wallet {
 
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "wallet_id")
-    private int walletId;
+    public int walletId;
     @ColumnInfo(name = "wallet_name")
     private String name;
     @ColumnInfo(name = "wallet_description")
@@ -29,38 +29,40 @@ public class Wallet {
         this.image = image;
     }
 
-    public int getId() { return walletId; }
-
-    public String getName() {
-        return name;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public int getBalance() {
-        return balance;
-    }
-
-    public String getImage() {
-        return image;
+    public int getId() {
+        return walletId;
     }
 
     public void setId(int walletId) {
         this.walletId = walletId;
     }
 
+    public String getName() {
+        return name;
+    }
+
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getDescription() {
+        return description;
     }
 
     public void setDescription(String description) {
         this.description = description;
     }
 
+    public int getBalance() {
+        return balance;
+    }
+
     public void setBalance(int balance) {
         this.balance = balance;
+    }
+
+    public String getImage() {
+        return image;
     }
 
     public void setImage(String image) {

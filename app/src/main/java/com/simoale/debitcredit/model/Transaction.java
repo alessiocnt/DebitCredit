@@ -5,42 +5,40 @@ import androidx.room.Entity;
 import androidx.room.ForeignKey;
 import androidx.room.PrimaryKey;
 
-import java.util.Date;
-
 import static androidx.room.ForeignKey.CASCADE;
 import static androidx.room.ForeignKey.RESTRICT;
 
 /**
  * Class which represents a transaction with its information
  */
-@Entity(tableName="transaction",
-    foreignKeys = {
-        @ForeignKey(entity = Category.class,
-                parentColumns = "categoryId",
-                childColumns = "categoryId",
-                onDelete = RESTRICT,
-                onUpdate = CASCADE),
-        @ForeignKey(entity = Wallet.class,
-                parentColumns = "walletId",
-                childColumns = "walletIdFrom",
-                onDelete = RESTRICT,
-                onUpdate = CASCADE),
-        @ForeignKey(entity = Wallet.class,
-                parentColumns = "walletId",
-                childColumns = "walletIdTo",
-                onDelete = RESTRICT,
-                onUpdate = CASCADE),
-        @ForeignKey(entity = Payee.class,
-                parentColumns = "payeeId",
-                childColumns = "payeeId",
-                onDelete = RESTRICT,
-                onUpdate = CASCADE)
-    })
+@Entity(tableName = "transaction",
+        foreignKeys = {
+                @ForeignKey(entity = Category.class,
+                        parentColumns = "category_id",
+                        childColumns = "transaction_category_id",
+                        onDelete = RESTRICT,
+                        onUpdate = CASCADE),
+                @ForeignKey(entity = Wallet.class,
+                        parentColumns = "wallet_id",
+                        childColumns = "transaction_wallet_id_from",
+                        onDelete = RESTRICT,
+                        onUpdate = CASCADE),
+                @ForeignKey(entity = Wallet.class,
+                        parentColumns = "wallet_id",
+                        childColumns = "transaction_wallet_id_to",
+                        onDelete = RESTRICT,
+                        onUpdate = CASCADE),
+                @ForeignKey(entity = Payee.class,
+                        parentColumns = "payee_id",
+                        childColumns = "transaction_payee_id",
+                        onDelete = RESTRICT,
+                        onUpdate = CASCADE)
+        })
 public class Transaction {
 
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "transaction_id")
-    private int transactionId;
+    public int transactionId;
     @ColumnInfo(name = "transaction_amount")
     private float amount;
     @ColumnInfo(name = "transaction_description")
@@ -50,7 +48,7 @@ public class Transaction {
     @ColumnInfo(name = "transaction_payee_id")
     private int payeeId;
     @ColumnInfo(name = "transaction_date")
-    private Date date;
+    private String date;
     @ColumnInfo(name = "transaction_wallet_id_from")
     private int walletIdFrom;
     @ColumnInfo(name = "transaction_wallet_id_to")
@@ -62,8 +60,8 @@ public class Transaction {
     @ColumnInfo(name = "transaction_image")
     private String image;
 
-    public Transaction(float amount, String description, int categoryId, int payeeId, Date date, int walletIdFrom, int walletIdTo,
-                       int tagId, String location, String note, String image) {
+    public Transaction(float amount, String description, int categoryId, int payeeId, String date, int walletIdFrom, int walletIdTo,
+                       String location, String note, String image) {
         this.amount = amount;
         this.description = description;
         this.categoryId = categoryId;
@@ -80,84 +78,84 @@ public class Transaction {
         return transactionId;
     }
 
-    public float getAmount() {
-        return amount;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public int getCategoryId() {
-        return categoryId;
-    }
-
-    public int getPayeeId() {
-        return payeeId;
-    }
-
-    public Date getDate() {
-        return date;
-    }
-
-    public int getWalletIdFrom() {
-        return walletIdFrom;
-    }
-
-    public int getWalletIdTo() {
-        return walletIdTo;
-    }
-
-    public String getLocation() {
-        return location;
-    }
-
-    public String getNote() {
-        return note;
-    }
-
-    public String getImage() {
-        return image;
-    }
-
     public void setId(int transactionId) {
         this.transactionId = transactionId;
+    }
+
+    public float getAmount() {
+        return amount;
     }
 
     public void setAmount(float amount) {
         this.amount = amount;
     }
 
+    public String getDescription() {
+        return description;
+    }
+
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public int getCategoryId() {
+        return categoryId;
     }
 
     public void setCategoryId(int categoryId) {
         this.categoryId = categoryId;
     }
 
+    public int getPayeeId() {
+        return payeeId;
+    }
+
     public void setPayeeId(int payeeId) {
         this.payeeId = payeeId;
     }
 
-    public void setDate(Date date) {
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
         this.date = date;
+    }
+
+    public int getWalletIdFrom() {
+        return walletIdFrom;
     }
 
     public void setWalletIdFrom(int walletIdFrom) {
         this.walletIdFrom = walletIdFrom;
     }
 
+    public int getWalletIdTo() {
+        return walletIdTo;
+    }
+
     public void setWalletIdTo(int walletIdTo) {
         this.walletIdTo = walletIdTo;
+    }
+
+    public String getLocation() {
+        return location;
     }
 
     public void setLocation(String location) {
         this.location = location;
     }
 
+    public String getNote() {
+        return note;
+    }
+
     public void setNote(String note) {
         this.note = note;
+    }
+
+    public String getImage() {
+        return image;
     }
 
     public void setImage(String image) {

@@ -3,9 +3,6 @@ package com.simoale.debitcredit.model;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
-import androidx.room.PrimaryKey;
-
-import java.util.Date;
 
 import static androidx.room.ForeignKey.CASCADE;
 import static androidx.room.ForeignKey.RESTRICT;
@@ -14,13 +11,13 @@ import static androidx.room.ForeignKey.RESTRICT;
     primaryKeys = {"transaction_id, tag_id"},
     foreignKeys = {
         @ForeignKey(entity = Transaction.class,
-                parentColumns = "transactionId",
-                childColumns = "transactionId",
+                parentColumns = "transaction_id",
+                childColumns = "transaction_id",
                 onDelete = RESTRICT,
                 onUpdate = CASCADE),
         @ForeignKey(entity = Tag.class,
-                parentColumns = "tagId",
-                childColumns = "tagId",
+                parentColumns = "tag_id",
+                childColumns = "tag_id",
                 onDelete = RESTRICT,
                 onUpdate = CASCADE)
     })

@@ -7,12 +7,12 @@ import androidx.room.PrimaryKey;
 /**
  * Class which represents a category with its information
  */
-@Entity(tableName="tag")
+@Entity(tableName = "tag")
 public class Tag {
 
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "tag_id")
-    private int tagId;
+    public int tagId;
     @ColumnInfo(name = "tag_name")
     private String name;
 
@@ -20,14 +20,16 @@ public class Tag {
         this.name = name;
     }
 
-    public int getId() { return tagId; }
-
-    public String getName() {
-        return name;
+    public int getId() {
+        return tagId;
     }
 
     public void setId(int tagId) {
         this.tagId = tagId;
+    }
+
+    public String getName() {
+        return name;
     }
 
     public void setName(String name) {

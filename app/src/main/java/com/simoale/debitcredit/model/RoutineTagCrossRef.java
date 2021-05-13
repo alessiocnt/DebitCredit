@@ -11,13 +11,13 @@ import static androidx.room.ForeignKey.RESTRICT;
     primaryKeys = {"routine_id, tag_id"},
     foreignKeys = {
         @ForeignKey(entity = Transaction.class,
-                parentColumns = "routineId",
-                childColumns = "routineId",
+                parentColumns = "routine_id",
+                childColumns = "routine_id",
                 onDelete = RESTRICT,
                 onUpdate = CASCADE),
         @ForeignKey(entity = Tag.class,
-                parentColumns = "tagId",
-                childColumns = "tagId",
+                parentColumns = "tag_id",
+                childColumns = "tag_id",
                 onDelete = RESTRICT,
                 onUpdate = CASCADE)
     })

@@ -18,7 +18,7 @@ public interface PayeeDAO {
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     void addCategory(Payee payee);
 
-    @Transaction
-    @Query("SELECT * from payee ORDER BY payee_name DESC")
-    LiveData<List<Wallet>> getCategories();
+//    @Transaction
+//    @Query("SELECT * from payee ORDER BY payee_name DESC")
+//    LiveData<List<Wallet>> getCategories();
 }
