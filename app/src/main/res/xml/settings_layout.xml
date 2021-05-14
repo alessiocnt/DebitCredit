@@ -4,12 +4,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <SwitchPreferenceCompat
-        app:key="notifications"
-        app:title="Enable message notifications" />
-
     <Preference
-        app:key="feedback"
-        app:summary="Report technical issues or suggest new features"
-        app:title="Send feedback" />
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:icon="@drawable/ic_baseline_lock_24"
+        app:fragment="com.simoale.debitcredit.ui.settings.ChangePasswordFragment"
+        app:key="change password"
+        app:title="Change password" />
 </PreferenceScreen>
