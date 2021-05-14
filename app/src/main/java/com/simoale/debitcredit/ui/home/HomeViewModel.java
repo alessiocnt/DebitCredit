@@ -29,11 +29,10 @@ public class HomeViewModel extends ViewModel {
                 db.CategoryDAO().addCategory(new Category("a"));
             }
         });
-        Log.e("db.CategoryDAO().getClass()", db.CategoryDAO().getClass().getSimpleName());
+        Log.e("New Category", db.CategoryDAO().getClass().getSimpleName());
     }
 
     public LiveData<String> getText() {
         return mText;
-
     }
 }

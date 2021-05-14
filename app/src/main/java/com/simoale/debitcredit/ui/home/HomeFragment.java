@@ -1,15 +1,23 @@
 package com.simoale.debitcredit.ui.home;
 
+import android.app.Activity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.LifecycleOwner;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.lifecycle.ViewModelStoreOwner;
 import androidx.navigation.Navigation;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.anychart.AnyChart;
 import com.anychart.AnyChartView;
@@ -24,11 +32,23 @@ import com.anychart.graphics.vector.text.HAlign;
 import com.anychart.graphics.vector.text.VAlign;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.simoale.debitcredit.R;
+import com.simoale.debitcredit.model.Wallet;
+import com.simoale.debitcredit.recyclerView.OnItemListener;
+import com.simoale.debitcredit.recyclerView.WalletCardAdapter;
+import com.simoale.debitcredit.ui.wallet.WalletViewModel;
 
-public class HomeFragment extends Fragment {
+import java.util.List;
+
+public class HomeFragment extends Fragment implements OnItemListener {
+
+    private static final String LOG = "Home-Fragment_SIMOALE";
 
     private HomeViewModel homeViewModel;
     private View view;
+
+    private WalletCardAdapter walletAdapter;
+    private WalletViewModel walletViewModel;
+    private RecyclerView recyclerView;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -215,22 +235,48 @@ public class HomeFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        final Activity activity = getActivity();
+        if (activity != null) {
+            setRecyclerView(activity);
 
-//        view.findViewById(R.id.fab_add).setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Navigation.findNavController(view).navigate(R.id.nav_settings);
-//            }
-//        });
+            walletViewModel = new ViewModelProvider((ViewModelStoreOwner) activity).get(WalletViewModel.class);
+            //when the list of the wallets changed, the adapter gets the new list.
+            walletViewModel.getWalletList().observe((LifecycleOwner) activity, new Observer<List<Wallet>>() {
+                @Override
+                public void onChanged(List<Wallet> wallets) {
+                    walletAdapter.setData(wallets);
+                }
+            });
 
-        FloatingActionButton fab = view.findViewById(R.id.fab_add);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Navigation.findNavController(view).navigate(R.id.action_nav_home_to_newTransactionTabFragment);
-            }
-        });
+            FloatingActionButton fab = view.findViewById(R.id.fab_add);
+            fab.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Navigation.findNavController(view).navigate(R.id.action_nav_home_to_newTransactionTabFragment);
+                }
+            });
+        } else {
+            Log.e(LOG, "Activity is null");
+        }
+    }
 
+    private void setRecyclerView(final Activity activity) {
+        // Set up the RecyclerView
+        recyclerView = getView().findViewById(R.id.wallet_recycler_view);
+        recyclerView.setHasFixedSize(true);
+        final OnItemListener listener = this;
+        walletAdapter = new WalletCardAdapter(activity, listener);
+        recyclerView.setAdapter(walletAdapter);
+    }
 
+    @Override
+    public void onItemClick(int position) {
+        AppCompatActivity appCompatActivity = (AppCompatActivity) getActivity();
+        if (appCompatActivity != null) {
+            walletViewModel.select(walletAdapter.getWallet(position));
+
+            Button showDet = view.findViewById(R.id.show_wallet_details);
+            showDet.setOnClickListener((v) -> Navigation.findNavController(v).navigate(R.id.action_walletFragment_to_walletDetailsFragment));
+        }
     }
 }
