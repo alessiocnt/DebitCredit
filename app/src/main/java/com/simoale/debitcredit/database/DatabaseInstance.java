@@ -17,26 +17,10 @@ import com.simoale.debitcredit.model.Wallet;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-@Database(entities = {Budget.class, Category.class, Payee.class, Routine.class, Tag.class, Transaction.class, Wallet.class}, version = 1)
+import kotlin.jvm.Volatile;
+
+@Database(entities = {Budget.class, Category.class, Payee.class, Routine.class, Tag.class, Transaction.class, Wallet.class}, version = 1, exportSchema = true)
 public abstract class DatabaseInstance extends RoomDatabase {
-    private static final int NUMBER_OF_THREADS = 4;
-    static final ExecutorService databaseWriteExecutor =
-            Executors.newFixedThreadPool(NUMBER_OF_THREADS);
-    private static volatile DatabaseInstance INSTANCE;
-
-    static DatabaseInstance getDatabase(final Context context) {
-        if (INSTANCE == null) {
-            synchronized (DatabaseInstance.class) {
-                if (INSTANCE == null) {
-                    INSTANCE = Room.databaseBuilder(context.getApplicationContext(),
-                            DatabaseInstance.class, "debit_credit")
-                            .build();
-                }
-            }
-        }
-        return INSTANCE;
-    }
-
     public abstract BudgetDAO BudgetDAO();
 
     public abstract CategoryDAO CategoryDAO();
@@ -50,4 +34,24 @@ public abstract class DatabaseInstance extends RoomDatabase {
     public abstract TransactionDAO TransactionDAO();
 
     public abstract WalletDAO WalletDAO();
+    private static final int NUMBER_OF_THREADS = 4;
+    public static final ExecutorService databaseWriteExecutor =
+            Executors.newFixedThreadPool(NUMBER_OF_THREADS);
+    private static volatile DatabaseInstance INSTANCE;
+
+        public static DatabaseInstance getDatabase(final Context context) {
+        if (INSTANCE == null) {
+            synchronized (DatabaseInstance.class) {
+                if (INSTANCE == null) {
+                    INSTANCE = Room.databaseBuilder(context.getApplicationContext(),
+                            DatabaseInstance.class, "debit_credit")
+
+                            .build();
+                }
+            }
+        }
+        return INSTANCE;
+    }
+
+
 }
