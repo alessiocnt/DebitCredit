@@ -274,9 +274,7 @@ public class HomeFragment extends Fragment implements OnItemListener {
         AppCompatActivity appCompatActivity = (AppCompatActivity) getActivity();
         if (appCompatActivity != null) {
             walletViewModel.select(walletAdapter.getWallet(position));
-
-            Button showDet = view.findViewById(R.id.show_wallet_details);
-            showDet.setOnClickListener((v) -> Navigation.findNavController(v).navigate(R.id.action_walletFragment_to_walletDetailsFragment));
+            Navigation.findNavController(view).navigate(R.id.action_nav_home_to_wallet_details_fragment);
         }
     }
 }

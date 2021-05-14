@@ -14,6 +14,9 @@
         <action
             android:id="@+id/action_nav_home_to_newTransactionTabFragment"
             app:destination="@id/newTransactionTabFragment2" />
+        <action
+            android:id="@+id/action_nav_home_to_wallet_details_fragment"
+            app:destination="@id/wallet_details_fragment" />
     </fragment>
 
     <fragment

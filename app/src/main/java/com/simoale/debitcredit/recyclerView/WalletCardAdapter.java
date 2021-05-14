@@ -37,7 +37,6 @@ public class WalletCardAdapter extends RecyclerView.Adapter<WalletCardViewHolder
     public WalletCardAdapter(Activity activity, OnItemListener listener) {
         this.activity = activity;
         this.listener = listener;
-       // walletList = new WalletViewModel(activity.getApplication()).getWalletList().getValue();
     }
 
     /** Called when RecyclerView needs a new RecyclerView.ViewHolder of the given type to represent an item. */

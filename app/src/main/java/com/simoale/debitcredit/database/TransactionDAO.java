@@ -5,18 +5,17 @@ import androidx.room.Dao;
 import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
-import androidx.room.Transaction;
 
-import com.simoale.debitcredit.model.Wallet;
+import com.simoale.debitcredit.model.Transaction;
 
 import java.util.List;
 
 @Dao
 public interface TransactionDAO {
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    void addWallet(Wallet wallet);
+    void addTransaction(Transaction transaction);
 
-    @Transaction
-    @Query("SELECT * from wallet ORDER BY wallet_balance DESC")
-    LiveData<List<Wallet>> getWallets();
+    @androidx.room.Transaction
+    @Query("SELECT * from `transaction` ORDER BY transaction_date DESC")
+    LiveData<List<Transaction>> getTransactions();
 }
