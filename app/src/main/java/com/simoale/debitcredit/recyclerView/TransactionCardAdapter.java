@@ -49,7 +49,7 @@ public class TransactionCardAdapter extends RecyclerView.Adapter<TransactionCard
     @Override
     public void onBindViewHolder(@NonNull TransactionCardViewHolder holder, int position) {
         Transaction currentTransaction = transactionList.get(position);
-        
+
         holder.getDescription().setText(currentTransaction.getDescription());
         holder.getDate().setText(String.valueOf(currentTransaction.getDate()));
         holder.getAmount().setText(String.valueOf(currentTransaction.getAmount()));

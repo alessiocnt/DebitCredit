@@ -57,6 +57,7 @@ public class WalletDetailsFragment extends Fragment implements OnItemListener {
 
             walletViewModel = new ViewModelProvider((ViewModelStoreOwner) activity).get(WalletViewModel.class);
             transactionViewModel = new ViewModelProvider((ViewModelStoreOwner) activity).get(TransactionViewModel.class);
+            // TODO selezionare solo la lista del wallet interessato che si trova in walletViewModel.getSelected()
             transactionViewModel.getTransactionList().observe((LifecycleOwner) activity, new Observer<List<Transaction>>() {
                 @Override
                 public void onChanged(List<Transaction> transactions) {
