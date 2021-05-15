@@ -56,12 +56,6 @@ public class HomeFragment extends Fragment implements OnItemListener {
                 new ViewModelProvider(this).get(HomeViewModel.class);
         homeViewModel.setApplication(this.getActivity().getApplication());
         this.view = inflater.inflate(R.layout.fragment_home, container, false);
-        /**final TextView textView = root.findViewById(R.id.text_home);
-         homeViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
-        @Override public void onChanged(@Nullable String s) {
-        textView.setText(s);
-        }
-        });**/
 
         AnyChartView anyChartView = view.findViewById(R.id.home_budget_chart);
         anyChartView.setProgressBar(view.findViewById(R.id.home_budget_progress_bar));
