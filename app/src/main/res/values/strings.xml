@@ -59,4 +59,6 @@
     <string name="from_wallet">From wallet</string>
     <string name="to_wallet">To wallet</string>
     <string name="budget_limit">Limit</string>
+    <string name="old_password">Old Password</string>
+    <string name="new_password">New Password</string>
 </resources>
