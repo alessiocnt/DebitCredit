@@ -46,7 +46,7 @@
         android:id="@+id/nav_routine"
         android:name="com.simoale.debitcredit.ui.routine.RoutineFragment"
         android:label="@string/routine"
-        tools:layout="@layout/fragment_budget" >
+        tools:layout="@layout/fragment_budget">
         <action
             android:id="@+id/action_nav_routine_to_newRoutineFragment"
             app:destination="@id/newRoutineFragment" />
@@ -55,7 +55,21 @@
         android:id="@+id/nav_settings"
         android:name="com.simoale.debitcredit.ui.settings.SettingsFragment"
         android:label="settings"
-        tools:layout="@layout/fragment_settings" />
+        tools:layout="@layout/fragment_settings">
+        <action
+            android:id="@+id/action_nav_settings_to_changePasswordFragment"
+            app:destination="@id/changePasswordFragment" />
+        <action
+            android:id="@+id/action_nav_settings_to_editWalletsFragment"
+            app:destination="@id/editWalletsFragment" />
+        <action
+            android:id="@+id/action_nav_settings_to_editCategoriesFragment"
+            app:destination="@id/editCategoriesFragment" />
+        <action
+            android:id="@+id/action_nav_settings_to_editTagsFragment"
+            app:destination="@id/editTagsFragment" />
+
+    </fragment>
     <fragment
         android:id="@+id/new_wallet"
         android:name="com.simoale.debitcredit.ui.wallet.NewWalletFragment"
@@ -65,7 +79,7 @@
         android:id="@+id/nav_budget"
         android:name="com.simoale.debitcredit.ui.budget.BudgetFragment"
         android:label="budget"
-        tools:layout="@layout/fragment_budget" >
+        tools:layout="@layout/fragment_budget">
         <action
             android:id="@+id/action_nav_budget_to_newBudgetFragment"
             app:destination="@id/newBudgetFragment" />
@@ -94,4 +108,25 @@
         android:id="@+id/newBudgetFragment"
         android:name="com.simoale.debitcredit.ui.budget.NewBudgetFragment"
         android:label="NewBudgetFragment" />
+    <fragment
+        android:id="@+id/changePasswordFragment"
+        android:name="com.simoale.debitcredit.ui.settings.ChangePasswordFragment"
+        android:label="ChangePasswordFragment"
+        tools:layout="@layout/change_password" />
+    <fragment
+        android:id="@+id/editWalletsFragment"
+        android:name="com.simoale.debitcredit.ui.settings.EditWalletsFragment"
+        android:label="EditWalletsFragment"
+        tools:layout="@layout/edit_wallets" />
+    <fragment
+        android:id="@+id/editCategoriesFragment"
+        android:name="com.simoale.debitcredit.ui.settings.EditCategoriesFragment"
+        android:label="EditCategoriesFragment"
+        tools:layout="@layout/edit_categories" />
+    <fragment
+        android:id="@+id/editTagsFragment"
+        android:name="com.simoale.debitcredit.ui.settings.EditTagsFragment"
+        android:label="EditTagsFragment"
+        tools:layout="@layout/edit_tags" />
+
 </navigation>
