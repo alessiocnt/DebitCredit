@@ -34,4 +34,8 @@ public class BudgetRepository {
             }
         });
     }
+
+    public void updateBudgetDates(String lastUpdate, String nextUpdate, int id) {
+        budgetDAO.updateBudgetDates(lastUpdate, nextUpdate, id);
+    }
 }

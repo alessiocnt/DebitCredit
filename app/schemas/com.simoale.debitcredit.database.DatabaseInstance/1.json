@@ -2,11 +2,11 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "f70600d775b5cfa1f12af52d6017bdfb",
+    "identityHash": "12922f82c09f8f68f4c69ff58ff52370",
     "entities": [
       {
         "tableName": "budget",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`budget_id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `budget_name` TEXT, `budget_category_id` INTEGER NOT NULL, `budget_limit` REAL NOT NULL, `budget_date` TEXT, `budget_repeat_number` INTEGER NOT NULL, `budget_repeat_interval` TEXT, FOREIGN KEY(`budget_category_id`) REFERENCES `category`(`category_id`) ON UPDATE CASCADE ON DELETE RESTRICT )",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`budget_id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `budget_name` TEXT, `budget_category_id` INTEGER NOT NULL, `budget_limit` REAL NOT NULL, `budget_date` TEXT, `budget_last_update` TEXT, `budget_next_update` TEXT, `budget_repeat_number` INTEGER NOT NULL, `budget_repeat_interval` TEXT, FOREIGN KEY(`budget_category_id`) REFERENCES `category`(`category_id`) ON UPDATE CASCADE ON DELETE RESTRICT )",
         "fields": [
           {
             "fieldPath": "budgetId",
@@ -35,6 +35,18 @@
           {
             "fieldPath": "date",
             "columnName": "budget_date",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "dateLastUpdate",
+            "columnName": "budget_last_update",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "dateNextUpdate",
+            "columnName": "budget_next_update",
             "affinity": "TEXT",
             "notNull": false
           },
@@ -408,7 +420,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'f70600d775b5cfa1f12af52d6017bdfb')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '12922f82c09f8f68f4c69ff58ff52370')"
     ]
   }
 }

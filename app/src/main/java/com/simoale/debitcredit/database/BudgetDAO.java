@@ -19,4 +19,10 @@ public interface BudgetDAO {
     @Transaction
     @Query("SELECT * from budget ORDER BY budget_name DESC")
     LiveData<List<Budget>> getBudgets();
+
+    @Transaction
+    @Query("UPDATE budget " +
+            "SET budget_last_update = :lastUpdate, budget_last_update = :nextUpdate " +
+            "WHERE budget_id = :id")
+    void updateBudgetDates(String lastUpdate, String nextUpdate, int id);
 }

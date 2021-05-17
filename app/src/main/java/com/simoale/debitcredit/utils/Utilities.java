@@ -11,6 +11,9 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 
 import java.io.InputStream;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class Utilities {
 
@@ -43,5 +46,19 @@ public class Utilities {
         drawable.draw(canvas);
 
         return bitmap;
+    }
+
+    public static Date getDateFromString(String date) {
+        Date dateConverted = null;
+        try {
+            dateConverted = new SimpleDateFormat("dd/MM/yyyy").parse(date);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return dateConverted;
+    }
+
+    public static String getStringFromDate(Date date) {
+        return new SimpleDateFormat("dd/MM/yyyy").format(date);
     }
 }

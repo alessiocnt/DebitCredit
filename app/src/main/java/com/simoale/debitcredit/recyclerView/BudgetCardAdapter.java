@@ -58,12 +58,12 @@ public class BudgetCardAdapter extends RecyclerView.Adapter<BudgetCardViewHolder
         holder.getName().setText(currentBudget.getName());
         holder.getBudget().setText(String.valueOf(currentBudget.getLimit()));
 
-
+/**
         Map<String, Integer> data = new HashMap<>();
         Date lasteBudgetRefresh = new Date(System.currentTimeMillis());
         data.put(currentBudget.getName(), new TransactionRepository(activity.getApplication()).getBudgetSpent(currentBudget.getCategoryId(), )));
         Chart circularGauge = new CircularGaugeChart(holder.getGaugeChartView(), data, null);
-        circularGauge.instantiateChart();
+        circularGauge.instantiateChart();**/
         // TODO calcolare laq data del prossimo budget!!!!
         holder.getRenovation().setText(String.valueOf(currentBudget.getDate()));
     }
