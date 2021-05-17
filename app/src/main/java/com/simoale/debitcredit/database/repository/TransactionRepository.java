@@ -6,10 +6,9 @@ import androidx.lifecycle.LiveData;
 
 import com.simoale.debitcredit.database.DatabaseInstance;
 import com.simoale.debitcredit.database.TransactionDAO;
-import com.simoale.debitcredit.database.WalletDAO;
 import com.simoale.debitcredit.model.Transaction;
-import com.simoale.debitcredit.model.Wallet;
 
+import java.util.Date;
 import java.util.List;
 
 public class TransactionRepository {
@@ -34,4 +33,9 @@ public class TransactionRepository {
             }
         });
     }
+
+    public Integer getBudgetSpent(int categoryId, Date today){
+        return transactionDAO.getBudgetSpent(categoryId, today);
+    }
+
 }

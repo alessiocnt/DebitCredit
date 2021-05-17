@@ -15,7 +15,7 @@ app:strokeColor="@color/material_on_surface_stroke">
         android:layout_height="wrap_content">
 
         <com.anychart.AnyChartView
-            android:id="@+id/budget_chart"
+            android:id="@+id/budget_card_chart"
             android:layout_width="65dp"
             android:layout_height="65dp"
             android:layout_gravity="bottom|center_horizontal"
@@ -26,7 +26,7 @@ app:strokeColor="@color/material_on_surface_stroke">
             app:layout_constraintTop_toTopOf="parent" />
 
         <ProgressBar
-            android:id="@+id/budget_progress_bar"
+            android:id="@+id/budget_card_progress_bar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|center_horizontal"

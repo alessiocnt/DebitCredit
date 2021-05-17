@@ -7,6 +7,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.anychart.APIlib;
+import com.anychart.AnyChartView;
 import com.simoale.debitcredit.R;
 import com.simoale.debitcredit.recyclerView.OnItemListener;
 
@@ -18,6 +20,7 @@ public class BudgetCardViewHolder extends RecyclerView.ViewHolder implements Vie
     private TextView name;
     private TextView budget;
     private TextView renovation;
+    private AnyChartView gaugeChartView;
     private ImageView more;
 
     private OnItemListener itemListener;
@@ -29,6 +32,10 @@ public class BudgetCardViewHolder extends RecyclerView.ViewHolder implements Vie
         renovation = view.findViewById(R.id.budget_renovation);
         more = view.findViewById(R.id.wallet_more);
 
+        gaugeChartView = view.findViewById(R.id.budget_card_chart);
+        gaugeChartView.setProgressBar(view.findViewById(R.id.budget_card_progress_bar));
+        APIlib.getInstance().setActiveAnyChartView(gaugeChartView);
+
         itemListener = lister;
         itemView.setOnClickListener(this);
     }
@@ -36,6 +43,14 @@ public class BudgetCardViewHolder extends RecyclerView.ViewHolder implements Vie
     @Override
     public void onClick(View v) {
         itemListener.onItemClick(getAdapterPosition());
+    }
+
+    public AnyChartView getGaugeChartView() {
+        return gaugeChartView;
+    }
+
+    public void setGaugeChartView(AnyChartView gaugeChartView) {
+        this.gaugeChartView = gaugeChartView;
     }
 
     public TextView getName() {

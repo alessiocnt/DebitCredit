@@ -45,13 +45,10 @@ public class BudgetFragment extends Fragment implements OnItemListener {
         return this.view;
     }
 
-
-
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         final Activity activity = getActivity();
-
         if (activity != null) {
             setRecyclerView(activity);
 

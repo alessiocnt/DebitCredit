@@ -9,13 +9,19 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.simoale.debitcredit.R;
+import com.simoale.debitcredit.database.repository.TransactionRepository;
 import com.simoale.debitcredit.model.Budget;
 import com.simoale.debitcredit.model.Wallet;
 import com.simoale.debitcredit.ui.budget.BudgetCardViewHolder;
+import com.simoale.debitcredit.ui.graphs.Chart;
+import com.simoale.debitcredit.ui.graphs.CircularGaugeChart;
 import com.simoale.debitcredit.ui.wallet.WalletCardViewHolder;
 
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Adapter linked to the RecyclerView of the wallet, that extends a custom Adapter
@@ -48,22 +54,16 @@ public class BudgetCardAdapter extends RecyclerView.Adapter<BudgetCardViewHolder
     @Override
     public void onBindViewHolder(@NonNull BudgetCardViewHolder holder, int position) {
         Budget currentBudget = budgetList.get(position);
-        /*
-        String image_path = currentWallet.getImage();
-        if (image_path.contains("ic_")) {
-            Drawable drawable = ContextCompat.getDrawable(activity, activity.getResources()
-                    .getIdentifier(image_path, "drawable",
-                            activity.getPackageName()));
-            holder.getImage().setImageDrawable(drawable);
-        } else {
-            Bitmap bitmap = Utilities.getImageBitmap(activity, Uri.parse(image_path));
-            if (bitmap != null){
-                holder.getImage().setImageBitmap(bitmap);
-            }
-        }
-*/
+
         holder.getName().setText(currentBudget.getName());
         holder.getBudget().setText(String.valueOf(currentBudget.getLimit()));
+
+
+        Map<String, Integer> data = new HashMap<>();
+        Date lasteBudgetRefresh = new Date(System.currentTimeMillis());
+        data.put(currentBudget.getName(), new TransactionRepository(activity.getApplication()).getBudgetSpent(currentBudget.getCategoryId(), )));
+        Chart circularGauge = new CircularGaugeChart(holder.getGaugeChartView(), data, null);
+        circularGauge.instantiateChart();
         // TODO calcolare laq data del prossimo budget!!!!
         holder.getRenovation().setText(String.valueOf(currentBudget.getDate()));
     }
