@@ -6,7 +6,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -20,26 +19,15 @@ import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.anychart.APIlib;
-import com.anychart.AnyChart;
 import com.anychart.AnyChartView;
-import com.anychart.chart.common.dataentry.DataEntry;
-import com.anychart.chart.common.dataentry.SingleValueDataSet;
-import com.anychart.charts.CircularGauge;
-import com.anychart.core.axes.Circular;
-import com.anychart.core.gauge.pointers.Bar;
-import com.anychart.enums.Anchor;
-import com.anychart.graphics.vector.Fill;
-import com.anychart.graphics.vector.SolidFill;
-import com.anychart.graphics.vector.text.HAlign;
-import com.anychart.graphics.vector.text.VAlign;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.simoale.debitcredit.R;
 import com.simoale.debitcredit.model.Wallet;
 import com.simoale.debitcredit.recyclerView.OnItemListener;
 import com.simoale.debitcredit.recyclerView.WalletCardAdapter;
+import com.simoale.debitcredit.ui.budget.BudgetViewModel;
 import com.simoale.debitcredit.ui.graphs.Chart;
 import com.simoale.debitcredit.ui.graphs.CircularGaugeChart;
-import com.simoale.debitcredit.ui.graphs.LineChart;
 import com.simoale.debitcredit.ui.wallet.WalletViewModel;
 
 import java.util.HashMap;
@@ -84,10 +72,10 @@ public class HomeFragment extends Fragment implements OnItemListener {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
         final Activity activity = getActivity();
         if (activity != null) {
             setRecyclerView(activity);
-
             walletViewModel = new ViewModelProvider((ViewModelStoreOwner) activity).get(WalletViewModel.class);
             //when the list of the wallets changed, the adapter gets the new list.
             walletViewModel.getWalletList().observe((LifecycleOwner) activity, new Observer<List<Wallet>>() {
@@ -95,6 +83,12 @@ public class HomeFragment extends Fragment implements OnItemListener {
                 public void onChanged(List<Wallet> wallets) {
                     walletAdapter.setData(wallets);
                 }
+            });
+
+            BudgetViewModel budgetViewModel = new ViewModelProvider((ViewModelStoreOwner) activity).get(BudgetViewModel.class);
+            budgetViewModel.getBudgetList().observe((LifecycleOwner) activity, budgets -> {
+                budgetViewModel.update(budgets);
+                budgetViewModel.getBudgetList().removeObservers((LifecycleOwner) activity);
             });
 
             FloatingActionButton fab = view.findViewById(R.id.fab_add);

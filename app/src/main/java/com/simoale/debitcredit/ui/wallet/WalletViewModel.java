@@ -1,6 +1,7 @@
 package com.simoale.debitcredit.ui.wallet;
 
 import android.app.Application;
+import android.util.Log;
 
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;

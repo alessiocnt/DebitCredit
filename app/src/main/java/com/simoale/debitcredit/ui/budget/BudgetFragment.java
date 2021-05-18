@@ -21,11 +21,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.simoale.debitcredit.R;
 import com.simoale.debitcredit.model.Budget;
-import com.simoale.debitcredit.model.Wallet;
 import com.simoale.debitcredit.recyclerView.BudgetCardAdapter;
 import com.simoale.debitcredit.recyclerView.OnItemListener;
-import com.simoale.debitcredit.recyclerView.WalletCardAdapter;
-import com.simoale.debitcredit.ui.wallet.WalletViewModel;
 
 import java.util.List;
 
