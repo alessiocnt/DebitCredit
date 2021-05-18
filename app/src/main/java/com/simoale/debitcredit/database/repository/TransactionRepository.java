@@ -34,8 +34,8 @@ public class TransactionRepository {
         });
     }
 
-    /*public Integer getBudgetSpent(int categoryId, Date today){
-        return transactionDAO.getBudgetSpent(categoryId, today);
-    }*/
+    public Integer getBudgetSpent(int budgetCategoryId, String lastBudgetUpdate){
+        return transactionDAO.getBudgetSpent(budgetCategoryId, lastBudgetUpdate);
+    }
 
 }

@@ -20,11 +20,11 @@ public interface TransactionDAO {
     @Query("SELECT * from `transaction` ORDER BY transaction_date DESC")
     LiveData<List<Transaction>> getTransactions();
 
-    /**@androidx.room.Transaction
+    @androidx.room.Transaction
     @Query("SELECT SUM(transaction_amount) " +
             "from `transaction` " +
-            "where transaction_category_id = :catId " +
-            "and transaction_date >= :lastBudgetRefresh " +
+            "where transaction_category_id = :budgetCategoryId " +
+            "and transaction_date >= :lastBudgetUpdate " +
             "GROUP BY transaction_category_id")
-    Integer getBudgetSpent(int catId, Date lastBudgetRefresh);**/
+    Integer getBudgetSpent(int budgetCategoryId, String lastBudgetUpdate);
 }

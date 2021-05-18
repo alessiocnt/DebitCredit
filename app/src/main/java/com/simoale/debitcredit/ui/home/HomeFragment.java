@@ -51,7 +51,7 @@ public class HomeFragment extends Fragment implements OnItemListener {
                 new ViewModelProvider(this).get(HomeViewModel.class);
         homeViewModel.setApplication(this.getActivity().getApplication());
         this.view = inflater.inflate(R.layout.fragment_home, container, false);
-
+/*
         AnyChartView gaugeChartView = view.findViewById(R.id.home_budget_chart);
         gaugeChartView.setProgressBar(view.findViewById(R.id.home_budget_progress_bar));
         APIlib.getInstance().setActiveAnyChartView(gaugeChartView);
@@ -64,7 +64,7 @@ public class HomeFragment extends Fragment implements OnItemListener {
         lineData.put("Quinto", 90);
 
         Chart circularGauge = new CircularGaugeChart(gaugeChartView, lineData, "Your current budgets status");
-        circularGauge.instantiateChart();
+        circularGauge.instantiateChart();*/
 
         return this.view;
     }
@@ -88,6 +88,15 @@ public class HomeFragment extends Fragment implements OnItemListener {
             BudgetViewModel budgetViewModel = new ViewModelProvider((ViewModelStoreOwner) activity).get(BudgetViewModel.class);
             budgetViewModel.getBudgetList().observe((LifecycleOwner) activity, budgets -> {
                 budgetViewModel.update(budgets);
+                // Home chart setup
+                // Retrive data from viewModel for budget's leftover
+                Map<String, Integer> budgetLeftover = budgetViewModel.calculateBudgetsLeftover(budgetViewModel.getBudgetList().getValue());
+                AnyChartView gaugeChartView = view.findViewById(R.id.home_budget_chart);
+                gaugeChartView.setProgressBar(view.findViewById(R.id.home_budget_progress_bar));
+                APIlib.getInstance().setActiveAnyChartView(gaugeChartView);
+                Chart circularGauge = new CircularGaugeChart(gaugeChartView, budgetLeftover, "Your current budgets status");
+                circularGauge.instantiateChart();
+                // Remove observer to avoid repeted unnecessary updates
                 budgetViewModel.getBudgetList().removeObservers((LifecycleOwner) activity);
             });
 
