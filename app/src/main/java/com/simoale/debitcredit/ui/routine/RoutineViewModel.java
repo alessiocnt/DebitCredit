@@ -75,6 +75,7 @@ public class RoutineViewModel extends AndroidViewModel {
         long diff = today - last;
         long dayDiff = diff / (1000 * 60 * 60 * 24);
         Calendar lastUpdate = Calendar.getInstance();
+        Calendar nextUpdate = Calendar.getInstance();
         // devo aggiornare ogni repeatNumber*repeatInterval
         int daysBetweenUpdates = repeatNumber * Interval.valueOf(repeatInterval.toUpperCase()).daysNumber;
         long numberOfUpdates = dayDiff / daysBetweenUpdates;
@@ -84,7 +85,6 @@ public class RoutineViewModel extends AndroidViewModel {
             lastUpdate.add(Calendar.DAY_OF_MONTH, (int) (numberOfUpdates * daysBetweenUpdates));
             dateLastUpdate = Utilities.getStringFromDate(lastUpdate.getTime());
             Log.e("LastUpdate", dateLastUpdate);
-            Calendar nextUpdate = Calendar.getInstance();
             nextUpdate.setTime(Utilities.getDateFromString(dateLastUpdate));
             nextUpdate.add(Calendar.DAY_OF_MONTH, daysBetweenUpdates);
             dateNextUpdate = Utilities.getStringFromDate(nextUpdate.getTime());
@@ -93,11 +93,11 @@ public class RoutineViewModel extends AndroidViewModel {
 
         while (numberOfUpdates > 0) {
             numberOfUpdates--;
-            lastUpdate.add(Calendar.DAY_OF_MONTH, daysBetweenUpdates);
+            nextUpdate.add(Calendar.DAY_OF_MONTH, -daysBetweenUpdates);
             // TODO fix routine payee
             this.transactionRepository.addTransaction(new Transaction(routine.getAmount(),
                     "Transaction from routine: " + routine.getName(), routine.getCategoryId(),
-                    /*routine.getPayeeId()*/ 1, Utilities.getStringFromDate(lastUpdate.getTime()),
+                    /*routine.getPayeeId()*/ 1, Utilities.getStringFromDate(nextUpdate.getTime()),
                     routine.getWalletId(), routine.getWalletId(), null, null, null));
         }
         return new Pair<>(dateLastUpdate, dateNextUpdate);
