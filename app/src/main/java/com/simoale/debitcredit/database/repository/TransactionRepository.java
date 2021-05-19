@@ -35,7 +35,8 @@ public class TransactionRepository {
     }
 
     public Integer getBudgetSpent(int budgetCategoryId, String lastBudgetUpdate){
-        return transactionDAO.getBudgetSpent(budgetCategoryId, lastBudgetUpdate);
+        Integer result = transactionDAO.getBudgetSpent(budgetCategoryId, lastBudgetUpdate);
+        return result == null ? 0 : result;
     }
 
 }

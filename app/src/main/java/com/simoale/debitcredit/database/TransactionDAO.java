@@ -21,7 +21,7 @@ public interface TransactionDAO {
     LiveData<List<Transaction>> getTransactions();
 
     @androidx.room.Transaction
-    @Query("SELECT SUM(transaction_amount) " +
+    @Query("SELECT COALESCE(sum(transaction_amount), 0) " +
             "from `transaction` " +
             "where transaction_category_id = :budgetCategoryId " +
             "and transaction_date >= :lastBudgetUpdate " +
