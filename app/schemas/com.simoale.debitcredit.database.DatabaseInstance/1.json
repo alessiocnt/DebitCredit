@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "12922f82c09f8f68f4c69ff58ff52370",
+    "identityHash": "d5acb72fbdb0ada13cf979c0ce15dd2b",
     "entities": [
       {
         "tableName": "budget",
@@ -138,13 +138,25 @@
       },
       {
         "tableName": "routine",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`routine_id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `routine_name` TEXT, `routine_amount` REAL NOT NULL, `routine_wallet_id` INTEGER NOT NULL, `routine_category_id` INTEGER NOT NULL, `routine_date` TEXT, `routine_repeat_number` INTEGER NOT NULL, `routine_repeat_interval` TEXT, FOREIGN KEY(`routine_category_id`) REFERENCES `category`(`category_id`) ON UPDATE CASCADE ON DELETE RESTRICT , FOREIGN KEY(`routine_wallet_id`) REFERENCES `wallet`(`wallet_id`) ON UPDATE CASCADE ON DELETE RESTRICT )",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`routine_id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `routine_last_update` TEXT, `routine_next_update` TEXT, `routine_name` TEXT, `routine_amount` REAL NOT NULL, `routine_wallet_id` INTEGER NOT NULL, `routine_category_id` INTEGER NOT NULL, `routine_date` TEXT, `routine_repeat_number` INTEGER NOT NULL, `routine_repeat_interval` TEXT, FOREIGN KEY(`routine_category_id`) REFERENCES `category`(`category_id`) ON UPDATE CASCADE ON DELETE RESTRICT , FOREIGN KEY(`routine_wallet_id`) REFERENCES `wallet`(`wallet_id`) ON UPDATE CASCADE ON DELETE RESTRICT )",
         "fields": [
           {
             "fieldPath": "routineId",
             "columnName": "routine_id",
             "affinity": "INTEGER",
             "notNull": true
+          },
+          {
+            "fieldPath": "dateLastUpdate",
+            "columnName": "routine_last_update",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "dateNextUpdate",
+            "columnName": "routine_next_update",
+            "affinity": "TEXT",
+            "notNull": false
           },
           {
             "fieldPath": "name",
@@ -420,7 +432,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '12922f82c09f8f68f4c69ff58ff52370')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'd5acb72fbdb0ada13cf979c0ce15dd2b')"
     ]
   }
 }
