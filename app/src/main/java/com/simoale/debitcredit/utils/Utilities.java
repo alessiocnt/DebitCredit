@@ -51,7 +51,7 @@ public class Utilities {
     public static Date getDateFromString(String date) {
         Date dateConverted = null;
         try {
-            dateConverted = new SimpleDateFormat("dd/MM/yyyy").parse(date);
+            dateConverted = new SimpleDateFormat("yyyyMMdd").parse(date);
         } catch (ParseException e) {
             e.printStackTrace();
         }
@@ -59,6 +59,6 @@ public class Utilities {
     }
 
     public static String getStringFromDate(Date date) {
-        return new SimpleDateFormat("dd/MM/yyyy").format(date);
+        return new SimpleDateFormat("yyyyMMdd").format(date);
     }
 }
