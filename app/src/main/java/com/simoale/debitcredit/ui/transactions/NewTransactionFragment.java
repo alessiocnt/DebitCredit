@@ -26,9 +26,11 @@ import com.google.android.material.chip.ChipGroup;
 import com.google.android.material.textfield.TextInputLayout;
 import com.simoale.debitcredit.R;
 import com.simoale.debitcredit.model.Category;
+import com.simoale.debitcredit.model.Payee;
 import com.simoale.debitcredit.model.Transaction;
 import com.simoale.debitcredit.model.Wallet;
 import com.simoale.debitcredit.ui.category.CategoryViewModel;
+import com.simoale.debitcredit.ui.payee.PayeeViewModel;
 import com.simoale.debitcredit.ui.wallet.WalletViewModel;
 
 import java.util.Calendar;
@@ -42,6 +44,7 @@ public class NewTransactionFragment extends Fragment {
 
     private TransactionViewModel transactionViewModel;
     private CategoryViewModel categoryViewModel;
+    private PayeeViewModel payeeViewModel;
 
     public NewTransactionFragment() {}
 
@@ -61,7 +64,8 @@ public class NewTransactionFragment extends Fragment {
             this.cancelBtn = getView().findViewById(R.id.transaction_cancel_button);
             this.transactionViewModel = new ViewModelProvider((ViewModelStoreOwner) activity).get(TransactionViewModel.class);
             this.categoryViewModel = new ViewModelProvider((ViewModelStoreOwner) activity).get(CategoryViewModel.class);
-            
+            this.payeeViewModel = new ViewModelProvider((ViewModelStoreOwner) activity).get(PayeeViewModel.class);
+
             setupDatePicker();
             setupChips();
             
@@ -81,7 +85,28 @@ public class NewTransactionFragment extends Fragment {
     }
 
     private void setupChips() {
+        // Category chip group
         ChipGroup categoryChipGroup = getView().findViewById(R.id.transaction_category_chip_group);
+        setupCategoryChips(categoryChipGroup);
+        // Payee chip group
+        ChipGroup payeeChipGroup = getView().findViewById(R.id.transaction_payee_chip_group);
+        setupPayeeChips(payeeChipGroup);
+    }
+
+    private void setupPayeeChips(ChipGroup payeeChipGroup) {
+        payeeViewModel.getPayeeList().observe((LifecycleOwner) activity, new Observer<List<Payee>>() {
+            @Override
+            public void onChanged(List<Payee> payee) {
+                for(Payee p : payee) {
+                    Chip chip = (Chip) getLayoutInflater().inflate(R.layout.chip_choice, payeeChipGroup, false);
+                    chip.setText(p.getName());
+                    payeeChipGroup.addView(chip);
+                }
+            }
+        });
+    }
+
+    private void setupCategoryChips(ChipGroup categoryChipGroup) {
         categoryViewModel.getCategoryList().observe((LifecycleOwner) activity, new Observer<List<Category>>() {
             @Override
             public void onChanged(List<Category> category) {
@@ -92,7 +117,6 @@ public class NewTransactionFragment extends Fragment {
                 }
             }
         });
-
     }
 
     private void setupDatePicker() {
