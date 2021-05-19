@@ -10,11 +10,11 @@ import static androidx.room.ForeignKey.RESTRICT;
 
 @Entity(tableName = "budget",
         foreignKeys = {
-            @ForeignKey(entity = Category.class,
-                    parentColumns = "category_id",
-                    childColumns = "budget_category_id",
-                    onDelete = RESTRICT,
-                    onUpdate = CASCADE)
+                @ForeignKey(entity = Category.class,
+                        parentColumns = "category_id",
+                        childColumns = "budget_category_id",
+                        onDelete = RESTRICT,
+                        onUpdate = CASCADE)
         })
 public class Budget {
     @PrimaryKey(autoGenerate = true)
@@ -121,17 +121,6 @@ public class Budget {
         this.repeatInterval = repeatInterval;
     }
 
-    public enum Interval {
-        DAY(1),
-        WEEK(7),
-        MONTH(31),
-        YEAR(365);
-        public final int daysNumber;
-
-        private Interval(int daysNumber) {
-            this.daysNumber = daysNumber;
-        }
-    }
 
 }
 
