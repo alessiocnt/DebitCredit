@@ -99,6 +99,7 @@ public class NewTransactionFragment extends Fragment {
             public void onChanged(List<Payee> payee) {
                 for(Payee p : payee) {
                     Chip chip = (Chip) getLayoutInflater().inflate(R.layout.chip_choice, payeeChipGroup, false);
+                    chip.setId(View.generateViewId());
                     chip.setText(p.getName());
                     payeeChipGroup.addView(chip);
                 }
@@ -112,6 +113,7 @@ public class NewTransactionFragment extends Fragment {
             public void onChanged(List<Category> category) {
                 for(Category cat : category) {
                     Chip chip = (Chip) getLayoutInflater().inflate(R.layout.chip_choice, categoryChipGroup, false);
+                    chip.setId(View.generateViewId());
                     chip.setText(cat.getName());
                     categoryChipGroup.addView(chip);
                 }
