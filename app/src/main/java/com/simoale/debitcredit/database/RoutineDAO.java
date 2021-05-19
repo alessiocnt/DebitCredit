@@ -19,4 +19,10 @@ public interface RoutineDAO {
     @Transaction
     @Query("SELECT * from routine ORDER BY routine_name DESC")
     LiveData<List<Routine>> getRoutines();
+
+    @Transaction
+    @Query("UPDATE routine " +
+            "SET routine_last_update = :lastUpdate, routine_next_update = :nextUpdate " +
+            "WHERE routine_id = :id")
+    void updateRoutineDates(String lastUpdate, String nextUpdate, int id);
 }

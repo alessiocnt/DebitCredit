@@ -27,4 +27,8 @@ public class RoutineRepository {
     public void addRoutine(final Routine routine) {
         DatabaseInstance.databaseWriteExecutor.execute(() -> routineDAO.addRoutine(routine));
     }
+
+    public void updateRoutineDates(String lastUpdate, String nextUpdate, int id) {
+        routineDAO.updateRoutineDates(lastUpdate, nextUpdate, id);
+    }
 }

@@ -19,7 +19,6 @@ import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.anychart.APIlib;
-import com.anychart.AnyChart;
 import com.anychart.AnyChartView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.simoale.debitcredit.R;
@@ -29,9 +28,9 @@ import com.simoale.debitcredit.recyclerView.WalletCardAdapter;
 import com.simoale.debitcredit.ui.budget.BudgetViewModel;
 import com.simoale.debitcredit.ui.graphs.Chart;
 import com.simoale.debitcredit.ui.graphs.CircularGaugeChart;
+import com.simoale.debitcredit.ui.routine.RoutineViewModel;
 import com.simoale.debitcredit.ui.wallet.WalletViewModel;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -85,18 +84,7 @@ public class HomeFragment extends Fragment implements OnItemListener {
                     walletAdapter.setData(wallets);
                 }
             });
-
-            BudgetViewModel budgetViewModel = new ViewModelProvider((ViewModelStoreOwner) activity).get(BudgetViewModel.class);
-            budgetViewModel.getBudgetList().observe((LifecycleOwner) activity, budgets -> {
-                // Update budgets if needed
-                budgetViewModel.update(budgets);
-                // Retrive data from viewModel for budget's leftover
-                Map<String, Integer> budgetLeftover = budgetViewModel.calculateBudgetsLeftover(budgetViewModel.getBudgetList().getValue());
-                generateChart(budgetLeftover);
-                // Remove observer to avoid other unnecessary updates
-                budgetViewModel.getBudgetList().removeObservers((LifecycleOwner) activity);
-            });
-
+            this.updateDbData(activity);
             FloatingActionButton fab = view.findViewById(R.id.fab_add);
             fab.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -133,5 +121,24 @@ public class HomeFragment extends Fragment implements OnItemListener {
             walletViewModel.select(walletAdapter.getWallet(position));
             Navigation.findNavController(view).navigate(R.id.action_nav_home_to_wallet_details_fragment);
         }
+    }
+
+    private void updateDbData(Activity activity) {
+        BudgetViewModel budgetViewModel = new ViewModelProvider((ViewModelStoreOwner) activity).get(BudgetViewModel.class);
+        budgetViewModel.getBudgetList().observe((LifecycleOwner) activity, budgets -> {
+            // Update budgets if needed
+            budgetViewModel.update(budgets);
+            // Retrive data from viewModel for budget's leftover
+            Map<String, Integer> budgetLeftover = budgetViewModel.calculateBudgetsLeftover(budgetViewModel.getBudgetList().getValue());
+            generateChart(budgetLeftover);
+            // Remove observer to avoid other unnecessary updates
+            budgetViewModel.getBudgetList().removeObservers((LifecycleOwner) activity);
+        });
+
+        RoutineViewModel routineViewModel = new ViewModelProvider((ViewModelStoreOwner) activity).get(RoutineViewModel.class);
+        routineViewModel.getRoutineList().observe((LifecycleOwner) activity, routines -> {
+            routineViewModel.update(routines);
+            routineViewModel.getRoutineList().removeObservers((LifecycleOwner) activity);
+        });
     }
 }
