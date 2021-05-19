@@ -1,7 +1,6 @@
 package com.simoale.debitcredit.ui.budget;
 
 import android.app.Application;
-import android.util.Log;
 import android.util.Pair;
 
 import androidx.lifecycle.AndroidViewModel;
@@ -64,17 +63,13 @@ public class BudgetViewModel extends AndroidViewModel {
         executorService.execute(() -> {
             for (Budget budget : budgets) {
                 Pair<String, String> dates = updateBudgetDates(budget.getDateLastUpdate(), budget.getDateNextUpdate(), budget.getRepeatNumber(), budget.getRepeatInterval());
-                if (dates != null) {
-                    repository.updateBudgetDates(dates.first, dates.second, budget.getId());
-                }
-                continue;
+                repository.updateBudgetDates(dates.first, dates.second, budget.getId());
             }
         });
 
     }
 
     private Pair<String, String> updateBudgetDates(String dateLastUpdate, String dateNextUpdate, int repeatNumber, String repeatInterval) {
-        String tmp = dateNextUpdate;
         long today = Calendar.getInstance().getTime().getTime();
         long last = Utilities.getDateFromString(dateLastUpdate).getTime();
         long diff = today - last;
@@ -87,15 +82,10 @@ public class BudgetViewModel extends AndroidViewModel {
             lastUpdate.setTime(Utilities.getDateFromString(dateLastUpdate));
             lastUpdate.add(Calendar.DAY_OF_MONTH, (int) (numberOfUpdates * daysBetweenUpdates));
             dateLastUpdate = Utilities.getStringFromDate(lastUpdate.getTime());
-            Log.e("LastUpdate", dateLastUpdate);
             Calendar nextUpdate = Calendar.getInstance();
             nextUpdate.setTime(Utilities.getDateFromString(dateLastUpdate));
             nextUpdate.add(Calendar.DAY_OF_MONTH, daysBetweenUpdates);
             dateNextUpdate = Utilities.getStringFromDate(nextUpdate.getTime());
-            if (dateNextUpdate == tmp) {
-                return null;
-            }
-            Log.e("NextUpdate", dateNextUpdate);
         }
         return new Pair<>(dateLastUpdate, dateNextUpdate);
     }

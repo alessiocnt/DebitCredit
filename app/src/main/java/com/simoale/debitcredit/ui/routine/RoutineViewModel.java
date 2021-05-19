@@ -55,17 +55,13 @@ public class RoutineViewModel extends AndroidViewModel {
         executorService.execute(() -> {
             for (Routine routine : routines) {
                 Pair<String, String> dates = updateRoutineDates(routine.getDateLastUpdate(), routine.getDateNextUpdate(), routine.getRepeatNumber(), routine.getRepeatInterval());
-                if (dates != null) {
-                    repository.updateRoutineDates(dates.first, dates.second, routine.getId());
-                }
-                continue;
+                repository.updateRoutineDates(dates.first, dates.second, routine.getId());
             }
         });
 
     }
 
     private Pair<String, String> updateRoutineDates(String dateLastUpdate, String dateNextUpdate, int repeatNumber, String repeatInterval) {
-        String tmp = dateNextUpdate;
         long today = Calendar.getInstance().getTime().getTime();
         long last = Utilities.getDateFromString(dateLastUpdate).getTime();
         long diff = today - last;
@@ -84,11 +80,9 @@ public class RoutineViewModel extends AndroidViewModel {
             nextUpdate.setTime(Utilities.getDateFromString(dateLastUpdate));
             nextUpdate.add(Calendar.DAY_OF_MONTH, daysBetweenUpdates);
             dateNextUpdate = Utilities.getStringFromDate(nextUpdate.getTime());
-            if (dateNextUpdate == tmp) {
-                return null;
-            }
             Log.e("NextUpdate", dateNextUpdate);
         }
+
         return new Pair<>(dateLastUpdate, dateNextUpdate);
     }
 }
