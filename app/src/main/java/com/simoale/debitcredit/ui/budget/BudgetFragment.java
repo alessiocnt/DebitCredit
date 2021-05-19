@@ -50,7 +50,7 @@ public class BudgetFragment extends Fragment implements OnItemListener {
             setRecyclerView(activity);
 
             budgetViewModel = new ViewModelProvider((ViewModelStoreOwner) activity).get(BudgetViewModel.class);
-            //when the list of the wallets changed, the adapter gets the new list.
+            //when the list of the budgets changed, the adapter gets the new list.
             budgetViewModel.getBudgetList().observe((LifecycleOwner) activity, new Observer<List<Budget>>() {
                 @Override
                 public void onChanged(List<Budget> budgets) {
