@@ -29,10 +29,6 @@ public class Routine {
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "routine_id")
     public int routineId;
-    @ColumnInfo(name = "routine_last_update")
-    public String dateLastUpdate;
-    @ColumnInfo(name = "routine_next_update")
-    public String dateNextUpdate;
     @ColumnInfo(name = "routine_name")
     private String name;
     @ColumnInfo(name = "routine_amount")
@@ -43,10 +39,15 @@ public class Routine {
     private int categoryId;
     @ColumnInfo(name = "routine_date")
     private String date;
+    @ColumnInfo(name = "routine_last_update")
+    public String dateLastUpdate;
+    @ColumnInfo(name = "routine_next_update")
+    public String dateNextUpdate;
     @ColumnInfo(name = "routine_repeat_number")
     private int repeatNumber;
     @ColumnInfo(name = "routine_repeat_interval")
     private String repeatInterval;
+
     public Routine(String name, float amount, int walletId, int categoryId, String date, int repeatNumber, String repeatInterval) {
         this.name = name;
         this.amount = amount;
