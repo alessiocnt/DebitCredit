@@ -74,7 +74,6 @@ public class BudgetViewModel extends AndroidViewModel {
 
     private Pair<String, String> updateBudgetDates(String dateLastUpdate, String dateNextUpdate, int repeatNumber, String repeatInterval) {
         String tmp = dateNextUpdate;
-        Log.e("AAA", "dentroQUI");
         long today = Calendar.getInstance().getTime().getTime();
         long last = Utilities.getDateFromString(dateLastUpdate).getTime();
         long diff = today - last;
@@ -101,7 +100,6 @@ public class BudgetViewModel extends AndroidViewModel {
     }
 
     public Map<String, Integer> calculateBudgetsLeftover(List<Budget> budgets) {
-        Log.e("viewModel", "dentro");
         TransactionRepository transactionRepository = new TransactionRepository(getApplication());
         Map<String, Integer> budgetLeftover = new HashMap<>();
         ExecutorService executorService = Executors.newSingleThreadExecutor();

@@ -19,6 +19,7 @@ import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.anychart.APIlib;
+import com.anychart.AnyChart;
 import com.anychart.AnyChartView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.simoale.debitcredit.R;
@@ -87,16 +88,12 @@ public class HomeFragment extends Fragment implements OnItemListener {
 
             BudgetViewModel budgetViewModel = new ViewModelProvider((ViewModelStoreOwner) activity).get(BudgetViewModel.class);
             budgetViewModel.getBudgetList().observe((LifecycleOwner) activity, budgets -> {
+                // Update budgets if needed
                 budgetViewModel.update(budgets);
-                // Home chart setup
                 // Retrive data from viewModel for budget's leftover
                 Map<String, Integer> budgetLeftover = budgetViewModel.calculateBudgetsLeftover(budgetViewModel.getBudgetList().getValue());
-                AnyChartView gaugeChartView = view.findViewById(R.id.home_budget_chart);
-                gaugeChartView.setProgressBar(view.findViewById(R.id.home_budget_progress_bar));
-                APIlib.getInstance().setActiveAnyChartView(gaugeChartView);
-                Chart circularGauge = new CircularGaugeChart(gaugeChartView, budgetLeftover, "Your current budgets status");
-                circularGauge.instantiateChart();
-                // Remove observer to avoid repeted unnecessary updates
+                generateChart(budgetLeftover);
+                // Remove observer to avoid other unnecessary updates
                 budgetViewModel.getBudgetList().removeObservers((LifecycleOwner) activity);
             });
 
@@ -119,6 +116,14 @@ public class HomeFragment extends Fragment implements OnItemListener {
         final OnItemListener listener = this;
         walletAdapter = new WalletCardAdapter(activity, listener);
         recyclerView.setAdapter(walletAdapter);
+    }
+
+    private void generateChart(Map<String, Integer> budgetLeftover) {
+        AnyChartView gaugeChartView = view.findViewById(R.id.home_budget_chart);
+        gaugeChartView.setProgressBar(view.findViewById(R.id.home_budget_progress_bar));
+        APIlib.getInstance().setActiveAnyChartView(gaugeChartView);
+        Chart circularGauge = new CircularGaugeChart(gaugeChartView, budgetLeftover, "Your current budgets status");
+        circularGauge.instantiateChart();
     }
 
     @Override
