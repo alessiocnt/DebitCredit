@@ -14,18 +14,18 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <com.google.android.material.tabs.TabItem
-            android:id="@+id/transaction_in"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:icon="@drawable/ic_plus_sign_24dp"
-            android:text="@string/in" />
-
-        <com.google.android.material.tabs.TabItem
             android:id="@+id/transaction_out"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:icon="@drawable/ic_minus_sign_24dp"
             android:text="@string/out" />
+
+        <com.google.android.material.tabs.TabItem
+            android:id="@+id/transaction_in"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:icon="@drawable/ic_plus_sign_24dp"
+            android:text="@string/in" />
 
         <com.google.android.material.tabs.TabItem
             android:id="@+id/transaction_exchange"

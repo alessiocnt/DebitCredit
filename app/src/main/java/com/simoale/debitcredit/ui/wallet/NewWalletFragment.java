@@ -19,15 +19,12 @@ import com.simoale.debitcredit.model.Wallet;
 
 public class NewWalletFragment extends Fragment {
 
-    //    private WalletViewModel walletViewModel;
     private Button saveBtn;
     private WalletViewModel walletViewModel;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-
         View root = inflater.inflate(R.layout.new_wallet, container, false);
-
         return root;
     }
 
