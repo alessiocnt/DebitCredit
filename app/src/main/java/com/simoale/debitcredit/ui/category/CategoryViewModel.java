@@ -1,0 +1,54 @@
+package com.simoale.debitcredit.ui.category;
+
+import android.app.Application;
+
+import androidx.lifecycle.AndroidViewModel;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
+
+import com.simoale.debitcredit.database.repository.WalletRepository;
+import com.simoale.debitcredit.model.Wallet;
+
+import java.util.List;
+
+public class CategoryViewModel extends AndroidViewModel {
+
+    private WalletRepository repository;
+
+    // The wallet list
+    private LiveData<List<Wallet>> walletList;
+    // The wallet currently selected
+    private final MutableLiveData<Wallet> walletSelected = new MutableLiveData<>();
+
+    public CategoryViewModel(Application application) {
+        super(application);
+        repository = new WalletRepository(application);
+        walletList = repository.getWalletList();
+    }
+
+    public void addWallet(Wallet wallet){
+        repository.addWallet(wallet);
+    }
+
+    public LiveData<List<Wallet>> getWalletList() {
+        return walletList;
+    }
+
+    public Wallet getWallet(int position){
+        return walletList.getValue() == null ? null : walletList.getValue().get(position);
+    }
+
+    public void select(Wallet wallet) {
+        walletSelected.setValue(wallet);
+    }
+
+    public LiveData<Wallet> getSelected() {
+        return walletSelected;
+    }
+}
+
+
+
+
+
+
