@@ -9,8 +9,10 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.simoale.debitcredit.database.repository.RoutineRepository;
+import com.simoale.debitcredit.database.repository.TransactionRepository;
 import com.simoale.debitcredit.model.Interval;
 import com.simoale.debitcredit.model.Routine;
+import com.simoale.debitcredit.model.Transaction;
 import com.simoale.debitcredit.utils.Utilities;
 
 import java.util.Calendar;
@@ -22,11 +24,13 @@ public class RoutineViewModel extends AndroidViewModel {
 
     private final MutableLiveData<Routine> routineSelected = new MutableLiveData<>();
     private RoutineRepository repository;
+    private TransactionRepository transactionRepository;
     private LiveData<List<Routine>> routineList;
 
     public RoutineViewModel(Application application) {
         super(application);
         repository = new RoutineRepository(application);
+        transactionRepository = new TransactionRepository(application);
         routineList = repository.getRoutineList();
     }
 
@@ -54,24 +58,28 @@ public class RoutineViewModel extends AndroidViewModel {
         ExecutorService executorService = Executors.newSingleThreadExecutor();
         executorService.execute(() -> {
             for (Routine routine : routines) {
-                Pair<String, String> dates = updateRoutineDates(routine.getDateLastUpdate(), routine.getDateNextUpdate(), routine.getRepeatNumber(), routine.getRepeatInterval());
+                Pair<String, String> dates = updateRoutineDates(routine);
                 repository.updateRoutineDates(dates.first, dates.second, routine.getId());
             }
         });
 
     }
 
-    private Pair<String, String> updateRoutineDates(String dateLastUpdate, String dateNextUpdate, int repeatNumber, String repeatInterval) {
+    private Pair<String, String> updateRoutineDates(Routine routine) {
+        String dateLastUpdate = routine.getDateLastUpdate();
+        String dateNextUpdate = routine.getDateNextUpdate();
+        int repeatNumber = routine.getRepeatNumber();
+        String repeatInterval = routine.getRepeatInterval();
         long today = Calendar.getInstance().getTime().getTime();
         long last = Utilities.getDateFromString(dateLastUpdate).getTime();
         long diff = today - last;
         long dayDiff = diff / (1000 * 60 * 60 * 24);
+        Calendar lastUpdate = Calendar.getInstance();
         // devo aggiornare ogni repeatNumber*repeatInterval
         int daysBetweenUpdates = repeatNumber * Interval.valueOf(repeatInterval.toUpperCase()).daysNumber;
         long numberOfUpdates = dayDiff / daysBetweenUpdates;
         Log.e("Routine number of updates", numberOfUpdates + "");
         if (numberOfUpdates != 0) {
-            Calendar lastUpdate = Calendar.getInstance();
             lastUpdate.setTime(Utilities.getDateFromString(dateLastUpdate));
             lastUpdate.add(Calendar.DAY_OF_MONTH, (int) (numberOfUpdates * daysBetweenUpdates));
             dateLastUpdate = Utilities.getStringFromDate(lastUpdate.getTime());
@@ -83,6 +91,15 @@ public class RoutineViewModel extends AndroidViewModel {
             Log.e("NextUpdate", dateNextUpdate);
         }
 
+        while (numberOfUpdates > 0) {
+            numberOfUpdates--;
+            lastUpdate.add(Calendar.DAY_OF_MONTH, daysBetweenUpdates);
+            // TODO fix routine payee
+            this.transactionRepository.addTransaction(new Transaction(routine.getAmount(),
+                    "Transaction from routine: " + routine.getName(), routine.getCategoryId(),
+                    /*routine.getPayeeId()*/ 1, Utilities.getStringFromDate(lastUpdate.getTime()),
+                    routine.getWalletId(), routine.getWalletId(), null, null, null));
+        }
         return new Pair<>(dateLastUpdate, dateNextUpdate);
     }
 }

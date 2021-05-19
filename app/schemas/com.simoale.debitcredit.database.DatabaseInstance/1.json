@@ -138,25 +138,13 @@
       },
       {
         "tableName": "routine",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`routine_id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `routine_last_update` TEXT, `routine_next_update` TEXT, `routine_name` TEXT, `routine_amount` REAL NOT NULL, `routine_wallet_id` INTEGER NOT NULL, `routine_category_id` INTEGER NOT NULL, `routine_date` TEXT, `routine_repeat_number` INTEGER NOT NULL, `routine_repeat_interval` TEXT, FOREIGN KEY(`routine_category_id`) REFERENCES `category`(`category_id`) ON UPDATE CASCADE ON DELETE RESTRICT , FOREIGN KEY(`routine_wallet_id`) REFERENCES `wallet`(`wallet_id`) ON UPDATE CASCADE ON DELETE RESTRICT )",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`routine_id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `routine_name` TEXT, `routine_amount` REAL NOT NULL, `routine_wallet_id` INTEGER NOT NULL, `routine_category_id` INTEGER NOT NULL, `routine_date` TEXT, `routine_last_update` TEXT, `routine_next_update` TEXT, `routine_repeat_number` INTEGER NOT NULL, `routine_repeat_interval` TEXT, FOREIGN KEY(`routine_category_id`) REFERENCES `category`(`category_id`) ON UPDATE CASCADE ON DELETE RESTRICT , FOREIGN KEY(`routine_wallet_id`) REFERENCES `wallet`(`wallet_id`) ON UPDATE CASCADE ON DELETE RESTRICT )",
         "fields": [
           {
             "fieldPath": "routineId",
             "columnName": "routine_id",
             "affinity": "INTEGER",
             "notNull": true
-          },
-          {
-            "fieldPath": "dateLastUpdate",
-            "columnName": "routine_last_update",
-            "affinity": "TEXT",
-            "notNull": false
-          },
-          {
-            "fieldPath": "dateNextUpdate",
-            "columnName": "routine_next_update",
-            "affinity": "TEXT",
-            "notNull": false
           },
           {
             "fieldPath": "name",
@@ -185,6 +173,18 @@
           {
             "fieldPath": "date",
             "columnName": "routine_date",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "dateLastUpdate",
+            "columnName": "routine_last_update",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "dateNextUpdate",
+            "columnName": "routine_next_update",
             "affinity": "TEXT",
             "notNull": false
           },
