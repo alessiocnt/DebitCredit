@@ -48,12 +48,14 @@ public class Routine {
     @ColumnInfo(name = "routine_repeat_interval")
     private String repeatInterval;
 
-    public Routine(String name, float amount, int walletId, int categoryId, String date, int repeatNumber, String repeatInterval) {
+    public Routine(String name, float amount, int walletId, int categoryId, String date, String dateLastUpdate, String dateNextUpdate, int repeatNumber, String repeatInterval) {
         this.name = name;
         this.amount = amount;
         this.walletId = walletId;
         this.categoryId = categoryId;
         this.date = date;
+        this.dateLastUpdate = dateLastUpdate;
+        this.dateNextUpdate = dateNextUpdate;
         this.repeatNumber = repeatNumber;
         this.repeatInterval = repeatInterval;
     }
