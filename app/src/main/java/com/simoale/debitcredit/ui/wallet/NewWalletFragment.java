@@ -6,9 +6,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.graphics.drawable.DrawableCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelStoreOwner;
@@ -17,9 +20,14 @@ import com.google.android.material.textfield.TextInputLayout;
 import com.simoale.debitcredit.R;
 import com.simoale.debitcredit.model.Wallet;
 
+import java.util.concurrent.atomic.AtomicInteger;
+
+import dev.sasikanth.colorsheet.ColorSheet;
+
 public class NewWalletFragment extends Fragment {
 
     private Button saveBtn;
+    private Button selectColorBtn;
     private WalletViewModel walletViewModel;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -35,6 +43,8 @@ public class NewWalletFragment extends Fragment {
 
         if (activity != null) {
             this.saveBtn = getView().findViewById(R.id.save_btn);
+            this.selectColorBtn = getView().findViewById(R.id.select_color_btn);
+            ImageView new_wallet_icon = getView().findViewById(R.id.new_wallet_icon);
             this.walletViewModel = new ViewModelProvider((ViewModelStoreOwner) activity).get(WalletViewModel.class);
             this.saveBtn.setOnClickListener(v -> {
                 TextInputLayout walletNameEditText = activity.findViewById(R.id.wallet_name_TextInput);
@@ -42,6 +52,23 @@ public class NewWalletFragment extends Fragment {
                 TextInputLayout walletAmountEditText = activity.findViewById(R.id.wallet_initial_value);
                 String walletAmount = walletAmountEditText.getEditText().getText().toString();
                 this.walletViewModel.addWallet(new Wallet(walletName, "nice", Integer.parseInt(walletAmount), "null"));
+            });
+
+//            int colors[] = new int[]{R.color.white, R.color.black, R.color.purple_200, R.color.teal_200, R.color.rally_yellow_300, R.color.rally_orange_300, R.color.rally_green_500, R.color.rally_blue_200};
+            int colors[] = activity.getApplicationContext().getResources().getIntArray(R.array.colors);
+            AtomicInteger selectedColor = new AtomicInteger(colors[0]);
+            this.selectColorBtn.setOnClickListener(v -> {
+                new ColorSheet().colorPicker(
+                        colors,
+                        selectedColor.get(),
+                        false,
+                        color -> {
+                            selectedColor.set(color);
+                            DrawableCompat.setTint(new_wallet_icon.getDrawable(), color);
+                            return null;
+                        }
+
+                ).show(((AppCompatActivity) activity).getSupportFragmentManager());
             });
         }
     }

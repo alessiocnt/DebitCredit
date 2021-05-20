@@ -59,28 +59,28 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <Button
-                android:id="@+id/take_picture_btn"
+                android:id="@+id/select_color_btn"
                 style="@style/Widget.MaterialComponents.Button.OutlinedButton.Icon"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
-                android:layout_marginTop="170dp"
-                android:text="@string/take_a_picture"
-                app:icon="@drawable/ic_photo_camera_24dp"
+                android:text="Select icon color"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/wallet_initial_value" />
 
             <ImageView
-                android:id="@+id/imageView"
+                android:id="@+id/new_wallet_icon"
                 android:layout_width="0dp"
                 android:layout_height="50dp"
                 android:layout_margin="10dp"
                 android:background="@color/white"
+                android:backgroundTint="@color/rally_background"
                 android:contentDescription="@string/captured_image"
                 android:src="@drawable/ic_wallet_24dp"
-                app:layout_constraintEnd_toStartOf="@+id/take_picture_btn"
+                app:layout_constraintEnd_toStartOf="@+id/select_color_btn"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/wallet_initial_value" />
+                app:layout_constraintTop_toBottomOf="@+id/wallet_initial_value"
+                app:tint="@color/white" />
 
             <Button
                 android:id="@+id/save_btn"
@@ -91,7 +91,7 @@
                 android:layout_marginTop="10dp"
                 android:text="@string/save"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/take_picture_btn" />
+                app:layout_constraintTop_toBottomOf="@+id/select_color_btn" />
 
             <Button
                 android:id="@+id/cancel_btn"
@@ -102,7 +102,7 @@
                 android:layout_marginTop="10dp"
                 android:text="@string/cancel"
                 app:layout_constraintEnd_toStartOf="@+id/save_btn"
-                app:layout_constraintTop_toBottomOf="@+id/take_picture_btn" />
+                app:layout_constraintTop_toBottomOf="@+id/select_color_btn" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
