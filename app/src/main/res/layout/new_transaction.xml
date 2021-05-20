@@ -200,13 +200,6 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/transaction_wallet_TextInput">
-
-                <com.google.android.material.chip.Chip
-                    android:id="@+id/chip_wallet"
-                    style="@style/Widget.MaterialComponents.Chip.Entry"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Chip3" />
             </com.google.android.material.chip.ChipGroup>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -239,13 +232,6 @@
                 android:layout_marginRight="10dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/transaction_tag_TextInput">
-
-                <com.google.android.material.chip.Chip
-                    android:id="@+id/chip_tag"
-                    style="@style/Widget.MaterialComponents.Chip.Entry"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Chip2" />
             </com.google.android.material.chip.ChipGroup>
 
             <ImageView

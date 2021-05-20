@@ -31,10 +31,12 @@ import com.google.android.material.textfield.TextInputLayout;
 import com.simoale.debitcredit.R;
 import com.simoale.debitcredit.model.Category;
 import com.simoale.debitcredit.model.Payee;
+import com.simoale.debitcredit.model.Tag;
 import com.simoale.debitcredit.model.Transaction;
 import com.simoale.debitcredit.model.Wallet;
 import com.simoale.debitcredit.ui.category.CategoryViewModel;
 import com.simoale.debitcredit.ui.payee.PayeeViewModel;
+import com.simoale.debitcredit.ui.tag.TagViewModel;
 import com.simoale.debitcredit.ui.wallet.WalletViewModel;
 import com.simoale.debitcredit.utils.Utilities;
 
@@ -50,8 +52,13 @@ public class NewTransactionFragment extends Fragment {
     private TransactionViewModel transactionViewModel;
     private CategoryViewModel categoryViewModel;
     private PayeeViewModel payeeViewModel;
+    private WalletViewModel walletViewModel;
+    private TagViewModel tagViewModel;
 
-    TextInputLayout categoryEditText;
+    private TextInputLayout categoryEditText;
+    private TextInputLayout payeeEditText;
+    private TextInputLayout walletEditText;
+    private TextInputLayout tagEditText;
 
     public NewTransactionFragment() {}
 
@@ -68,13 +75,16 @@ public class NewTransactionFragment extends Fragment {
 
         if (activity != null) {
             this.categoryEditText = activity.findViewById(R.id.transaction_category_TextInput);
-
+            this.payeeEditText = activity.findViewById(R.id.transaction_payee_TextInput);
+            this.walletEditText = activity.findViewById(R.id.transaction_wallet_TextInput);
 
             this.saveBtn = getView().findViewById(R.id.transaction_save_button);
             this.cancelBtn = getView().findViewById(R.id.transaction_cancel_button);
+
             this.transactionViewModel = new ViewModelProvider((ViewModelStoreOwner) activity).get(TransactionViewModel.class);
             this.categoryViewModel = new ViewModelProvider((ViewModelStoreOwner) activity).get(CategoryViewModel.class);
             this.payeeViewModel = new ViewModelProvider((ViewModelStoreOwner) activity).get(PayeeViewModel.class);
+            this.walletViewModel = new ViewModelProvider((ViewModelStoreOwner) activity).get(WalletViewModel.class);
 
             setupDatePicker();
             setupChips();
@@ -99,6 +109,9 @@ public class NewTransactionFragment extends Fragment {
         // Payee chip group
         ChipGroup payeeChipGroup = getView().findViewById(R.id.transaction_payee_chip_group);
         setupPayeeChips(payeeChipGroup);
+        // Wallet chip group
+        ChipGroup walletChipGroup = getView().findViewById(R.id.transaction_wallet_chip_group);
+        setupWalletChips(walletChipGroup);
     }
 
     private void setupPayeeChips(ChipGroup payeeChipGroup) {
@@ -119,8 +132,15 @@ public class NewTransactionFragment extends Fragment {
             public void onCheckedChanged(ChipGroup chipGroup, int i) {
                 Chip chip = chipGroup.findViewById(i);
                 // Set the chosen payee
-                TextInputLayout payeeEditText = activity.findViewById(R.id.transaction_payee_TextInput);
                 payeeEditText.getEditText().setText(chip.getText());
+            }
+        });
+        ImageButton add = getView().findViewById(R.id.add_payee);
+        add.setOnClickListener(v -> {
+            if(Utilities.checkDataValid(payeeEditText.getEditText().getText().toString())) {
+                payeeViewModel.addPayee(new Payee(payeeEditText.getEditText().getText().toString()));
+            } else {
+                Toast.makeText(activity.getBaseContext(), "Insert a payee name to create a new one", Toast.LENGTH_LONG).show();
             }
         });
     }
@@ -152,6 +172,60 @@ public class NewTransactionFragment extends Fragment {
                 categoryViewModel.addCategory(new Category(categoryEditText.getEditText().getText().toString()));
             } else {
                 Toast.makeText(activity.getBaseContext(), "Insert a category name to create a new one", Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+
+    private void setupWalletChips(ChipGroup walletChipGroup) {
+        walletViewModel.getWalletList().observe((LifecycleOwner) activity, new Observer<List<Wallet>>() {
+            @Override
+            public void onChanged(List<Wallet> wallet) {
+                walletChipGroup.removeAllViews();
+                for(Wallet w : wallet) {
+                    Chip chip = (Chip) getLayoutInflater().inflate(R.layout.chip_choice, walletChipGroup, false);
+                    chip.setId(View.generateViewId());
+                    chip.setText(w.getName());
+                    walletChipGroup.addView(chip);
+                }
+            }
+        });
+        walletChipGroup.setOnCheckedChangeListener(new ChipGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(ChipGroup chipGroup, int i) {
+                Chip chip = chipGroup.findViewById(i);
+                // Set the chosen category
+                walletEditText.getEditText().setText(chip.getText());
+            }
+        });
+    }
+
+    private void setupTagChips(ChipGroup tagChipGroup) {
+        tagViewModel.getTagList().observe((LifecycleOwner) activity, new Observer<List<Tag>>() {
+            @Override
+            public void onChanged(List<Tag> tag) {
+                tagChipGroup.removeAllViews();
+                for(Tag t : tag) {
+                    Chip chip = (Chip) getLayoutInflater().inflate(R.layout.chip_choice, tagChipGroup, false);
+                    chip.setId(View.generateViewId());
+                    chip.setText(t.getName());
+                    tagChipGroup.addView(chip);
+                }
+            }
+        });
+        tagChipGroup.setOnCheckedChangeListener(new ChipGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(ChipGroup chipGroup, int i) {
+                Chip chip = chipGroup.findViewById(i);
+                // Set the chosen category
+                tagEditText.getEditText().setText(chip.getText());
+            }
+        });
+        ImageButton add = getView().findViewById(R.id.add_tag);
+        add.setOnClickListener(v -> {
+            if(Utilities.checkDataValid(tagEditText.getEditText().getText().toString())) {
+                tagViewModel.addTag(new Tag(tagEditText.getEditText().getText().toString()));
+            } else {
+                Toast.makeText(activity.getBaseContext(), "Insert a TAG to create a new one", Toast.LENGTH_LONG).show();
             }
         });
     }
