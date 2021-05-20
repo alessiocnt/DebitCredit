@@ -54,7 +54,6 @@ public class NewWalletFragment extends Fragment {
                 this.walletViewModel.addWallet(new Wallet(walletName, "nice", Integer.parseInt(walletAmount), "null"));
             });
 
-//            int colors[] = new int[]{R.color.white, R.color.black, R.color.purple_200, R.color.teal_200, R.color.rally_yellow_300, R.color.rally_orange_300, R.color.rally_green_500, R.color.rally_blue_200};
             int colors[] = activity.getApplicationContext().getResources().getIntArray(R.array.colors);
             AtomicInteger selectedColor = new AtomicInteger(colors[0]);
             this.selectColorBtn.setOnClickListener(v -> {
