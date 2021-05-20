@@ -73,8 +73,12 @@
     <fragment
         android:id="@+id/new_wallet"
         android:name="com.simoale.debitcredit.ui.wallet.NewWalletFragment"
-        android:label="new_wallet"
-        tools:layout="@layout/new_wallet" />
+        android:label="New Wallet"
+        tools:layout="@layout/new_wallet" >
+        <action
+            android:id="@+id/action_new_wallet_to_nav_wallet"
+            app:destination="@id/nav_wallet" />
+    </fragment>
     <fragment
         android:id="@+id/nav_budget"
         android:name="com.simoale.debitcredit.ui.budget.BudgetFragment"
@@ -107,7 +111,8 @@
     <fragment
         android:id="@+id/newBudgetFragment"
         android:name="com.simoale.debitcredit.ui.budget.NewBudgetFragment"
-        android:label="NewBudgetFragment" />
+        android:label="NewBudgetFragment"
+        tools:layout="@layout/new_budget" />
     <fragment
         android:id="@+id/changePasswordFragment"
         android:name="com.simoale.debitcredit.ui.settings.ChangePasswordFragment"

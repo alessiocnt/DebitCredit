@@ -18,7 +18,7 @@ import java.util.Date;
 public class Utilities {
 
     static final int REQUEST_IMAGE_CAPTURE = 1;
-    
+
 
     public static Bitmap getImageBitmap(Activity activity, Uri currentPhotoUri) {
         ContentResolver resolver = activity.getApplicationContext()
@@ -60,5 +60,14 @@ public class Utilities {
 
     public static String getStringFromDate(Date date) {
         return new SimpleDateFormat("yyyyMMdd").format(date);
+    }
+
+    public static boolean checkDataValid(String... data) {
+        for (String v : data) {
+            if (v.equals("") || v == null) {
+                return false;
+            }
+        }
+        return true;
     }
 }

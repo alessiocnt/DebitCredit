@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
 
     android:layout_height="match_parent">
-    
+
 
     <ScrollView
         android:layout_width="match_parent"
@@ -19,7 +19,7 @@
                 android:id="@+id/wallet_name_TextInput"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="65dp"
                 android:layout_margin="10dp"
                 android:hint="@string/wallet_name"
                 app:endIconMode="clear_text"
@@ -39,7 +39,7 @@
                 android:id="@+id/wallet_initial_value"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="65dp"
                 android:layout_margin="10dp"
                 android:hint="@string/initial_amount"
                 android:inputType="numberDecimal"
@@ -57,6 +57,28 @@
 
             </com.google.android.material.textfield.TextInputLayout>
 
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/wallet_description"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:hint="@string/wallet_description"
+                android:inputType="numberDecimal"
+                app:endIconMode="clear_text"
+                app:errorEnabled="true"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/wallet_initial_value">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/wallet_description_TextInputEditText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:imeOptions="flagNoExtractUi" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
             <Button
                 android:id="@+id/select_color_btn"
                 style="@style/Widget.MaterialComponents.Button.OutlinedButton.Icon"
@@ -65,10 +87,10 @@
                 android:layout_margin="10dp"
                 android:drawableTop="@drawable/ic_new_wallet_48"
                 android:drawableTint="@color/white"
-                android:text="Select icon color"
+                android:text="Change color"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/wallet_initial_value" />
+                app:layout_constraintTop_toBottomOf="@+id/wallet_description" />
 
             <Button
                 android:id="@+id/save_btn"

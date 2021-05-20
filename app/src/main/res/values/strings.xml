@@ -16,7 +16,7 @@
     <string name="graph">graph</string>
     <string name="settings">settings</string>
     <string name="wallet_image">wallet image</string>
-    <string name="wallet_name">wallet name</string>
+    <string name="wallet_name">Wallet Name</string>
     <string name="wallet_balance">wallet balance</string>
     <string name="wallet_more_menu">wallet more menu</string>
     <string name="add">add</string>
@@ -25,7 +25,7 @@
     <string name="budget_balance">budget balance</string>
     <string name="budget_renovation">budget renovation</string>
     <string name="budget_more_menu">budget more menu</string>
-    <string name="initial_amount">initial amount</string>
+    <string name="initial_amount">Initial Amount</string>
     <string name="take_a_picture">take a picture</string>
     <string name="save">Save</string>
     <string name="cancel">Cancel</string>
@@ -61,4 +61,5 @@
     <string name="budget_limit">Limit</string>
     <string name="old_password">Old Password</string>
     <string name="new_password">New Password</string>
+    <string name="wallet_description">Wallet Description</string>
 </resources>
