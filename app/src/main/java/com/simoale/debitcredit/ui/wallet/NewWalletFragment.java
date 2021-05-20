@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -61,12 +60,10 @@ public class NewWalletFragment extends Fragment {
                 String walletName = walletNameText.getEditText().getText().toString();
                 String walletAmount = walletAmountText.getEditText().getText().toString();
                 String walletDescription = walletDescriptionText.getEditText().getText().toString();
-                Log.e("Values", "Name: " + walletName + " Amount: " + walletAmount + " Desc: " + walletDescription);
                 if (Utilities.checkDataValid(walletName, walletAmount, walletDescription)) {
                     this.walletViewModel.addWallet(new Wallet(walletName, walletDescription, Integer.parseInt(walletAmount), selectedColor.toString()));
                     Navigation.findNavController(v).navigate(R.id.action_new_wallet_to_nav_wallet);
                 } else {
-                    Log.e("AAAAAAA", "errorfuckfuckfuck");
                     Toast.makeText(activity.getBaseContext(), "Every field must be filled", Toast.LENGTH_LONG).show();
                 }
             });
