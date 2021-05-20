@@ -36,6 +36,7 @@ import com.simoale.debitcredit.model.Wallet;
 import com.simoale.debitcredit.ui.category.CategoryViewModel;
 import com.simoale.debitcredit.ui.payee.PayeeViewModel;
 import com.simoale.debitcredit.ui.wallet.WalletViewModel;
+import com.simoale.debitcredit.utils.Utilities;
 
 import java.util.Calendar;
 import java.util.List;
@@ -49,6 +50,8 @@ public class NewTransactionFragment extends Fragment {
     private TransactionViewModel transactionViewModel;
     private CategoryViewModel categoryViewModel;
     private PayeeViewModel payeeViewModel;
+
+    TextInputLayout categoryEditText;
 
     public NewTransactionFragment() {}
 
@@ -64,6 +67,9 @@ public class NewTransactionFragment extends Fragment {
         this.activity = getActivity();
 
         if (activity != null) {
+            this.categoryEditText = activity.findViewById(R.id.transaction_category_TextInput);
+
+
             this.saveBtn = getView().findViewById(R.id.transaction_save_button);
             this.cancelBtn = getView().findViewById(R.id.transaction_cancel_button);
             this.transactionViewModel = new ViewModelProvider((ViewModelStoreOwner) activity).get(TransactionViewModel.class);
@@ -72,8 +78,6 @@ public class NewTransactionFragment extends Fragment {
 
             setupDatePicker();
             setupChips();
-            
-            
             
             /*this.saveBtn.setOnClickListener(v -> {
                 retriveData();
@@ -101,6 +105,7 @@ public class NewTransactionFragment extends Fragment {
         payeeViewModel.getPayeeList().observe((LifecycleOwner) activity, new Observer<List<Payee>>() {
             @Override
             public void onChanged(List<Payee> payee) {
+                payeeChipGroup.removeAllViews();
                 for(Payee p : payee) {
                     Chip chip = (Chip) getLayoutInflater().inflate(R.layout.chip_choice, payeeChipGroup, false);
                     chip.setId(View.generateViewId());
@@ -109,14 +114,13 @@ public class NewTransactionFragment extends Fragment {
                 }
             }
         });
-
         payeeChipGroup.setOnCheckedChangeListener(new ChipGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(ChipGroup chipGroup, int i) {
                 Chip chip = chipGroup.findViewById(i);
                 // Set the chosen payee
                 TextInputLayout payeeEditText = activity.findViewById(R.id.transaction_payee_TextInput);
-                payeeEditText.setHint(chip.getText());
+                payeeEditText.getEditText().setText(chip.getText());
             }
         });
     }
@@ -125,6 +129,7 @@ public class NewTransactionFragment extends Fragment {
         categoryViewModel.getCategoryList().observe((LifecycleOwner) activity, new Observer<List<Category>>() {
             @Override
             public void onChanged(List<Category> category) {
+                categoryChipGroup.removeAllViews();
                 for(Category cat : category) {
                     Chip chip = (Chip) getLayoutInflater().inflate(R.layout.chip_choice, categoryChipGroup, false);
                     chip.setId(View.generateViewId());
@@ -133,14 +138,20 @@ public class NewTransactionFragment extends Fragment {
                 }
             }
         });
-
         categoryChipGroup.setOnCheckedChangeListener(new ChipGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(ChipGroup chipGroup, int i) {
                 Chip chip = chipGroup.findViewById(i);
                 // Set the chosen category
-                TextInputLayout categoryEditText = activity.findViewById(R.id.transaction_category_TextInput);
-                categoryEditText.setHint(chip.getText());
+                categoryEditText.getEditText().setText(chip.getText());
+            }
+        });
+        ImageButton add = getView().findViewById(R.id.add_category);
+        add.setOnClickListener(v -> {
+            if(Utilities.checkDataValid(categoryEditText.getEditText().getText().toString())) {
+                categoryViewModel.addCategory(new Category(categoryEditText.getEditText().getText().toString()));
+            } else {
+                Toast.makeText(activity.getBaseContext(), "Insert a category name to create a new one", Toast.LENGTH_LONG).show();
             }
         });
     }
