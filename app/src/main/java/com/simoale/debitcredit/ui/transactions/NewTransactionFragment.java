@@ -4,13 +4,16 @@ import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.DatePicker;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -20,6 +23,7 @@ import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelStoreOwner;
+import androidx.navigation.Navigation;
 
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
@@ -105,6 +109,16 @@ public class NewTransactionFragment extends Fragment {
                 }
             }
         });
+
+        payeeChipGroup.setOnCheckedChangeListener(new ChipGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(ChipGroup chipGroup, int i) {
+                Chip chip = chipGroup.findViewById(i);
+                // Set the chosen payee
+                TextInputLayout payeeEditText = activity.findViewById(R.id.transaction_payee_TextInput);
+                payeeEditText.setHint(chip.getText());
+            }
+        });
     }
 
     private void setupCategoryChips(ChipGroup categoryChipGroup) {
@@ -117,6 +131,16 @@ public class NewTransactionFragment extends Fragment {
                     chip.setText(cat.getName());
                     categoryChipGroup.addView(chip);
                 }
+            }
+        });
+
+        categoryChipGroup.setOnCheckedChangeListener(new ChipGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(ChipGroup chipGroup, int i) {
+                Chip chip = chipGroup.findViewById(i);
+                // Set the chosen category
+                TextInputLayout categoryEditText = activity.findViewById(R.id.transaction_category_TextInput);
+                categoryEditText.setHint(chip.getText());
             }
         });
     }
