@@ -4,8 +4,7 @@
     android:layout_width="match_parent"
 
     android:layout_height="match_parent">
-
-    <include layout="@layout/fab_add" />
+    
 
     <ScrollView
         android:layout_width="match_parent"
@@ -64,23 +63,12 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
+                android:drawableTop="@drawable/ic_new_wallet_48"
+                android:drawableTint="@color/white"
                 android:text="Select icon color"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/wallet_initial_value" />
-
-            <ImageView
-                android:id="@+id/new_wallet_icon"
-                android:layout_width="0dp"
-                android:layout_height="50dp"
-                android:layout_margin="10dp"
-                android:background="@color/white"
-                android:backgroundTint="@color/rally_background"
-                android:contentDescription="@string/captured_image"
-                android:src="@drawable/ic_wallet_24dp"
-                app:layout_constraintEnd_toStartOf="@+id/select_color_btn"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/wallet_initial_value"
-                app:tint="@color/white" />
+                app:layout_constraintTop_toBottomOf="@+id/wallet_initial_value" />
 
             <Button
                 android:id="@+id/save_btn"

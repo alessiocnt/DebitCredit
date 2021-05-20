@@ -1,17 +1,17 @@
 package com.simoale.debitcredit.ui.wallet;
 
 import android.app.Activity;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.drawable.DrawableCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelStoreOwner;
@@ -44,7 +44,6 @@ public class NewWalletFragment extends Fragment {
         if (activity != null) {
             this.saveBtn = getView().findViewById(R.id.save_btn);
             this.selectColorBtn = getView().findViewById(R.id.select_color_btn);
-            ImageView new_wallet_icon = getView().findViewById(R.id.new_wallet_icon);
             this.walletViewModel = new ViewModelProvider((ViewModelStoreOwner) activity).get(WalletViewModel.class);
             this.saveBtn.setOnClickListener(v -> {
                 TextInputLayout walletNameEditText = activity.findViewById(R.id.wallet_name_TextInput);
@@ -56,6 +55,7 @@ public class NewWalletFragment extends Fragment {
 
             int colors[] = activity.getApplicationContext().getResources().getIntArray(R.array.colors);
             AtomicInteger selectedColor = new AtomicInteger(colors[0]);
+            Drawable walletDrawable = selectColorBtn.getCompoundDrawables()[1];
             this.selectColorBtn.setOnClickListener(v -> {
                 new ColorSheet().colorPicker(
                         colors,
@@ -63,7 +63,7 @@ public class NewWalletFragment extends Fragment {
                         false,
                         color -> {
                             selectedColor.set(color);
-                            DrawableCompat.setTint(new_wallet_icon.getDrawable(), color);
+                            walletDrawable.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
                             return null;
                         }
 
