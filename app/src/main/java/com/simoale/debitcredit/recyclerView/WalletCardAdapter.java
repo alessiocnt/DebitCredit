@@ -51,7 +51,7 @@ public class WalletCardAdapter extends RecyclerView.Adapter<WalletCardViewHolder
         Wallet currentWallet = walletList.get(position);
 
         String icon_color = currentWallet.getImage();
-        holder.getImage().getDrawable().setTint(Integer.valueOf(icon_color));
+        holder.getImage().getDrawable().setTint(Integer.parseInt(icon_color));
         holder.getName().setText(currentWallet.getName());
         holder.getBalance().setText(String.valueOf(currentWallet.getBalance()));
     }
