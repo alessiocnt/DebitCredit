@@ -18,15 +18,17 @@ import java.util.List;
 
 public class NewTransactionTabFragment extends Fragment {
 
+    View view;
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
     }
 
-
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.new_transaction_tab, container, false);
+        this.view = root;
         return root;
     }
 

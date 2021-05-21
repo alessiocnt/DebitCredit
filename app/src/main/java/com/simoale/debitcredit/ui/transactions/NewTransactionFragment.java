@@ -2,16 +2,14 @@ package com.simoale.debitcredit.ui.transactions;
 
 import android.Manifest;
 import android.app.Activity;
-import android.app.DatePickerDialog;
-import android.app.Dialog;
 import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
-import android.location.LocationManager;
 import android.location.Location;
+import android.location.LocationManager;
 import android.net.ConnectivityManager;
 import android.net.Network;
 import android.net.NetworkInfo;
@@ -39,9 +37,7 @@ import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
-import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.Observer;
@@ -54,16 +50,16 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
-import com.google.android.material.chip.Chip;
-import com.google.android.material.chip.ChipGroup;
-import com.google.android.material.snackbar.Snackbar;
-import com.google.android.material.textfield.TextInputLayout;
-import com.simoale.debitcredit.R;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
+import com.google.android.material.chip.Chip;
+import com.google.android.material.chip.ChipGroup;
+import com.google.android.material.snackbar.Snackbar;
+import com.google.android.material.textfield.TextInputLayout;
+import com.simoale.debitcredit.R;
 import com.simoale.debitcredit.model.Category;
 import com.simoale.debitcredit.model.Payee;
 import com.simoale.debitcredit.model.Tag;
@@ -82,10 +78,11 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 import static android.content.Intent.FLAG_ACTIVITY_NEW_TASK;
 import static com.simoale.debitcredit.utils.Utilities.REQUEST_IMAGE_CAPTURE;
@@ -106,6 +103,7 @@ public class NewTransactionFragment extends Fragment {
     private TextInputLayout payeeEditText;
     private TextInputLayout walletEditText;
     private TextInputLayout tagEditText;
+    private Map<Integer, Chip> tagSelected;
     private TextInputLayout noteEditText;
     private TextView dateDisplay;
     private TextView dateSelected;
@@ -130,8 +128,6 @@ public class NewTransactionFragment extends Fragment {
 
     private RequestQueue requestQueue;
     private final static String OSM_REQUEST_TAG = "OSM_REQUEST";
-
-    //public NewTransactionFragment() {}
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -173,8 +169,6 @@ public class NewTransactionFragment extends Fragment {
             this.walletViewModel = new ViewModelProvider((ViewModelStoreOwner) activity).get(WalletViewModel.class);
             this.tagViewModel = new ViewModelProvider((ViewModelStoreOwner) activity).get(TagViewModel.class);
 
-
-
             requestPermissionLauncher = registerForActivityResult(new ActivityResultContracts.RequestPermission(),
                     new ActivityResultCallback<Boolean>() {
                         @Override
@@ -210,16 +204,7 @@ public class NewTransactionFragment extends Fragment {
                         } else {
                             imageUriString = "ic_launcher_foreground";
                         }
-
-                        /*addViewModel.addCardItem(new CardItem(imageUriString,
-                                placeTextInputEditText.getText().toString(),
-                                descriptionTextInputEditText.getText().toString(),
-                                dateTextInputEditText.getText().toString()));
-
-                        addViewModel.setImageBitmpap(null);*/
-
-
-
+                        retriveData();
                         /*if (Utilities.checkDataValid(walletName, walletAmount, walletDescription)) {
                             this.walletViewModel.addWallet(new Wallet(walletName, walletDescription, Integer.parseInt(walletAmount), selectedColor.toString()));
                             Navigation.findNavController(v).navigate(R.id.action_new_wallet_to_nav_wallet);
@@ -227,22 +212,17 @@ public class NewTransactionFragment extends Fragment {
                             Toast.makeText(activity.getBaseContext(), "Every field must be filled", Toast.LENGTH_LONG).show();
                         }*/
 
+                       /* addViewModel.addCardItem(new CardItem(imageUriString,
+                                placeTextInputEditText.getText().toString(),
+                                descriptionTextInputEditText.getText().toString(),
+                                dateTextInputEditText.getText().toString()));*/
+
+                        transactionViewModel.setImageBitmpap(null);
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
                 }
             });
-            
-            /*this.saveBtn.setOnClickListener(v -> {
-                retriveData();
-
-                TextInputLayout walletNameEditText = activity.findViewById(R.id.wallet_name_TextInput);
-                String walletName = walletNameEditText.getEditText().getText().toString();
-                TextInputLayout walletAmountEditText = activity.findViewById(R.id.wallet_initial_value);
-                String walletAmount = walletAmountEditText.getEditText().getText().toString();
-                this.walletViewModel.addWallet(new Wallet(walletName, "nice", Integer.parseInt(walletAmount), "null"));
-            });*/
-
         }
     }
 
@@ -320,16 +300,17 @@ public class NewTransactionFragment extends Fragment {
                         }
                     }
                 });
-        networkCallback = new ConnectivityManager.NetworkCallback(){
+        networkCallback = new ConnectivityManager.NetworkCallback() {
             @Override
             public void onAvailable(@NonNull Network network) {
                 super.onAvailable(network);
                 isNetworkConnected = true;
                 snackbar.dismiss();
-                if (requestingLocationUpdates){
+                if (requestingLocationUpdates) {
                     startLocationUpdates(activity);
                 }
             }
+
             @Override
             public void onLost(@NonNull Network network) {
                 super.onLost(network);
@@ -363,7 +344,7 @@ public class NewTransactionFragment extends Fragment {
     private void setupLocation() {
         locationSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if(isChecked) {
+                if (isChecked) {
                     requestingLocationUpdates = true;
                     registerNetworkCallback(activity);
                     startLocationUpdates(activity);
@@ -473,6 +454,7 @@ public class NewTransactionFragment extends Fragment {
     }
 
     private void setupTagChips(ChipGroup tagChipGroup) {
+        this.tagSelected = new HashMap<>();
         tagViewModel.getTagList().observe((LifecycleOwner) activity, new Observer<List<Tag>>() {
             @Override
             public void onChanged(List<Tag> tag) {
@@ -481,17 +463,18 @@ public class NewTransactionFragment extends Fragment {
                     Chip chip = (Chip) getLayoutInflater().inflate(R.layout.chip_choice, tagChipGroup, false);
                     chip.setId(View.generateViewId());
                     chip.setText(t.getName());
+
+                    chip.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                        public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                            if (isChecked) {
+                                tagSelected.putIfAbsent(chip.getId(), chip);
+                            } else {
+                                tagSelected.remove(chip.getId());
+                            }
+                        }
+                    });
                     tagChipGroup.addView(chip);
                 }
-            }
-        });
-        // TODO List<Chips> per avere quelle cliccate (forse meglio con un map id-chip cosi posso toglierle e metterle velocemente)
-        tagChipGroup.setOnCheckedChangeListener(new ChipGroup.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(ChipGroup chipGroup, int i) {
-                Chip chip = chipGroup.findViewById(i);
-                // Set the chosen category
-                tagEditText.getEditText().setText(chip.getText());
             }
         });
         ImageButton add = getView().findViewById(R.id.add_tag);
@@ -519,9 +502,10 @@ public class NewTransactionFragment extends Fragment {
 
     /**
      * Method called to save the image taken as a file in the gallery
+     *
      * @param bitmap the image taken
-     * @throws IOException if there are some issue with the creation of the image file
      * @return the Uri of the image saved
+     * @throws IOException if there are some issue with the creation of the image file
      */
     private Uri saveImage(Bitmap bitmap, Activity activity) throws IOException {
         // Create an image file name
@@ -592,7 +576,7 @@ public class NewTransactionFragment extends Fragment {
      * @param activity the current Activity
      */
     private void registerNetworkCallback(Activity activity) {
-        Log.d("LAB","registerNetworkCallback");
+        Log.d("LAB", "registerNetworkCallback");
         ConnectivityManager connectivityManager =
                 (ConnectivityManager) activity.getSystemService(Context.CONNECTIVITY_SERVICE);
 
@@ -612,7 +596,6 @@ public class NewTransactionFragment extends Fragment {
     /**
      * Method called to unregister the NetworkCallback (SDK >= N) or
      * to dismiss the snackbar in Android 6 (it works only if the snackbar is still visible)
-     *
      */
     private void unRegisterNetworkCallback() {
         if (getActivity() != null) {
@@ -623,7 +606,7 @@ public class NewTransactionFragment extends Fragment {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                     try {
                         connectivityManager.unregisterNetworkCallback(networkCallback);
-                    } catch (Exception e){
+                    } catch (Exception e) {
                         e.printStackTrace();
                     }
                 } else {
@@ -655,7 +638,7 @@ public class NewTransactionFragment extends Fragment {
     }
 
     /**
-     *Method called to create a new Dialog to check the user for previously denied permission
+     * Method called to create a new Dialog to check the user for previously denied permission
      *
      * @param activity the current Activity
      */
@@ -672,12 +655,13 @@ public class NewTransactionFragment extends Fragment {
 
     /**
      * Method called to query the OpenStreetMap API
-     * @param latitude latitude of the device
+     *
+     * @param latitude  latitude of the device
      * @param longitude longitude of the device
      */
-    private void sendVolleyRequest(String latitude, String longitude){
-        String url ="https://nominatim.openstreetmap.org/reverse?lat="+latitude+
-                "&lon="+longitude+"&format=jsonv2&limit=1";
+    private void sendVolleyRequest(String latitude, String longitude) {
+        String url = "https://nominatim.openstreetmap.org/reverse?lat=" + latitude +
+                "&lon=" + longitude + "&format=jsonv2&limit=1";
 
         // Request a jsonObject response from the provided URL.
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url,
