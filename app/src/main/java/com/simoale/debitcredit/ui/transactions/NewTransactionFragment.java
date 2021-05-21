@@ -26,8 +26,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.CompoundButton;
-import android.widget.DatePicker;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Switch;
@@ -48,7 +46,6 @@ import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelStoreOwner;
-import androidx.navigation.Navigation;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -75,6 +72,7 @@ import com.simoale.debitcredit.ui.category.CategoryViewModel;
 import com.simoale.debitcredit.ui.payee.PayeeViewModel;
 import com.simoale.debitcredit.ui.tag.TagViewModel;
 import com.simoale.debitcredit.ui.wallet.WalletViewModel;
+import com.simoale.debitcredit.utils.DatePicker;
 import com.simoale.debitcredit.utils.Utilities;
 
 import org.json.JSONException;
@@ -243,7 +241,7 @@ public class NewTransactionFragment extends Fragment {
                 String walletAmount = walletAmountEditText.getEditText().getText().toString();
                 this.walletViewModel.addWallet(new Wallet(walletName, "nice", Integer.parseInt(walletAmount), "null"));
             });*/
-            
+
         }
     }
 
@@ -393,7 +391,7 @@ public class NewTransactionFragment extends Fragment {
             @Override
             public void onChanged(List<Payee> payee) {
                 payeeChipGroup.removeAllViews();
-                for(Payee p : payee) {
+                for (Payee p : payee) {
                     Chip chip = (Chip) getLayoutInflater().inflate(R.layout.chip_choice, payeeChipGroup, false);
                     chip.setId(View.generateViewId());
                     chip.setText(p.getName());
@@ -411,7 +409,7 @@ public class NewTransactionFragment extends Fragment {
         });
         ImageButton add = getView().findViewById(R.id.add_payee);
         add.setOnClickListener(v -> {
-            if(Utilities.checkDataValid(payeeEditText.getEditText().getText().toString())) {
+            if (Utilities.checkDataValid(payeeEditText.getEditText().getText().toString())) {
                 payeeViewModel.addPayee(new Payee(payeeEditText.getEditText().getText().toString()));
             } else {
                 Toast.makeText(activity.getBaseContext(), "Insert a payee name to create a new one", Toast.LENGTH_LONG).show();
@@ -424,7 +422,7 @@ public class NewTransactionFragment extends Fragment {
             @Override
             public void onChanged(List<Category> category) {
                 categoryChipGroup.removeAllViews();
-                for(Category cat : category) {
+                for (Category cat : category) {
                     Chip chip = (Chip) getLayoutInflater().inflate(R.layout.chip_choice, categoryChipGroup, false);
                     chip.setId(View.generateViewId());
                     chip.setText(cat.getName());
@@ -442,7 +440,7 @@ public class NewTransactionFragment extends Fragment {
         });
         ImageButton add = getView().findViewById(R.id.add_category);
         add.setOnClickListener(v -> {
-            if(Utilities.checkDataValid(categoryEditText.getEditText().getText().toString())) {
+            if (Utilities.checkDataValid(categoryEditText.getEditText().getText().toString())) {
                 categoryViewModel.addCategory(new Category(categoryEditText.getEditText().getText().toString()));
             } else {
                 Toast.makeText(activity.getBaseContext(), "Insert a category name to create a new one", Toast.LENGTH_LONG).show();
@@ -455,7 +453,7 @@ public class NewTransactionFragment extends Fragment {
             @Override
             public void onChanged(List<Wallet> wallet) {
                 walletChipGroup.removeAllViews();
-                for(Wallet w : wallet) {
+                for (Wallet w : wallet) {
                     Chip chip = (Chip) getLayoutInflater().inflate(R.layout.chip_choice, walletChipGroup, false);
                     chip.setId(View.generateViewId());
                     chip.setText(w.getName());
@@ -478,7 +476,7 @@ public class NewTransactionFragment extends Fragment {
             @Override
             public void onChanged(List<Tag> tag) {
                 tagChipGroup.removeAllViews();
-                for(Tag t : tag) {
+                for (Tag t : tag) {
                     Chip chip = (Chip) getLayoutInflater().inflate(R.layout.chip_choice, tagChipGroup, false);
                     chip.setId(View.generateViewId());
                     chip.setText(t.getName());
@@ -497,7 +495,7 @@ public class NewTransactionFragment extends Fragment {
         });
         ImageButton add = getView().findViewById(R.id.add_tag);
         add.setOnClickListener(v -> {
-            if(Utilities.checkDataValid(tagEditText.getEditText().getText().toString())) {
+            if (Utilities.checkDataValid(tagEditText.getEditText().getText().toString())) {
                 tagViewModel.addTag(new Tag(tagEditText.getEditText().getText().toString()));
             } else {
                 Toast.makeText(activity.getBaseContext(), "Insert a TAG to create a new one", Toast.LENGTH_LONG).show();
@@ -508,8 +506,13 @@ public class NewTransactionFragment extends Fragment {
     private void setupDatePicker() {
         ImageButton calendar = getView().findViewById(R.id.calendar);
         calendar.setOnClickListener(v -> {
-            DialogFragment newFragment = new DatePickerFragment();
+            DatePicker newFragment = new DatePicker(getActivity().findViewById(R.id.date_display));
             newFragment.show(requireActivity().getSupportFragmentManager(), "datePicker");
+            newFragment.getDataReady().observe(getActivity(), value -> {
+                if (value) {
+                    Log.e("date", "" + newFragment.getYear() + " " + newFragment.getMonth() + " " + newFragment.getDay());
+                }
+            });
         });
     }
 

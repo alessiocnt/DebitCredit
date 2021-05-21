@@ -3,14 +3,13 @@ package com.simoale.debitcredit.ui.transactions;
 import android.app.Application;
 import android.graphics.Bitmap;
 
+import androidx.annotation.Nullable;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.simoale.debitcredit.database.repository.TransactionRepository;
-import com.simoale.debitcredit.database.repository.WalletRepository;
 import com.simoale.debitcredit.model.Transaction;
-import com.simoale.debitcredit.model.Wallet;
 
 import java.util.List;
 
@@ -28,7 +27,7 @@ public class TransactionViewModel extends AndroidViewModel {
         transactionList = repository.getTransactionList();
     }
 
-    public void addTransaction(Transaction transaction){
+    public void addTransaction(Transaction transaction) {
         repository.addTransaction(transaction);
     }
 
@@ -36,7 +35,11 @@ public class TransactionViewModel extends AndroidViewModel {
         return transactionList;
     }
 
-    public Transaction getTransaction(int position){
+    public LiveData<List<Transaction>> getTransactionList(@Nullable int walletIdFrom, @Nullable int walletIdTo, @Nullable String dateFrom, @Nullable String dateTo, @Nullable int category, @Nullable int[] tags) {
+        return repository.getTransactionList(walletIdFrom, walletIdTo, dateFrom, dateTo, category, tags);
+    }
+
+    public Transaction getTransaction(int position) {
         return transactionList.getValue() == null ? null : transactionList.getValue().get(position);
     }
 
