@@ -216,7 +216,7 @@
                 android:layout_marginRight="10dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/transaction_category_search"
+                app:layout_constraintTop_toBottomOf="@+id/transaction_tag_search"
                 app:selectionRequired="true"
                 app:singleSelection="true" />
 
