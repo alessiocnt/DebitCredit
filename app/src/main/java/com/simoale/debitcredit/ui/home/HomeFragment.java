@@ -49,7 +49,6 @@ public class HomeFragment extends Fragment implements OnItemListener {
                              ViewGroup container, Bundle savedInstanceState) {
         homeViewModel =
                 new ViewModelProvider(this).get(HomeViewModel.class);
-        homeViewModel.setApplication(this.getActivity().getApplication());
         this.view = inflater.inflate(R.layout.fragment_home, container, false);
 /*
         AnyChartView gaugeChartView = view.findViewById(R.id.home_budget_chart);
