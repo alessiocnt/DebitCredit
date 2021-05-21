@@ -45,8 +45,9 @@
                         android:layout_margin="10dp"
                         android:text="@string/wallet_name"
                         android:textAppearance="?attr/textAppearanceHeadline4"
+                        app:layout_constraintBottom_toBottomOf="@id/wallet_details_image"
                         app:layout_constraintStart_toEndOf="@+id/wallet_details_image"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintTop_toTopOf="@id/wallet_details_image" />
 
                     <TextView
                         android:id="@+id/wallet_details_description"
@@ -66,10 +67,10 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="10dp"
                         android:text="@string/wallet_balance"
+                        android:textAlignment="viewEnd"
                         android:textAppearance="?attr/textAppearanceBody1"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toEndOf="@+id/wallet_details_name"
                         app:layout_constraintVertical_bias="1.0" />
 
 
