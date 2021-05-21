@@ -220,6 +220,15 @@
                 app:selectionRequired="true"
                 app:singleSelection="true" />
 
+            <Button
+                android:id="@+id/wallet_details_search_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:text="@string/apply_filters"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/transaction_search_tag_chip_group" />
+
             <View
                 android:id="@+id/separator"
                 android:layout_width="match_parent"
@@ -228,7 +237,7 @@
                 android:background="@android:color/darker_gray"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/transaction_search_tag_chip_group" />
+                app:layout_constraintTop_toBottomOf="@id/wallet_details_search_button" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/wallet_details_recycler_view"
