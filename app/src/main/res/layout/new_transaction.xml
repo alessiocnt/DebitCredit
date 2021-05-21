@@ -150,10 +150,21 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
-                android:text="Choose a date / Date: 14/06/2021"
+                android:text="@string/choose_a_date"
                 android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/transaction_payee_chip_group" />
+
+            <TextView
+                android:id="@+id/date_selected"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:text="@string/choose_a_date"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="parent"
+                android:visibility="invisible"/>
 
             <ImageButton
                 android:id="@+id/calendar"
@@ -234,12 +245,12 @@
                 app:layout_constraintTop_toBottomOf="@+id/transaction_tag_TextInput">
             </com.google.android.material.chip.ChipGroup>
 
-            <ImageView
+            <ImageButton
                 android:id="@+id/add_tag"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
-                android:contentDescription="@string/add_payee"
+                android:contentDescription="@string/add_tag"
                 android:src="@drawable/ic_plus_sign_24dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/transaction_tag_TextInput" />

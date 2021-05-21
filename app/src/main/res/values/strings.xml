@@ -62,4 +62,6 @@
     <string name="old_password">Old Password</string>
     <string name="new_password">New Password</string>
     <string name="wallet_description">Wallet Description</string>
+    <string name="add_tag">add tag</string>
+    <string name="choose_a_date">Choose a date</string>
 </resources>

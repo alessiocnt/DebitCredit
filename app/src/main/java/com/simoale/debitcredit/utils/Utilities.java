@@ -17,8 +17,7 @@ import java.util.Date;
 
 public class Utilities {
 
-    static final int REQUEST_IMAGE_CAPTURE = 1;
-
+    public static final int REQUEST_IMAGE_CAPTURE = 1;
 
     public static Bitmap getImageBitmap(Activity activity, Uri currentPhotoUri) {
         ContentResolver resolver = activity.getApplicationContext()
