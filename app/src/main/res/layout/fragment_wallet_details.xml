@@ -13,12 +13,75 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/wallet_info_cardView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <ImageView
+                        android:id="@+id/wallet_details_image"
+                        android:layout_width="65dp"
+                        android:layout_height="65dp"
+                        android:layout_margin="10dp"
+                        android:contentDescription="@string/wallet_image"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/ic_new_wallet_48"
+                        app:layout_constraintBottom_toTopOf="@id/wallet_details_description"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/wallet_details_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="10dp"
+                        android:text="@string/wallet_name"
+                        android:textAppearance="?attr/textAppearanceHeadline4"
+                        app:layout_constraintStart_toEndOf="@+id/wallet_details_image"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/wallet_details_description"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="10dp"
+                        android:text="Wallet description"
+                        android:textAppearance="?attr/textAppearanceBody2"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toStartOf="@id/wallet_details_balance"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/wallet_details_image" />
+
+                    <TextView
+                        android:id="@+id/wallet_details_balance"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="10dp"
+                        android:text="@string/wallet_balance"
+                        android:textAppearance="?attr/textAppearanceBody1"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@+id/wallet_details_name"
+                        app:layout_constraintVertical_bias="1.0" />
+
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </com.google.android.material.card.MaterialCardView>
+
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/wallet_transaction_search"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="65dp"
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginRight="10dp"
@@ -27,7 +90,7 @@
                 app:endIconMode="clear_text"
                 app:errorEnabled="true"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/wallet_info_cardView"
                 app:startIconContentDescription="@string/search_transaction"
                 app:startIconDrawable="@drawable/ic_baseline_search_24">
 
@@ -132,14 +195,6 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tag_chip_group" />
-
-            <Button
-                android:id="@+id/show_transaction_details"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Show transaction details"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/separator" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/wallet_details_recycler_view"

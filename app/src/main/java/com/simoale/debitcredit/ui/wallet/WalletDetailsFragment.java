@@ -6,7 +6,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -19,13 +18,10 @@ import androidx.lifecycle.ViewModelStoreOwner;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.simoale.debitcredit.R;
 import com.simoale.debitcredit.model.Transaction;
-import com.simoale.debitcredit.model.Wallet;
 import com.simoale.debitcredit.recyclerView.OnItemListener;
 import com.simoale.debitcredit.recyclerView.TransactionCardAdapter;
-import com.simoale.debitcredit.recyclerView.WalletCardAdapter;
 import com.simoale.debitcredit.ui.transactions.TransactionViewModel;
 
 import java.util.List;
@@ -68,11 +64,6 @@ public class WalletDetailsFragment extends Fragment implements OnItemListener {
             Log.e(LOG, "Activity is null");
         }
 
-        // TODO Remove button
-        Button tmpBtn = view.findViewById(R.id.show_transaction_details);
-        tmpBtn.setOnClickListener((v) -> {
-            Navigation.findNavController(v).navigate(R.id.action_wallet_details_fragment_to_transactionDetailsFragment);
-        });
     }
 
     // // Set up the RecyclerView
