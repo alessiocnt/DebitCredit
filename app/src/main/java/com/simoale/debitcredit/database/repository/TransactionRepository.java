@@ -8,7 +8,6 @@ import com.simoale.debitcredit.database.DatabaseInstance;
 import com.simoale.debitcredit.database.TransactionDAO;
 import com.simoale.debitcredit.model.Transaction;
 
-import java.util.Date;
 import java.util.List;
 
 public class TransactionRepository {
@@ -21,8 +20,12 @@ public class TransactionRepository {
         transactionList = transactionDAO.getTransactions();
     }
 
-    public LiveData<List<Transaction>> getTransactionList(){
+    public LiveData<List<Transaction>> getTransactionList() {
         return transactionList;
+    }
+
+    public LiveData<List<Transaction>> getTransactionList(int walletIdFrom, int walletIdTo, String dateFrom, String dateTo, int category, int[] tags) {
+        return transactionDAO.getTransactions(walletIdFrom, walletIdTo, dateFrom, dateTo, category); // tags missing
     }
 
     public void addTransaction(final Transaction transaction) {
@@ -34,7 +37,7 @@ public class TransactionRepository {
         });
     }
 
-    public Integer getBudgetSpent(int budgetCategoryId, String lastBudgetUpdate){
+    public Integer getBudgetSpent(int budgetCategoryId, String lastBudgetUpdate) {
         Integer result = transactionDAO.getBudgetSpent(budgetCategoryId, lastBudgetUpdate);
         return result == null ? 0 : result;
     }

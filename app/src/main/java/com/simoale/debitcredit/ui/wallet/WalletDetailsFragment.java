@@ -14,20 +14,16 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.LifecycleOwner;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelStoreOwner;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.simoale.debitcredit.R;
-import com.simoale.debitcredit.model.Transaction;
 import com.simoale.debitcredit.model.Wallet;
 import com.simoale.debitcredit.recyclerView.OnItemListener;
 import com.simoale.debitcredit.recyclerView.TransactionCardAdapter;
 import com.simoale.debitcredit.ui.transactions.TransactionViewModel;
-
-import java.util.List;
 
 public class WalletDetailsFragment extends Fragment implements OnItemListener {
     private static final String LOG = "Wallet-Details-Fragment_SIMOALE";
@@ -67,11 +63,9 @@ public class WalletDetailsFragment extends Fragment implements OnItemListener {
             walletDescription.setText(this.wallet.getDescription());
             transactionViewModel = new ViewModelProvider((ViewModelStoreOwner) activity).get(TransactionViewModel.class);
             // TODO selezionare solo la lista del wallet interessato che si trova in walletViewModel.getSelected()
-            transactionViewModel.getTransactionList().observe((LifecycleOwner) activity, new Observer<List<Transaction>>() {
-                @Override
-                public void onChanged(List<Transaction> transactions) {
-                    transactionAdapter.setData(transactions);
-                }
+            transactionViewModel.getTransactionList(this.wallet.getId(), this.wallet.getId(), null, null, 0, null).observe((LifecycleOwner) activity, transactions -> {
+                transactionAdapter.setData(transactions);
+                transactionViewModel.getTransactionList().removeObservers((LifecycleOwner) activity);
             });
         } else {
             Log.e(LOG, "Activity is null");

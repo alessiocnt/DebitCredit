@@ -30,7 +30,6 @@
                         android:id="@+id/wallet_details_image"
                         android:layout_width="65dp"
                         android:layout_height="65dp"
-                        android:layout_margin="10dp"
                         android:contentDescription="@string/wallet_image"
                         android:scaleType="centerCrop"
                         android:src="@drawable/ic_new_wallet_48"
@@ -103,6 +102,50 @@
                     android:inputType="text" />
             </com.google.android.material.textfield.TextInputLayout>
 
+            <TextView
+                android:id="@+id/transaction_search_start_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:text="From: "
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/wallet_transaction_search" />
+
+            <ImageButton
+                android:id="@+id/transaction_search_start_date_calendar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:backgroundTint="@color/rally_background"
+                android:contentDescription="calendar_picker"
+                android:padding="0dp"
+                android:src="@drawable/ic_calendar_24dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/wallet_transaction_search" />
+
+            <TextView
+                android:id="@+id/transaction_search_end_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:text="To: "
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/transaction_search_start_date" />
+
+            <ImageButton
+                android:id="@+id/transaction_search_end_date_calendar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:backgroundTint="@color/rally_background"
+                android:contentDescription="calendar_picker"
+                android:padding="0dp"
+                android:src="@drawable/ic_calendar_24dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/transaction_search_start_date" />
+
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/transaction_category_search"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
@@ -116,7 +159,7 @@
                 app:endIconMode="clear_text"
                 app:errorEnabled="true"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/wallet_transaction_search"
+                app:layout_constraintTop_toBottomOf="@id/transaction_search_end_date"
                 app:startIconContentDescription="@string/search_transaction"
                 app:startIconDrawable="@drawable/ic_baseline_search_24">
 
