@@ -1,17 +1,24 @@
 package com.simoale.debitcredit;
 
+import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.Menu;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.lifecycle.ViewModelStoreOwner;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
 import com.google.android.material.navigation.NavigationView;
+import com.simoale.debitcredit.ui.transactions.TransactionViewModel;
+
+import static com.simoale.debitcredit.utils.Utilities.REQUEST_IMAGE_CAPTURE;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -58,5 +65,24 @@ public class MainActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         return NavigationUI.navigateUp(navController, mAppBarConfiguration)
                 || super.onSupportNavigateUp();
+    }
+
+    /**
+     * Called after the picture is taken
+     * @param requestCode requestCode of the intent
+     * @param resultCode result of the intent
+     * @param data data of the intent (picture)
+     */
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
+            Bundle extras = data.getExtras();
+            if (extras != null) {
+                Bitmap imageBitmap = (Bitmap) extras.get("data");
+                TransactionViewModel transactionViewModel = new ViewModelProvider((ViewModelStoreOwner) this).get(TransactionViewModel.class);
+                transactionViewModel.setImageBitmpap(imageBitmap);
+            }
+        }
     }
 }

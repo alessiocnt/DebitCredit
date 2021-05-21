@@ -1,6 +1,7 @@
 package com.simoale.debitcredit.ui.transactions;
 
 import android.app.Application;
+import android.graphics.Bitmap;
 
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
@@ -19,6 +20,7 @@ public class TransactionViewModel extends AndroidViewModel {
 
     private LiveData<List<Transaction>> transactionList;
     private final MutableLiveData<Transaction> transactionSelected = new MutableLiveData<>();
+    private final MutableLiveData<Bitmap> imageBitmpap = new MutableLiveData<>();
 
     public TransactionViewModel(Application application) {
         super(application);
@@ -44,6 +46,14 @@ public class TransactionViewModel extends AndroidViewModel {
 
     public LiveData<Transaction> getSelected() {
         return transactionSelected;
+    }
+
+    public void setImageBitmpap(Bitmap bitmpap) {
+        imageBitmpap.setValue(bitmpap);
+    }
+
+    public LiveData<Bitmap> getBitmap() {
+        return imageBitmpap;
     }
 }
 
