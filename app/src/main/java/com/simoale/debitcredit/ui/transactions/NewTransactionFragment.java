@@ -26,6 +26,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Switch;
@@ -701,26 +702,5 @@ public class NewTransactionFragment extends Fragment {
         jsonObjectRequest.setTag(OSM_REQUEST_TAG);
         // Add the request to the RequestQueue.
         requestQueue.add(jsonObjectRequest);
-    }
-
-    public static class DatePickerFragment extends DialogFragment implements DatePickerDialog.OnDateSetListener {
-        @Override
-        public Dialog onCreateDialog(Bundle savedInstanceState) {
-            // Use the current date as the default date in the picker
-            final Calendar c = Calendar.getInstance();
-            int year = c.get(Calendar.YEAR);
-            int month = c.get(Calendar.MONTH);
-            int day = c.get(Calendar.DAY_OF_MONTH);
-            // Create a new instance of DatePickerDialog and return it
-            return new DatePickerDialog(getActivity(), this, year, month, day);
-        }
-
-        public void onDateSet(DatePicker view, int year, int month, int day) {
-            TextView dateDisplay = getActivity().findViewById(R.id.date_display);
-            dateDisplay.setText("Date: " + day + "/" + month + "/" + year);
-            // Set a hidden TextView to save the date
-            TextView dateSelected = getActivity().findViewById(R.id.date_selected);
-            dateSelected.setText("" + year + month + day);
-        }
     }
 }
