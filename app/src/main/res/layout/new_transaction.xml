@@ -83,12 +83,11 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
-                app:singleSelection="true"
-                app:selectionRequired="true"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/transaction_category_TextInput">
-            </com.google.android.material.chip.ChipGroup>
+                app:layout_constraintTop_toBottomOf="@+id/transaction_category_TextInput"
+                app:selectionRequired="true"
+                app:singleSelection="true" />
 
             <ImageButton
                 android:id="@+id/add_category"
@@ -129,11 +128,10 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
-                app:singleSelection="true"
-                app:selectionRequired="true"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/transaction_payee_TextInput">
-            </com.google.android.material.chip.ChipGroup>
+                app:layout_constraintTop_toBottomOf="@+id/transaction_payee_TextInput"
+                app:selectionRequired="true"
+                app:singleSelection="true"></com.google.android.material.chip.ChipGroup>
 
             <ImageButton
                 android:id="@+id/add_payee"
@@ -160,9 +158,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
-                android:padding="0dp"
-                android:contentDescription="calendar_picker"
                 android:backgroundTint="@color/rally_background"
+                android:contentDescription="calendar_picker"
+                android:padding="0dp"
                 android:src="@drawable/ic_calendar_24dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/transaction_payee_chip_group" />
@@ -195,12 +193,11 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
-                app:singleSelection="true"
-                app:selectionRequired="true"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/transaction_wallet_TextInput">
-            </com.google.android.material.chip.ChipGroup>
+                app:layout_constraintTop_toBottomOf="@+id/transaction_wallet_TextInput"
+                app:selectionRequired="true"
+                app:singleSelection="true"></com.google.android.material.chip.ChipGroup>
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/transaction_tag_TextInput"
@@ -231,8 +228,7 @@
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/transaction_tag_TextInput">
-            </com.google.android.material.chip.ChipGroup>
+                app:layout_constraintTop_toBottomOf="@+id/transaction_tag_TextInput"></com.google.android.material.chip.ChipGroup>
 
             <ImageView
                 android:id="@+id/add_tag"
