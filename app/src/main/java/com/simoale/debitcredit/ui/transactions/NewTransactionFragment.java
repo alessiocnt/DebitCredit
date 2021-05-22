@@ -37,7 +37,6 @@ import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.LifecycleOwner;
@@ -80,12 +79,13 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Collections;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import static android.content.Intent.FLAG_ACTIVITY_NEW_TASK;
 import static com.simoale.debitcredit.utils.Utilities.REQUEST_IMAGE_CAPTURE;
@@ -504,12 +504,18 @@ public class NewTransactionFragment extends Fragment {
 
     private void setupDatePicker() {
         ImageButton calendar = getView().findViewById(R.id.calendar);
+        AtomicInteger year = new AtomicInteger(Calendar.getInstance().get(Calendar.YEAR));
+        AtomicInteger month = new AtomicInteger(Calendar.getInstance().get(Calendar.MONTH));
+        AtomicInteger day = new AtomicInteger(Calendar.getInstance().get(Calendar.DAY_OF_MONTH));
         calendar.setOnClickListener(v -> {
-            DatePicker newFragment = new DatePicker(getActivity().findViewById(R.id.date_display));
+            DatePicker newFragment = new DatePicker(year.get(), month.get(), day.get());
             newFragment.show(requireActivity().getSupportFragmentManager(), "datePicker");
             newFragment.getDataReady().observe(getActivity(), value -> {
                 if (value) {
-                    Log.e("date", "" + newFragment.getYear() + " " + newFragment.getMonth() + " " + newFragment.getDay());
+                    year.set(newFragment.getYear());
+                    month.set(newFragment.getMonth());
+                    day.set(newFragment.getDay());
+                    this.dateDisplay.setText(String.format("Date: %02d/%02d/%04d", newFragment.getDay(), newFragment.getMonth() + 1, newFragment.getYear()));
                 }
             });
         });
