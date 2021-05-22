@@ -24,8 +24,8 @@ public class TransactionRepository {
         return transactionList;
     }
 
-    public LiveData<List<Transaction>> getTransactionList(int walletIdFrom, int walletIdTo, String dateFrom, String dateTo, String categoryName, int[] tags) {
-        return transactionDAO.getTransactions(walletIdFrom, walletIdTo, dateFrom, dateTo, categoryName); // tags missing
+    public LiveData<List<Transaction>> getTransactionList(int walletIdFrom, int walletIdTo, String description, String dateFrom, String dateTo, String categoryName, int[] tags) {
+        return transactionDAO.getTransactions(walletIdFrom, walletIdTo, description == null ? null : "%" + description + "%", dateFrom, dateTo, categoryName); // tags missing
     }
 
     public void addTransaction(final Transaction transaction) {
