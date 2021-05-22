@@ -14,13 +14,18 @@ import static androidx.room.ForeignKey.RESTRICT;
 @Entity(tableName = "routine",
         foreignKeys = {
                 @ForeignKey(entity = Category.class,
-                        parentColumns = "category_id",
-                        childColumns = "routine_category_id",
+                        parentColumns = "category_name",
+                        childColumns = "routine_category_name",
                         onDelete = RESTRICT,
                         onUpdate = CASCADE),
                 @ForeignKey(entity = Wallet.class,
                         parentColumns = "wallet_id",
                         childColumns = "routine_wallet_id",
+                        onDelete = RESTRICT,
+                        onUpdate = CASCADE),
+                @ForeignKey(entity = Payee.class,
+                        parentColumns = "payee_name",
+                        childColumns = "routine_payee_name",
                         onDelete = RESTRICT,
                         onUpdate = CASCADE)
         })
@@ -33,10 +38,12 @@ public class Routine {
     private String name;
     @ColumnInfo(name = "routine_amount")
     private float amount;
+    @ColumnInfo(name = "routine_payee_name")
+    private String payeeName;
     @ColumnInfo(name = "routine_wallet_id")
     private int walletId;
-    @ColumnInfo(name = "routine_category_id")
-    private int categoryId;
+    @ColumnInfo(name = "routine_category_name")
+    private String categoryName;
     @ColumnInfo(name = "routine_date")
     private String date;
     @ColumnInfo(name = "routine_last_update")
@@ -48,16 +55,33 @@ public class Routine {
     @ColumnInfo(name = "routine_repeat_interval")
     private String repeatInterval;
 
-    public Routine(String name, float amount, int walletId, int categoryId, String date, String dateLastUpdate, String dateNextUpdate, int repeatNumber, String repeatInterval) {
+    public Routine(String name, float amount, String payeeName, int walletId, String categoryName, String date, String dateLastUpdate, String dateNextUpdate, int repeatNumber, String repeatInterval) {
         this.name = name;
         this.amount = amount;
+        this.payeeName = payeeName;
         this.walletId = walletId;
-        this.categoryId = categoryId;
+        this.categoryName = categoryName;
         this.date = date;
         this.dateLastUpdate = dateLastUpdate;
         this.dateNextUpdate = dateNextUpdate;
         this.repeatNumber = repeatNumber;
         this.repeatInterval = repeatInterval;
+    }
+
+    public int getRoutineId() {
+        return routineId;
+    }
+
+    public void setRoutineId(int routineId) {
+        this.routineId = routineId;
+    }
+
+    public String getPayeeName() {
+        return payeeName;
+    }
+
+    public void setPayeeName(String payeeName) {
+        this.payeeName = payeeName;
     }
 
     public String getDateLastUpdate() {
@@ -108,12 +132,12 @@ public class Routine {
         this.walletId = walletId;
     }
 
-    public int getCategoryId() {
-        return categoryId;
+    public String getCategoryName() {
+        return categoryName;
     }
 
-    public void setCategoryId(int categoryId) {
-        this.categoryId = categoryId;
+    public void setCategoryName(String categoryName) {
+        this.categoryName = categoryName;
     }
 
     public String getDate() {

@@ -14,8 +14,8 @@ import static androidx.room.ForeignKey.RESTRICT;
 @Entity(tableName = "transaction",
         foreignKeys = {
                 @ForeignKey(entity = Category.class,
-                        parentColumns = "category_id",
-                        childColumns = "transaction_category_id",
+                        parentColumns = "category_name",
+                        childColumns = "transaction_category_name",
                         onDelete = RESTRICT,
                         onUpdate = CASCADE),
                 @ForeignKey(entity = Wallet.class,
@@ -29,8 +29,8 @@ import static androidx.room.ForeignKey.RESTRICT;
                         onDelete = RESTRICT,
                         onUpdate = CASCADE),
                 @ForeignKey(entity = Payee.class,
-                        parentColumns = "payee_id",
-                        childColumns = "transaction_payee_id",
+                        parentColumns = "payee_name",
+                        childColumns = "transaction_payee_name",
                         onDelete = RESTRICT,
                         onUpdate = CASCADE)
         })
@@ -43,10 +43,10 @@ public class Transaction {
     private float amount;
     @ColumnInfo(name = "transaction_description")
     private String description;
-    @ColumnInfo(name = "transaction_category_id")
-    private int categoryId;
-    @ColumnInfo(name = "transaction_payee_id")
-    private int payeeId;
+    @ColumnInfo(name = "transaction_category_name")
+    private String categoryName;
+    @ColumnInfo(name = "transaction_payee_name")
+    private String payeeName;
     @ColumnInfo(name = "transaction_date")
     private String date;
     @ColumnInfo(name = "transaction_wallet_id_from")
@@ -60,12 +60,12 @@ public class Transaction {
     @ColumnInfo(name = "transaction_image")
     private String image;
 
-    public Transaction(float amount, String description, int categoryId, int payeeId, String date, int walletIdFrom, int walletIdTo,
+    public Transaction(float amount, String description, String categoryName, String payeeName, String date, int walletIdFrom, int walletIdTo,
                        String location, String note, String image) {
         this.amount = amount;
         this.description = description;
-        this.categoryId = categoryId;
-        this.payeeId = payeeId;
+        this.categoryName = categoryName;
+        this.payeeName = payeeName;
         this.date = date;
         this.walletIdFrom = walletIdFrom;
         this.walletIdTo = walletIdTo;
@@ -98,20 +98,20 @@ public class Transaction {
         this.description = description;
     }
 
-    public int getCategoryId() {
-        return categoryId;
+    public String getCategoryName() {
+        return categoryName;
     }
 
-    public void setCategoryId(int categoryId) {
-        this.categoryId = categoryId;
+    public void setCategoryName(String categoryName) {
+        this.categoryName = categoryName;
     }
 
-    public int getPayeeId() {
-        return payeeId;
+    public String getPayeeName() {
+        return payeeName;
     }
 
-    public void setPayeeId(int payeeId) {
-        this.payeeId = payeeId;
+    public void setPayeeName(String payeeName) {
+        this.payeeName = payeeName;
     }
 
     public String getDate() {

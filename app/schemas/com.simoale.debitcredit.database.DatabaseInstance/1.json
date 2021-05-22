@@ -2,11 +2,11 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "d5acb72fbdb0ada13cf979c0ce15dd2b",
+    "identityHash": "2872c2b373c46dd1f6b5569bdf7f6175",
     "entities": [
       {
         "tableName": "budget",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`budget_id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `budget_name` TEXT, `budget_category_id` INTEGER NOT NULL, `budget_limit` REAL NOT NULL, `budget_date` TEXT, `budget_last_update` TEXT, `budget_next_update` TEXT, `budget_repeat_number` INTEGER NOT NULL, `budget_repeat_interval` TEXT, FOREIGN KEY(`budget_category_id`) REFERENCES `category`(`category_id`) ON UPDATE CASCADE ON DELETE RESTRICT )",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`budget_id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `budget_name` TEXT, `budget_category_name` TEXT, `budget_limit` REAL NOT NULL, `budget_date` TEXT, `budget_last_update` TEXT, `budget_next_update` TEXT, `budget_repeat_number` INTEGER NOT NULL, `budget_repeat_interval` TEXT, FOREIGN KEY(`budget_category_name`) REFERENCES `category`(`category_name`) ON UPDATE CASCADE ON DELETE RESTRICT )",
         "fields": [
           {
             "fieldPath": "budgetId",
@@ -21,10 +21,10 @@
             "notNull": false
           },
           {
-            "fieldPath": "categoryId",
-            "columnName": "budget_category_id",
-            "affinity": "INTEGER",
-            "notNull": true
+            "fieldPath": "categoryName",
+            "columnName": "budget_category_name",
+            "affinity": "TEXT",
+            "notNull": false
           },
           {
             "fieldPath": "limit",
@@ -76,69 +76,57 @@
             "onDelete": "RESTRICT",
             "onUpdate": "CASCADE",
             "columns": [
-              "budget_category_id"
+              "budget_category_name"
             ],
             "referencedColumns": [
-              "category_id"
+              "category_name"
             ]
           }
         ]
       },
       {
         "tableName": "category",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`category_id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `category_name` TEXT)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`category_name` TEXT NOT NULL, PRIMARY KEY(`category_name`))",
         "fields": [
-          {
-            "fieldPath": "categoryId",
-            "columnName": "category_id",
-            "affinity": "INTEGER",
-            "notNull": true
-          },
           {
             "fieldPath": "name",
             "columnName": "category_name",
             "affinity": "TEXT",
-            "notNull": false
+            "notNull": true
           }
         ],
         "primaryKey": {
           "columnNames": [
-            "category_id"
+            "category_name"
           ],
-          "autoGenerate": true
+          "autoGenerate": false
         },
         "indices": [],
         "foreignKeys": []
       },
       {
         "tableName": "payee",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`payee_id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `payee_name` TEXT)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`payee_name` TEXT NOT NULL, PRIMARY KEY(`payee_name`))",
         "fields": [
-          {
-            "fieldPath": "payeeId",
-            "columnName": "payee_id",
-            "affinity": "INTEGER",
-            "notNull": true
-          },
           {
             "fieldPath": "name",
             "columnName": "payee_name",
             "affinity": "TEXT",
-            "notNull": false
+            "notNull": true
           }
         ],
         "primaryKey": {
           "columnNames": [
-            "payee_id"
+            "payee_name"
           ],
-          "autoGenerate": true
+          "autoGenerate": false
         },
         "indices": [],
         "foreignKeys": []
       },
       {
         "tableName": "routine",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`routine_id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `routine_name` TEXT, `routine_amount` REAL NOT NULL, `routine_wallet_id` INTEGER NOT NULL, `routine_category_id` INTEGER NOT NULL, `routine_date` TEXT, `routine_last_update` TEXT, `routine_next_update` TEXT, `routine_repeat_number` INTEGER NOT NULL, `routine_repeat_interval` TEXT, FOREIGN KEY(`routine_category_id`) REFERENCES `category`(`category_id`) ON UPDATE CASCADE ON DELETE RESTRICT , FOREIGN KEY(`routine_wallet_id`) REFERENCES `wallet`(`wallet_id`) ON UPDATE CASCADE ON DELETE RESTRICT )",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`routine_id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `routine_name` TEXT, `routine_amount` REAL NOT NULL, `routine_payee_name` TEXT, `routine_wallet_id` INTEGER NOT NULL, `routine_category_name` TEXT, `routine_date` TEXT, `routine_last_update` TEXT, `routine_next_update` TEXT, `routine_repeat_number` INTEGER NOT NULL, `routine_repeat_interval` TEXT, FOREIGN KEY(`routine_category_name`) REFERENCES `category`(`category_name`) ON UPDATE CASCADE ON DELETE RESTRICT , FOREIGN KEY(`routine_wallet_id`) REFERENCES `wallet`(`wallet_id`) ON UPDATE CASCADE ON DELETE RESTRICT , FOREIGN KEY(`routine_payee_name`) REFERENCES `payee`(`payee_name`) ON UPDATE CASCADE ON DELETE RESTRICT )",
         "fields": [
           {
             "fieldPath": "routineId",
@@ -159,16 +147,22 @@
             "notNull": true
           },
           {
+            "fieldPath": "payeeName",
+            "columnName": "routine_payee_name",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
             "fieldPath": "walletId",
             "columnName": "routine_wallet_id",
             "affinity": "INTEGER",
             "notNull": true
           },
           {
-            "fieldPath": "categoryId",
-            "columnName": "routine_category_id",
-            "affinity": "INTEGER",
-            "notNull": true
+            "fieldPath": "categoryName",
+            "columnName": "routine_category_name",
+            "affinity": "TEXT",
+            "notNull": false
           },
           {
             "fieldPath": "date",
@@ -214,10 +208,10 @@
             "onDelete": "RESTRICT",
             "onUpdate": "CASCADE",
             "columns": [
-              "routine_category_id"
+              "routine_category_name"
             ],
             "referencedColumns": [
-              "category_id"
+              "category_name"
             ]
           },
           {
@@ -230,38 +224,43 @@
             "referencedColumns": [
               "wallet_id"
             ]
+          },
+          {
+            "table": "payee",
+            "onDelete": "RESTRICT",
+            "onUpdate": "CASCADE",
+            "columns": [
+              "routine_payee_name"
+            ],
+            "referencedColumns": [
+              "payee_name"
+            ]
           }
         ]
       },
       {
         "tableName": "tag",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`tag_id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `tag_name` TEXT)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`tag_name` TEXT NOT NULL, PRIMARY KEY(`tag_name`))",
         "fields": [
-          {
-            "fieldPath": "tagId",
-            "columnName": "tag_id",
-            "affinity": "INTEGER",
-            "notNull": true
-          },
           {
             "fieldPath": "name",
             "columnName": "tag_name",
             "affinity": "TEXT",
-            "notNull": false
+            "notNull": true
           }
         ],
         "primaryKey": {
           "columnNames": [
-            "tag_id"
+            "tag_name"
           ],
-          "autoGenerate": true
+          "autoGenerate": false
         },
         "indices": [],
         "foreignKeys": []
       },
       {
         "tableName": "transaction",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`transaction_id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `transaction_amount` REAL NOT NULL, `transaction_description` TEXT, `transaction_category_id` INTEGER NOT NULL, `transaction_payee_id` INTEGER NOT NULL, `transaction_date` TEXT, `transaction_wallet_id_from` INTEGER NOT NULL, `transaction_wallet_id_to` INTEGER NOT NULL, `transaction_location` TEXT, `transaction_note` TEXT, `transaction_image` TEXT, FOREIGN KEY(`transaction_category_id`) REFERENCES `category`(`category_id`) ON UPDATE CASCADE ON DELETE RESTRICT , FOREIGN KEY(`transaction_wallet_id_from`) REFERENCES `wallet`(`wallet_id`) ON UPDATE CASCADE ON DELETE RESTRICT , FOREIGN KEY(`transaction_wallet_id_to`) REFERENCES `wallet`(`wallet_id`) ON UPDATE CASCADE ON DELETE RESTRICT , FOREIGN KEY(`transaction_payee_id`) REFERENCES `payee`(`payee_id`) ON UPDATE CASCADE ON DELETE RESTRICT )",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`transaction_id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `transaction_amount` REAL NOT NULL, `transaction_description` TEXT, `transaction_category_name` TEXT, `transaction_payee_name` TEXT, `transaction_date` TEXT, `transaction_wallet_id_from` INTEGER NOT NULL, `transaction_wallet_id_to` INTEGER NOT NULL, `transaction_location` TEXT, `transaction_note` TEXT, `transaction_image` TEXT, FOREIGN KEY(`transaction_category_name`) REFERENCES `category`(`category_name`) ON UPDATE CASCADE ON DELETE RESTRICT , FOREIGN KEY(`transaction_wallet_id_from`) REFERENCES `wallet`(`wallet_id`) ON UPDATE CASCADE ON DELETE RESTRICT , FOREIGN KEY(`transaction_wallet_id_to`) REFERENCES `wallet`(`wallet_id`) ON UPDATE CASCADE ON DELETE RESTRICT , FOREIGN KEY(`transaction_payee_name`) REFERENCES `payee`(`payee_name`) ON UPDATE CASCADE ON DELETE RESTRICT )",
         "fields": [
           {
             "fieldPath": "transactionId",
@@ -282,16 +281,16 @@
             "notNull": false
           },
           {
-            "fieldPath": "categoryId",
-            "columnName": "transaction_category_id",
-            "affinity": "INTEGER",
-            "notNull": true
+            "fieldPath": "categoryName",
+            "columnName": "transaction_category_name",
+            "affinity": "TEXT",
+            "notNull": false
           },
           {
-            "fieldPath": "payeeId",
-            "columnName": "transaction_payee_id",
-            "affinity": "INTEGER",
-            "notNull": true
+            "fieldPath": "payeeName",
+            "columnName": "transaction_payee_name",
+            "affinity": "TEXT",
+            "notNull": false
           },
           {
             "fieldPath": "date",
@@ -343,10 +342,10 @@
             "onDelete": "RESTRICT",
             "onUpdate": "CASCADE",
             "columns": [
-              "transaction_category_id"
+              "transaction_category_name"
             ],
             "referencedColumns": [
-              "category_id"
+              "category_name"
             ]
           },
           {
@@ -376,10 +375,10 @@
             "onDelete": "RESTRICT",
             "onUpdate": "CASCADE",
             "columns": [
-              "transaction_payee_id"
+              "transaction_payee_name"
             ],
             "referencedColumns": [
-              "payee_id"
+              "payee_name"
             ]
           }
         ]
@@ -432,7 +431,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'd5acb72fbdb0ada13cf979c0ce15dd2b')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '2872c2b373c46dd1f6b5569bdf7f6175')"
     ]
   }
 }

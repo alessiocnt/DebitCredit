@@ -1,5 +1,6 @@
 package com.simoale.debitcredit.model;
 
+import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
@@ -10,22 +11,13 @@ import androidx.room.PrimaryKey;
 @Entity(tableName = "payee")
 public class Payee {
 
-    @PrimaryKey(autoGenerate = true)
-    @ColumnInfo(name = "payee_id")
-    public int payeeId;
+    @PrimaryKey
     @ColumnInfo(name = "payee_name")
+    @NonNull
     private String name;
 
     public Payee(String name) {
         this.name = name;
-    }
-
-    public int getId() {
-        return payeeId;
-    }
-
-    public void setId(int payeeId) {
-        this.payeeId = payeeId;
     }
 
     public String getName() {

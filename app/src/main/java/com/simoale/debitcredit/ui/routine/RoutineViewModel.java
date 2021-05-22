@@ -96,8 +96,8 @@ public class RoutineViewModel extends AndroidViewModel {
             nextUpdate.add(Calendar.DAY_OF_MONTH, -daysBetweenUpdates);
             // TODO fix routine payee
             this.transactionRepository.addTransaction(new Transaction(routine.getAmount(),
-                    "Transaction from routine: " + routine.getName(), routine.getCategoryId(),
-                    /*routine.getPayeeId()*/ 1, Utilities.getStringFromDate(nextUpdate.getTime()),
+                    "Transaction from routine: " + routine.getName(), routine.getCategoryName(),
+                    /*routine.getPayeeId()*/ routine.getPayeeName(), Utilities.getStringFromDate(nextUpdate.getTime()),
                     routine.getWalletId(), routine.getWalletId(), null, null, null));
         }
         return new Pair<>(dateLastUpdate, dateNextUpdate);

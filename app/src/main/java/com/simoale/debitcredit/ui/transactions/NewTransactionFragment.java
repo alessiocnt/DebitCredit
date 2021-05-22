@@ -37,6 +37,7 @@ import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.LifecycleOwner;
@@ -78,6 +79,8 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -195,6 +198,17 @@ public class NewTransactionFragment extends Fragment {
                 @Override
                 public void onClick(View v) {
                     try {
+                        // Retrive data
+                        String amount = amountEditText.getEditText().getText().toString();
+                        String description = descriptionEditText.getEditText().getText().toString();
+                        String category = categoryEditText.getEditText().getText().toString();
+                        String payee = payeeEditText.getEditText().getText().toString();
+                        String date = dateSelected.getText().toString();
+                        String wallet = walletEditText.getEditText().getText().toString();
+                        List<Chip> tagChips = new ArrayList<>();
+                        tagChips.addAll(tagSelected.values());
+                        String location = locationText.getText().toString();
+                        String note = noteEditText.getEditText().getText().toString();
                         Bitmap bitmap = transactionViewModel.getBitmap().getValue();
                         String imageUriString;
                         if (bitmap != null) {
@@ -204,9 +218,10 @@ public class NewTransactionFragment extends Fragment {
                         } else {
                             imageUriString = "ic_launcher_foreground";
                         }
-                        retriveData();
-                        /*if (Utilities.checkDataValid(walletName, walletAmount, walletDescription)) {
-                            this.walletViewModel.addWallet(new Wallet(walletName, walletDescription, Integer.parseInt(walletAmount), selectedColor.toString()));
+
+                       /* if (Utilities.checkDataValid(amount, category, date, wallet)) {
+                            transactionViewModel.addTransaction(new Transaction(Integer.parseInt(amount),
+                                    description, catewalletName, walletDescription, Integer.parseInt(walletAmount), selectedColor.toString()));
                             Navigation.findNavController(v).navigate(R.id.action_new_wallet_to_nav_wallet);
                         } else {
                             Toast.makeText(activity.getBaseContext(), "Every field must be filled", Toast.LENGTH_LONG).show();
@@ -536,6 +551,9 @@ public class NewTransactionFragment extends Fragment {
         String date = dateSelected.getText().toString();
         String wallet = walletEditText.getEditText().getText().toString();
         //List<Chips>aaas;
+        String location = locationText.getText().toString();
+        String note = noteEditText.getEditText().getText().toString();
+
 
         return null;
     }

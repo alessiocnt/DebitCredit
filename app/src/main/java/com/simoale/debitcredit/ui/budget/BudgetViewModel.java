@@ -97,7 +97,7 @@ public class BudgetViewModel extends AndroidViewModel {
         executorService.execute(() -> {
             for (Budget budget : budgets) {
                 budgetLeftover.put(budget.getName(),
-                        (int) (100 - (transactionRepository.getBudgetSpent(budget.getCategoryId(), budget.getDateLastUpdate()) / budget.getLimit()) * 100));
+                        (int) (100 - (transactionRepository.getBudgetSpent(budget.getCategoryName(), budget.getDateLastUpdate()) / budget.getLimit()) * 100));
             }
         });
         return budgetLeftover;

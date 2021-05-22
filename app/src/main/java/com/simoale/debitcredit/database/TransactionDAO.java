@@ -24,15 +24,15 @@ public interface TransactionDAO {
             "WHERE (:walletIdFrom IS NULL OR transaction_wallet_id_from = :walletIdFrom)" +
             "AND (:walletIdTo IS NULL OR transaction_wallet_id_to = :walletIdTo)" +
             "AND (:dateFrom IS NULL OR :dateTo OR transaction_date BETWEEN :dateFrom AND :dateTo)" +
-            "AND (:category IS NULL OR :category = 0 OR transaction_category_id = :category)")
+            "AND (:category IS NULL OR :category = 0 OR transaction_category_name = :category)")
 //            "AND (:tags IS NULL OR transaction_tags IN tags)")
-    LiveData<List<Transaction>> getTransactions(int walletIdFrom, int walletIdTo, String dateFrom, String dateTo, int category); // int[] tags missing
+    LiveData<List<Transaction>> getTransactions(int walletIdFrom, int walletIdTo, String dateFrom, String dateTo, String category); // int[] tags missing
 
     @androidx.room.Transaction
     @Query("SELECT sum(transaction_amount) " +
             "from `transaction` " +
-            "where transaction_category_id = :budgetCategoryId " +
+            "where transaction_category_name = :budgetCategoryName " +
             "and transaction_date >= :lastBudgetUpdate " +
-            "GROUP BY transaction_category_id")
-    Integer getBudgetSpent(int budgetCategoryId, String lastBudgetUpdate);
+            "GROUP BY transaction_category_name")
+    Integer getBudgetSpent(String budgetCategoryName, String lastBudgetUpdate);
 }

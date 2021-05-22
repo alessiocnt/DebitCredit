@@ -11,8 +11,8 @@ import static androidx.room.ForeignKey.RESTRICT;
 @Entity(tableName = "budget",
         foreignKeys = {
                 @ForeignKey(entity = Category.class,
-                        parentColumns = "category_id",
-                        childColumns = "budget_category_id",
+                        parentColumns = "category_name",
+                        childColumns = "budget_category_name",
                         onDelete = RESTRICT,
                         onUpdate = CASCADE)
         })
@@ -22,8 +22,8 @@ public class Budget {
     public int budgetId;
     @ColumnInfo(name = "budget_name")
     public String name;
-    @ColumnInfo(name = "budget_category_id")
-    public int categoryId;
+    @ColumnInfo(name = "budget_category_name")
+    public String categoryName;
     @ColumnInfo(name = "budget_limit")
     public float limit;
     @ColumnInfo(name = "budget_date")
@@ -37,9 +37,9 @@ public class Budget {
     @ColumnInfo(name = "budget_repeat_interval")
     public String repeatInterval;
 
-    public Budget(String name, int categoryId, float limit, String date, String dateLastUpdate, String dateNextUpdate, int repeatNumber, String repeatInterval) {
+    public Budget(String name, String categoryName, float limit, String date, String dateLastUpdate, String dateNextUpdate, int repeatNumber, String repeatInterval) {
         this.name = name;
-        this.categoryId = categoryId;
+        this.categoryName = categoryName;
         this.limit = limit;
         this.date = date;
         this.dateLastUpdate = dateLastUpdate;
@@ -81,12 +81,12 @@ public class Budget {
         this.name = name;
     }
 
-    public int getCategoryId() {
-        return categoryId;
+    public String getCategoryName() {
+        return categoryName;
     }
 
-    public void setCategoryId(int categoryId) {
-        this.categoryId = categoryId;
+    public void setCategoryName(String categoryName) {
+        this.categoryName = categoryName;
     }
 
     public float getLimit() {

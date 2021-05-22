@@ -24,8 +24,8 @@ public class TransactionRepository {
         return transactionList;
     }
 
-    public LiveData<List<Transaction>> getTransactionList(int walletIdFrom, int walletIdTo, String dateFrom, String dateTo, int category, int[] tags) {
-        return transactionDAO.getTransactions(walletIdFrom, walletIdTo, dateFrom, dateTo, category); // tags missing
+    public LiveData<List<Transaction>> getTransactionList(int walletIdFrom, int walletIdTo, String dateFrom, String dateTo, String categoryName, int[] tags) {
+        return transactionDAO.getTransactions(walletIdFrom, walletIdTo, dateFrom, dateTo, categoryName); // tags missing
     }
 
     public void addTransaction(final Transaction transaction) {
@@ -37,8 +37,8 @@ public class TransactionRepository {
         });
     }
 
-    public Integer getBudgetSpent(int budgetCategoryId, String lastBudgetUpdate) {
-        Integer result = transactionDAO.getBudgetSpent(budgetCategoryId, lastBudgetUpdate);
+    public Integer getBudgetSpent(String budgetCategoryName, String lastBudgetUpdate) {
+        Integer result = transactionDAO.getBudgetSpent(budgetCategoryName, lastBudgetUpdate);
         return result == null ? 0 : result;
     }
 
