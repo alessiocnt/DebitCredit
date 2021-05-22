@@ -21,9 +21,12 @@ import androidx.lifecycle.ViewModelStoreOwner;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
 import com.google.android.material.textfield.TextInputLayout;
 import com.simoale.debitcredit.R;
+import com.simoale.debitcredit.model.Category;
+import com.simoale.debitcredit.model.Tag;
 import com.simoale.debitcredit.model.Wallet;
 import com.simoale.debitcredit.recyclerView.OnItemListener;
 import com.simoale.debitcredit.recyclerView.TransactionCardAdapter;
@@ -32,7 +35,9 @@ import com.simoale.debitcredit.ui.tag.TagViewModel;
 import com.simoale.debitcredit.ui.transactions.TransactionViewModel;
 import com.simoale.debitcredit.utils.DatePicker;
 
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class WalletDetailsFragment extends Fragment implements OnItemListener {
@@ -57,6 +62,8 @@ public class WalletDetailsFragment extends Fragment implements OnItemListener {
 
     private String fromDate;
     private String toDate;
+    private String selectedCategoryName;
+    private List<String> selectedTagsNames = new ArrayList<>();
 
     private Wallet wallet;
 
@@ -83,11 +90,17 @@ public class WalletDetailsFragment extends Fragment implements OnItemListener {
 
             this.fromDate = null;
             this.toDate = null;
+            this.selectedCategoryName = null;
+
+
+            this.walletViewModel = new ViewModelProvider((ViewModelStoreOwner) activity).get(WalletViewModel.class);
+            this.categoryViewModel = new ViewModelProvider((ViewModelStoreOwner) activity).get(CategoryViewModel.class);
+            this.tagViewModel = new ViewModelProvider((ViewModelStoreOwner) activity).get(TagViewModel.class);
+            this.wallet = this.walletViewModel.getSelected().getValue();
 
             this.setupUi();
+            this.setupChips();
 
-            walletViewModel = new ViewModelProvider((ViewModelStoreOwner) activity).get(WalletViewModel.class);
-            this.wallet = walletViewModel.getSelected().getValue();
             walletIcon.getDrawable().setTint(Integer.parseInt(this.wallet.getImage()));
             walletName.setText(this.wallet.getName());
             walletBalance.setText(this.wallet.getBalance() + "€");
@@ -135,6 +148,7 @@ public class WalletDetailsFragment extends Fragment implements OnItemListener {
         }
     }
 
+
     private void setupUi() {
         this.applyFiltersBtn = view.findViewById(R.id.wallet_details_search_button);
         this.calendarFromBtn = view.findViewById(R.id.transaction_search_start_date_calendar);
@@ -146,10 +160,53 @@ public class WalletDetailsFragment extends Fragment implements OnItemListener {
         this.tagChipGroup = view.findViewById(R.id.transaction_search_tag_chip_group);
     }
 
+    private void setupChips() {
+        this.categoryViewModel.getCategoryList().observe(getActivity(), categories -> {
+            for (Category category : categories) {
+                Chip chip = (Chip) getLayoutInflater().inflate(R.layout.chip_choice, this.categoryChipGroup, false);
+                chip.setId(View.generateViewId());
+                chip.setText(category.getName());
+                this.categoryChipGroup.addView(chip);
+            }
+        });
+
+        this.categoryChipGroup.setOnCheckedChangeListener((group, checkedId) -> {
+            Chip chip = this.categoryChipGroup.findViewById(checkedId);
+            this.selectedCategoryName = chip.getText().toString();
+        });
+
+        this.tagViewModel.getTagList().observe(getActivity(), tags -> {
+            for (Tag tag : tags) {
+                Chip chip = (Chip) getLayoutInflater().inflate(R.layout.chip_choice, this.tagChipGroup, false);
+                chip.setId(View.generateViewId());
+                chip.setText(tag.getName());
+                chip.setOnCheckedChangeListener((buttonView, isChecked) -> {
+                    if (isChecked) {
+                        this.selectedTagsNames.add(chip.getText().toString());
+                    } else {
+                        this.selectedTagsNames.remove(chip.getText().toString());
+                    }
+                });
+                this.tagChipGroup.addView(chip);
+            }
+        });
+
+    }
+
     private void computeFilters() {
         Log.e("Filters", "DateFrom: " + this.fromDate + " DateTo: " + this.toDate);
         Log.e("Search", this.searchText.getEditText().getText().toString());
         String searchValue = this.searchText.getEditText().getText().toString().equals("") ? null : this.searchText.getEditText().getText().toString();
+        if (this.selectedCategoryName != null) {
+            Log.e("Cat", this.selectedCategoryName);
+        }
+        for (String s : this.selectedTagsNames) {
+            Log.e("Tag", s);
+        }
+        transactionViewModel.getTransactionList(this.wallet.getId(), this.wallet.getId(), searchValue, this.fromDate, this.toDate, this.selectedCategoryName, this.selectedTagsNames).observe((LifecycleOwner) getActivity(), transactions -> {
+            transactionAdapter.setData(transactions);
+            transactionViewModel.getTransactionList().removeObservers((LifecycleOwner) getActivity());
+        });
     }
 
     // Set up the RecyclerView

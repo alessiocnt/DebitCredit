@@ -35,7 +35,7 @@ public class TransactionViewModel extends AndroidViewModel {
         return transactionList;
     }
 
-    public LiveData<List<Transaction>> getTransactionList(@Nullable int walletIdFrom, @Nullable int walletIdTo, @Nullable String description, @Nullable String dateFrom, @Nullable String dateTo, @Nullable String category, @Nullable int[] tags) {
+    public LiveData<List<Transaction>> getTransactionList(@Nullable int walletIdFrom, @Nullable int walletIdTo, @Nullable String description, @Nullable String dateFrom, @Nullable String dateTo, @Nullable String category, @Nullable List<String> tags) {
         return repository.getTransactionList(walletIdFrom, walletIdTo, description, dateFrom, dateTo, category, tags);
     }
 
