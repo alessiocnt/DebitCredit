@@ -7,4 +7,4 @@ insert into `transaction` values (1, 100, "aaaa", 1, 1, 20210520, 1, 1, null, nu
  */
 
 
-// System.out.println(String.format("%04d%02d%02d", year, month, day));
+// String.format("%04d%02d%02d", year, month, day);
