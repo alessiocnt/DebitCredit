@@ -18,7 +18,7 @@ import static androidx.room.ForeignKey.RESTRICT;
                         childColumns = "transaction_category_name",
                         onDelete = RESTRICT,
                         onUpdate = CASCADE),
-                @ForeignKey(entity = Wallet.class,
+                /*@ForeignKey(entity = Wallet.class,
                         parentColumns = "wallet_id",
                         childColumns = "transaction_wallet_id_from",
                         onDelete = RESTRICT,
@@ -27,7 +27,7 @@ import static androidx.room.ForeignKey.RESTRICT;
                         parentColumns = "wallet_id",
                         childColumns = "transaction_wallet_id_to",
                         onDelete = RESTRICT,
-                        onUpdate = CASCADE),
+                        onUpdate = CASCADE),*/
                 @ForeignKey(entity = Payee.class,
                         parentColumns = "payee_name",
                         childColumns = "transaction_payee_name",

@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "2872c2b373c46dd1f6b5569bdf7f6175",
+    "identityHash": "ffebf4567c7b6cc2ef862b00216e4296",
     "entities": [
       {
         "tableName": "budget",
@@ -260,7 +260,7 @@
       },
       {
         "tableName": "transaction",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`transaction_id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `transaction_amount` REAL NOT NULL, `transaction_description` TEXT, `transaction_category_name` TEXT, `transaction_payee_name` TEXT, `transaction_date` TEXT, `transaction_wallet_id_from` INTEGER NOT NULL, `transaction_wallet_id_to` INTEGER NOT NULL, `transaction_location` TEXT, `transaction_note` TEXT, `transaction_image` TEXT, FOREIGN KEY(`transaction_category_name`) REFERENCES `category`(`category_name`) ON UPDATE CASCADE ON DELETE RESTRICT , FOREIGN KEY(`transaction_wallet_id_from`) REFERENCES `wallet`(`wallet_id`) ON UPDATE CASCADE ON DELETE RESTRICT , FOREIGN KEY(`transaction_wallet_id_to`) REFERENCES `wallet`(`wallet_id`) ON UPDATE CASCADE ON DELETE RESTRICT , FOREIGN KEY(`transaction_payee_name`) REFERENCES `payee`(`payee_name`) ON UPDATE CASCADE ON DELETE RESTRICT )",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`transaction_id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `transaction_amount` REAL NOT NULL, `transaction_description` TEXT, `transaction_category_name` TEXT, `transaction_payee_name` TEXT, `transaction_date` TEXT, `transaction_wallet_id_from` INTEGER NOT NULL, `transaction_wallet_id_to` INTEGER NOT NULL, `transaction_location` TEXT, `transaction_note` TEXT, `transaction_image` TEXT, FOREIGN KEY(`transaction_category_name`) REFERENCES `category`(`category_name`) ON UPDATE CASCADE ON DELETE RESTRICT , FOREIGN KEY(`transaction_payee_name`) REFERENCES `payee`(`payee_name`) ON UPDATE CASCADE ON DELETE RESTRICT )",
         "fields": [
           {
             "fieldPath": "transactionId",
@@ -349,28 +349,6 @@
             ]
           },
           {
-            "table": "wallet",
-            "onDelete": "RESTRICT",
-            "onUpdate": "CASCADE",
-            "columns": [
-              "transaction_wallet_id_from"
-            ],
-            "referencedColumns": [
-              "wallet_id"
-            ]
-          },
-          {
-            "table": "wallet",
-            "onDelete": "RESTRICT",
-            "onUpdate": "CASCADE",
-            "columns": [
-              "transaction_wallet_id_to"
-            ],
-            "referencedColumns": [
-              "wallet_id"
-            ]
-          },
-          {
             "table": "payee",
             "onDelete": "RESTRICT",
             "onUpdate": "CASCADE",
@@ -431,7 +409,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '2872c2b373c46dd1f6b5569bdf7f6175')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'ffebf4567c7b6cc2ef862b00216e4296')"
     ]
   }
 }
