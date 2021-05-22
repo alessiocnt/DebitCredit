@@ -31,4 +31,8 @@ public class WalletRepository {
             }
         });
     }
+
+    public LiveData<Wallet> getWalletFromName(final String walletName){
+        return walletDAO.getWalletFromName(walletName);
+    }
 }

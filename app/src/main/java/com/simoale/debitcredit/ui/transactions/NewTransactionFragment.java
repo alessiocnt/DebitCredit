@@ -43,6 +43,7 @@ import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelStoreOwner;
+import androidx.navigation.Navigation;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -67,6 +68,7 @@ import com.simoale.debitcredit.model.Transaction;
 import com.simoale.debitcredit.model.Wallet;
 import com.simoale.debitcredit.ui.category.CategoryViewModel;
 import com.simoale.debitcredit.ui.payee.PayeeViewModel;
+import com.simoale.debitcredit.ui.routine.RoutineViewModel;
 import com.simoale.debitcredit.ui.tag.TagViewModel;
 import com.simoale.debitcredit.ui.wallet.WalletViewModel;
 import com.simoale.debitcredit.utils.DatePicker;
@@ -109,7 +111,7 @@ public class NewTransactionFragment extends Fragment {
     private Map<Integer, Chip> tagSelected;
     private TextInputLayout noteEditText;
     private TextView dateDisplay;
-    private TextView dateSelected;
+    private String dateSelected;
     private TextView locationText;
     private Switch locationSwitch;
     private Button captureBtn;
@@ -157,7 +159,6 @@ public class NewTransactionFragment extends Fragment {
             this.walletEditText = activity.findViewById(R.id.transaction_wallet_TextInput);
             this.tagEditText = activity.findViewById(R.id.transaction_tag_TextInput);
             this.dateDisplay = activity.findViewById(R.id.date_display);
-            this.dateSelected = activity.findViewById(R.id.date_selected);
             this.noteEditText = activity.findViewById(R.id.transaction_note_TextInput);
             this.locationText = activity.findViewById(R.id.location_text);
             this.locationSwitch = activity.findViewById(R.id.switch_location);
@@ -203,8 +204,11 @@ public class NewTransactionFragment extends Fragment {
                         String description = descriptionEditText.getEditText().getText().toString();
                         String category = categoryEditText.getEditText().getText().toString();
                         String payee = payeeEditText.getEditText().getText().toString();
-                        String date = dateSelected.getText().toString();
                         String wallet = walletEditText.getEditText().getText().toString();
+                        AtomicInteger walletId = null;
+                        walletViewModel.getWalletFromName(wallet).observe((LifecycleOwner) activity, w -> {
+                            walletId.set(w.getId());
+                        });
                         List<Chip> tagChips = new ArrayList<>();
                         tagChips.addAll(tagSelected.values());
                         String location = locationText.getText().toString();
@@ -219,24 +223,23 @@ public class NewTransactionFragment extends Fragment {
                             imageUriString = "ic_launcher_foreground";
                         }
 
-                       /* if (Utilities.checkDataValid(amount, category, date, wallet)) {
+                        if (Utilities.checkDataValid(amount, category, dateSelected, wallet)) {
                             transactionViewModel.addTransaction(new Transaction(Integer.parseInt(amount),
-                                    description, catewalletName, walletDescription, Integer.parseInt(walletAmount), selectedColor.toString()));
-                            Navigation.findNavController(v).navigate(R.id.action_new_wallet_to_nav_wallet);
+                                    description, category, payee, dateSelected, walletId.get(), walletId.get(), location, note, imageUriString));
+                            Navigation.findNavController(v).navigate(R.id.action_newTransactionTabFragment2_to_nav_home2);
                         } else {
                             Toast.makeText(activity.getBaseContext(), "Every field must be filled", Toast.LENGTH_LONG).show();
-                        }*/
-
-                       /* addViewModel.addCardItem(new CardItem(imageUriString,
-                                placeTextInputEditText.getText().toString(),
-                                descriptionTextInputEditText.getText().toString(),
-                                dateTextInputEditText.getText().toString()));*/
+                        }
 
                         transactionViewModel.setImageBitmpap(null);
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
                 }
+            });
+
+            this.cancelBtn.setOnClickListener(v -> {
+                Navigation.findNavController(v).navigate(R.id.action_newTransactionTabFragment2_to_nav_home2);
             });
         }
     }
@@ -515,6 +518,7 @@ public class NewTransactionFragment extends Fragment {
                     year.set(newFragment.getYear());
                     month.set(newFragment.getMonth());
                     day.set(newFragment.getDay());
+                    dateSelected = String.format("%04d%02d%02d", newFragment.getYear(), newFragment.getMonth(), newFragment.getDay());
                     this.dateDisplay.setText(String.format("Date: %02d/%02d/%04d", newFragment.getDay(), newFragment.getMonth() + 1, newFragment.getYear()));
                 }
             });
@@ -547,21 +551,6 @@ public class NewTransactionFragment extends Fragment {
             fos.close();
         }
         return imageUri;
-    }
-
-    private Transaction retriveData() {
-        String amount = amountEditText.getEditText().getText().toString();
-        String description = descriptionEditText.getEditText().getText().toString();
-        String category = categoryEditText.getEditText().getText().toString();
-        String payee = payeeEditText.getEditText().getText().toString();
-        String date = dateSelected.getText().toString();
-        String wallet = walletEditText.getEditText().getText().toString();
-        //List<Chips>aaas;
-        String location = locationText.getText().toString();
-        String note = noteEditText.getEditText().getText().toString();
-
-
-        return null;
     }
 
     /**

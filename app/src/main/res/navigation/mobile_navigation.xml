@@ -74,7 +74,7 @@
         android:id="@+id/new_wallet"
         android:name="com.simoale.debitcredit.ui.wallet.NewWalletFragment"
         android:label="New Wallet"
-        tools:layout="@layout/new_wallet" >
+        tools:layout="@layout/new_wallet">
         <action
             android:id="@+id/action_new_wallet_to_nav_wallet"
             app:destination="@id/nav_wallet" />
@@ -92,7 +92,11 @@
         android:id="@+id/newTransactionTabFragment2"
         android:name="com.simoale.debitcredit.ui.transactions.NewTransactionTabFragment"
         android:label="NewTransactionTabFragment"
-        tools:layout="@layout/new_transaction" />
+        tools:layout="@layout/new_transaction" >
+        <action
+            android:id="@+id/action_newTransactionTabFragment2_to_nav_home2"
+            app:destination="@id/nav_home" />
+    </fragment>
     <fragment
         android:id="@+id/transactionDetailsFragment"
         android:name="com.simoale.debitcredit.ui.transactions.TransactionDetailsFragment"
