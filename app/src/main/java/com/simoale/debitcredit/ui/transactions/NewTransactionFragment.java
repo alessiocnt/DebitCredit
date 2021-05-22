@@ -80,6 +80,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -505,13 +506,19 @@ public class NewTransactionFragment extends Fragment {
 
     private void setupDatePicker() {
         ImageButton calendar = getView().findViewById(R.id.calendar);
+        AtomicInteger year = new AtomicInteger(Calendar.getInstance().get(Calendar.YEAR));
+        AtomicInteger month = new AtomicInteger(Calendar.getInstance().get(Calendar.MONTH));
+        AtomicInteger day = new AtomicInteger(Calendar.getInstance().get(Calendar.DAY_OF_MONTH));
         calendar.setOnClickListener(v -> {
-            DatePicker datePicker = new DatePicker(dateDisplay);
-            datePicker.show(requireActivity().getSupportFragmentManager(), "datePicker");
-            datePicker.getDataReady().observe(getActivity(), value -> {
+            DatePicker newFragment = new DatePicker(year.get(), month.get(), day.get());
+            newFragment.show(requireActivity().getSupportFragmentManager(), "datePicker");
+            newFragment.getDataReady().observe(getActivity(), value -> {
                 if (value) {
-                    dateSelected = String.format("%04d%02d%02d", datePicker.getYear(), datePicker.getMonth(), datePicker.getDay());
-                    Log.e("date", "" + datePicker.getYear() + " " + datePicker.getMonth() + " " + datePicker.getDay());
+                    year.set(newFragment.getYear());
+                    month.set(newFragment.getMonth());
+                    day.set(newFragment.getDay());
+                    dateSelected = String.format("%04d%02d%02d", newFragment.getYear(), newFragment.getMonth(), newFragment.getDay());
+                    this.dateDisplay.setText(String.format("Date: %02d/%02d/%04d", newFragment.getDay(), newFragment.getMonth() + 1, newFragment.getYear()));
                 }
             });
         });
