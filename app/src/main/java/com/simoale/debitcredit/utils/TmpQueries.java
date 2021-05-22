@@ -5,3 +5,6 @@ insert into payee values ("cash")
 insert into budget values(1, "bud1", 1, 500, 20210101, 20210101, null, 1, "month")
 insert into `transaction` values (1, 100, "aaaa", 1, 1, 20210520, 1, 1, null, null, null)
  */
+
+
+// System.out.println(String.format("%04d%02d%02d", year, month, day));
