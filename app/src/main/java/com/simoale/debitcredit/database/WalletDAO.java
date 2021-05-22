@@ -22,6 +22,6 @@ public interface WalletDAO {
 
     @Transaction
     @Query("SELECT * from wallet WHERE wallet_name = :walletName")
-    Wallet getWalletFromName(String walletName);
+    LiveData<Wallet> getWalletFromName(String walletName);
 
 }

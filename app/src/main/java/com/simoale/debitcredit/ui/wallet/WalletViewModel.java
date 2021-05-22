@@ -48,8 +48,8 @@ public class WalletViewModel extends AndroidViewModel {
         return walletSelected;
     }
 
-    public Wallet getWalletFromName(String walletName) {
-        return repository.getWalletFromName(walletName) == null ? null : repository.getWalletFromName(walletName);
+    public LiveData<Wallet> getWalletFromName(String walletName) {
+        return repository.getWalletFromName(walletName);
 
     }
 }

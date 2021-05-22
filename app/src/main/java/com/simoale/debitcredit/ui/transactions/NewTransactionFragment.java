@@ -44,6 +44,7 @@ import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelStoreOwner;
+import androidx.navigation.Navigation;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -68,6 +69,7 @@ import com.simoale.debitcredit.model.Transaction;
 import com.simoale.debitcredit.model.Wallet;
 import com.simoale.debitcredit.ui.category.CategoryViewModel;
 import com.simoale.debitcredit.ui.payee.PayeeViewModel;
+import com.simoale.debitcredit.ui.routine.RoutineViewModel;
 import com.simoale.debitcredit.ui.tag.TagViewModel;
 import com.simoale.debitcredit.ui.wallet.WalletViewModel;
 import com.simoale.debitcredit.utils.DatePicker;
@@ -86,6 +88,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import static android.content.Intent.FLAG_ACTIVITY_NEW_TASK;
 import static com.simoale.debitcredit.utils.Utilities.REQUEST_IMAGE_CAPTURE;
@@ -203,7 +206,10 @@ public class NewTransactionFragment extends Fragment {
                         String category = categoryEditText.getEditText().getText().toString();
                         String payee = payeeEditText.getEditText().getText().toString();
                         String wallet = walletEditText.getEditText().getText().toString();
-                        int walletId = walletViewModel.getWalletFromName(wallet).getId();
+                        AtomicInteger walletId = null;
+                        walletViewModel.getWalletFromName(wallet).observe((LifecycleOwner) activity, w -> {
+                            walletId.set(w.getId());
+                        });
                         List<Chip> tagChips = new ArrayList<>();
                         tagChips.addAll(tagSelected.values());
                         String location = locationText.getText().toString();
@@ -220,8 +226,8 @@ public class NewTransactionFragment extends Fragment {
 
                         if (Utilities.checkDataValid(amount, category, dateSelected, wallet)) {
                             transactionViewModel.addTransaction(new Transaction(Integer.parseInt(amount),
-                                    description, category, payee, dateSelected, walletId, walletId, location, note, imageUriString));
-                            Navigation.findNavController(v).navigate(R.id.action_new_wallet_to_nav_wallet);
+                                    description, category, payee, dateSelected, walletId.get(), walletId.get(), location, note, imageUriString));
+                            Navigation.findNavController(v).navigate(R.id.action_newTransactionTabFragment2_to_nav_home2);
                         } else {
                             Toast.makeText(activity.getBaseContext(), "Every field must be filled", Toast.LENGTH_LONG).show();
                         }
@@ -231,6 +237,10 @@ public class NewTransactionFragment extends Fragment {
                         e.printStackTrace();
                     }
                 }
+            });
+
+            this.cancelBtn.setOnClickListener(v -> {
+                Navigation.findNavController(v).navigate(R.id.action_newTransactionTabFragment2_to_nav_home2);
             });
         }
     }
@@ -536,21 +546,6 @@ public class NewTransactionFragment extends Fragment {
             fos.close();
         }
         return imageUri;
-    }
-
-    private Transaction retriveData() {
-        String amount = amountEditText.getEditText().getText().toString();
-        String description = descriptionEditText.getEditText().getText().toString();
-        String category = categoryEditText.getEditText().getText().toString();
-        String payee = payeeEditText.getEditText().getText().toString();
-        String date = dateSelected.getText().toString();
-        String wallet = walletEditText.getEditText().getText().toString();
-        //List<Chips>aaas;
-        String location = locationText.getText().toString();
-        String note = noteEditText.getEditText().getText().toString();
-
-
-        return null;
     }
 
     /**
