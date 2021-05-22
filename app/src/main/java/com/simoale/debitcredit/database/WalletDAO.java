@@ -19,4 +19,9 @@ public interface WalletDAO {
     @Transaction
     @Query("SELECT * from wallet ORDER BY wallet_balance DESC")
     LiveData<List<Wallet>> getWallets();
+
+    @Transaction
+    @Query("SELECT * from wallet WHERE wallet_name = :walletName")
+    Wallet getWalletFromName(String walletName);
+
 }

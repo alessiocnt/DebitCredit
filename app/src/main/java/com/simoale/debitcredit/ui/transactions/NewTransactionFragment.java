@@ -109,7 +109,7 @@ public class NewTransactionFragment extends Fragment {
     private Map<Integer, Chip> tagSelected;
     private TextInputLayout noteEditText;
     private TextView dateDisplay;
-    private TextView dateSelected;
+    private String dateSelected;
     private TextView locationText;
     private Switch locationSwitch;
     private Button captureBtn;
@@ -157,7 +157,6 @@ public class NewTransactionFragment extends Fragment {
             this.walletEditText = activity.findViewById(R.id.transaction_wallet_TextInput);
             this.tagEditText = activity.findViewById(R.id.transaction_tag_TextInput);
             this.dateDisplay = activity.findViewById(R.id.date_display);
-            this.dateSelected = activity.findViewById(R.id.date_selected);
             this.noteEditText = activity.findViewById(R.id.transaction_note_TextInput);
             this.locationText = activity.findViewById(R.id.location_text);
             this.locationSwitch = activity.findViewById(R.id.switch_location);
@@ -203,8 +202,8 @@ public class NewTransactionFragment extends Fragment {
                         String description = descriptionEditText.getEditText().getText().toString();
                         String category = categoryEditText.getEditText().getText().toString();
                         String payee = payeeEditText.getEditText().getText().toString();
-                        String date = dateSelected.getText().toString();
                         String wallet = walletEditText.getEditText().getText().toString();
+                        int walletId = walletViewModel.getWalletFromName(wallet).getId();
                         List<Chip> tagChips = new ArrayList<>();
                         tagChips.addAll(tagSelected.values());
                         String location = locationText.getText().toString();
@@ -219,18 +218,13 @@ public class NewTransactionFragment extends Fragment {
                             imageUriString = "ic_launcher_foreground";
                         }
 
-                       /* if (Utilities.checkDataValid(amount, category, date, wallet)) {
+                        if (Utilities.checkDataValid(amount, category, dateSelected, wallet)) {
                             transactionViewModel.addTransaction(new Transaction(Integer.parseInt(amount),
-                                    description, catewalletName, walletDescription, Integer.parseInt(walletAmount), selectedColor.toString()));
+                                    description, category, payee, dateSelected, walletId, walletId, location, note, imageUriString));
                             Navigation.findNavController(v).navigate(R.id.action_new_wallet_to_nav_wallet);
                         } else {
                             Toast.makeText(activity.getBaseContext(), "Every field must be filled", Toast.LENGTH_LONG).show();
-                        }*/
-
-                       /* addViewModel.addCardItem(new CardItem(imageUriString,
-                                placeTextInputEditText.getText().toString(),
-                                descriptionTextInputEditText.getText().toString(),
-                                dateTextInputEditText.getText().toString()));*/
+                        }
 
                         transactionViewModel.setImageBitmpap(null);
                     } catch (IOException e) {
@@ -505,11 +499,12 @@ public class NewTransactionFragment extends Fragment {
     private void setupDatePicker() {
         ImageButton calendar = getView().findViewById(R.id.calendar);
         calendar.setOnClickListener(v -> {
-            DatePicker newFragment = new DatePicker(getActivity().findViewById(R.id.date_display));
-            newFragment.show(requireActivity().getSupportFragmentManager(), "datePicker");
-            newFragment.getDataReady().observe(getActivity(), value -> {
+            DatePicker datePicker = new DatePicker(dateDisplay);
+            datePicker.show(requireActivity().getSupportFragmentManager(), "datePicker");
+            datePicker.getDataReady().observe(getActivity(), value -> {
                 if (value) {
-                    Log.e("date", "" + newFragment.getYear() + " " + newFragment.getMonth() + " " + newFragment.getDay());
+                    dateSelected = String.format("%04d%02d%02d", datePicker.getYear(), datePicker.getMonth(), datePicker.getDay());
+                    Log.e("date", "" + datePicker.getYear() + " " + datePicker.getMonth() + " " + datePicker.getDay());
                 }
             });
         });

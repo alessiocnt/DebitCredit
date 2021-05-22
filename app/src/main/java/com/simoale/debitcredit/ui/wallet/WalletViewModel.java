@@ -8,6 +8,7 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.simoale.debitcredit.database.repository.WalletRepository;
+import com.simoale.debitcredit.model.Transaction;
 import com.simoale.debitcredit.model.Wallet;
 
 import java.util.List;
@@ -45,6 +46,11 @@ public class WalletViewModel extends AndroidViewModel {
 
     public LiveData<Wallet> getSelected() {
         return walletSelected;
+    }
+
+    public Wallet getWalletFromName(String walletName) {
+        return repository.getWalletFromName(walletName) == null ? null : repository.getWalletFromName(walletName);
+
     }
 }
 
