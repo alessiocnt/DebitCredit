@@ -62,6 +62,7 @@ import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputLayout;
 import com.simoale.debitcredit.R;
 import com.simoale.debitcredit.model.Category;
+import com.simoale.debitcredit.model.Interval;
 import com.simoale.debitcredit.model.Payee;
 import com.simoale.debitcredit.model.Tag;
 import com.simoale.debitcredit.model.Transaction;
@@ -94,6 +95,7 @@ import static com.simoale.debitcredit.utils.Utilities.REQUEST_IMAGE_CAPTURE;
 public class NewTransactionFragment extends Fragment {
 
     private Activity activity;
+    private final TransactionType transactionType;
 
     private TransactionViewModel transactionViewModel;
     private CategoryViewModel categoryViewModel;
@@ -132,6 +134,10 @@ public class NewTransactionFragment extends Fragment {
 
     private RequestQueue requestQueue;
     private final static String OSM_REQUEST_TAG = "OSM_REQUEST";
+
+    public NewTransactionFragment(TransactionType type) {
+        this.transactionType = type;
+    }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -199,7 +205,7 @@ public class NewTransactionFragment extends Fragment {
                 public void onClick(View v) {
                     try {
                         // Retrive data
-                        String amount = amountEditText.getEditText().getText().toString();
+                        Integer amount = transactionType.getType() * Math.abs(Integer.parseInt(amountEditText.getEditText().getText().toString()));
                         String description = descriptionEditText.getEditText().getText().toString();
                         String category = categoryEditText.getEditText().getText().toString();
                         String payee = payeeEditText.getEditText().getText().toString();
@@ -221,8 +227,8 @@ public class NewTransactionFragment extends Fragment {
                         AtomicInteger walletId = new AtomicInteger();
                         walletViewModel.getWalletFromName(wallet).observe((LifecycleOwner) activity, w -> {
                             walletId.set(w.getId());
-                            if (Utilities.checkDataValid(amount, category, dateSelected, wallet)) {
-                                transactionViewModel.addTransaction(new Transaction(Integer.parseInt(amount),
+                            if (Utilities.checkDataValid(amount.toString(), category, dateSelected, wallet)) {
+                                transactionViewModel.addTransaction(new Transaction(amount,
                                         description, category, payee, dateSelected, walletId.intValue(), walletId.intValue(), location, note, imageUriString));
                                 Navigation.findNavController(v).navigate(R.id.action_newTransactionTabFragment2_to_nav_home2);
                             } else {

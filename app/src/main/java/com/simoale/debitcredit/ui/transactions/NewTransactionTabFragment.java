@@ -61,8 +61,8 @@ public class NewTransactionTabFragment extends Fragment {
     // Used to create a TabList in an odd way
     private List<Fragment> getTabList(){
         List<Fragment> tabList = new ArrayList<>();
-        tabList.add(new NewTransactionFragment());
-        tabList.add(new NewTransactionFragment());
+        tabList.add(new NewTransactionFragment(TransactionType.OUT));
+        tabList.add(new NewTransactionFragment(TransactionType.IN));
         tabList.add(new NewExchangeTransactionFragment());
         return tabList;
     }
