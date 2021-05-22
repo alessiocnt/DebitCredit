@@ -4,17 +4,16 @@ import android.app.Activity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.simoale.debitcredit.R;
 import com.simoale.debitcredit.model.Transaction;
-import com.simoale.debitcredit.model.Wallet;
 import com.simoale.debitcredit.ui.transactions.TransactionCardViewHolder;
-import com.simoale.debitcredit.ui.wallet.WalletCardViewHolder;
+import com.simoale.debitcredit.utils.Utilities;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,7 +32,9 @@ public class TransactionCardAdapter extends RecyclerView.Adapter<TransactionCard
         this.listener = listener;
     }
 
-    /** Called when RecyclerView needs a new RecyclerView.ViewHolder of the given type to represent an item. */
+    /**
+     * Called when RecyclerView needs a new RecyclerView.ViewHolder of the given type to represent an item.
+     */
     @NonNull
     @Override
     public TransactionCardViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -42,7 +43,8 @@ public class TransactionCardAdapter extends RecyclerView.Adapter<TransactionCard
         return new TransactionCardViewHolder(layoutView, listener);
     }
 
-    /** Called by RecyclerView to display the data at the specified position.
+    /**
+     * Called by RecyclerView to display the data at the specified position.
      * This method should update the contents of the RecyclerView.ViewHolder.itemView to reflect
      * the item at the given position.
      */
@@ -51,7 +53,7 @@ public class TransactionCardAdapter extends RecyclerView.Adapter<TransactionCard
         Transaction currentTransaction = transactionList.get(position);
 
         holder.getDescription().setText(currentTransaction.getDescription());
-        holder.getDate().setText(String.valueOf(currentTransaction.getDate()));
+        holder.getDate().setText(new SimpleDateFormat("dd/MM/yyyy").format(Utilities.getDateFromString(currentTransaction.getDate())));
         holder.getAmount().setText(String.valueOf(currentTransaction.getAmount()));
     }
 
