@@ -10,7 +10,6 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -28,6 +27,8 @@ import com.simoale.debitcredit.R;
 import com.simoale.debitcredit.model.Wallet;
 import com.simoale.debitcredit.recyclerView.OnItemListener;
 import com.simoale.debitcredit.recyclerView.TransactionCardAdapter;
+import com.simoale.debitcredit.ui.category.CategoryViewModel;
+import com.simoale.debitcredit.ui.tag.TagViewModel;
 import com.simoale.debitcredit.ui.transactions.TransactionViewModel;
 import com.simoale.debitcredit.utils.DatePicker;
 
@@ -41,6 +42,8 @@ public class WalletDetailsFragment extends Fragment implements OnItemListener {
     private TransactionCardAdapter transactionAdapter;
     private WalletViewModel walletViewModel;
     private TransactionViewModel transactionViewModel;
+    private CategoryViewModel categoryViewModel;
+    private TagViewModel tagViewModel;
     private RecyclerView recyclerView;
 
     private Button applyFiltersBtn;
@@ -91,7 +94,7 @@ public class WalletDetailsFragment extends Fragment implements OnItemListener {
             walletDescription.setText(this.wallet.getDescription());
             transactionViewModel = new ViewModelProvider((ViewModelStoreOwner) activity).get(TransactionViewModel.class);
             // TODO selezionare solo la lista del wallet interessato che si trova in walletViewModel.getSelected()
-            transactionViewModel.getTransactionList(this.wallet.getId(), this.wallet.getId(), null, null, null, null).observe((LifecycleOwner) activity, transactions -> {
+            transactionViewModel.getTransactionList(this.wallet.getId(), this.wallet.getId(), null, null, null, null, null).observe((LifecycleOwner) activity, transactions -> {
                 transactionAdapter.setData(transactions);
                 transactionViewModel.getTransactionList().removeObservers((LifecycleOwner) activity);
             });
@@ -108,6 +111,19 @@ public class WalletDetailsFragment extends Fragment implements OnItemListener {
                         day.set(datePicker.getDay());
                         this.fromDate = String.format("%04d%02d%02d", datePicker.getYear(), datePicker.getMonth() + 1, datePicker.getDay());
                         this.calendarFromTextView.setText(String.format("From: %02d/%02d/%04d", datePicker.getDay(), datePicker.getMonth() + 1, datePicker.getYear()));
+                    }
+                });
+            });
+            this.calendarToBtn.setOnClickListener(v -> {
+                DatePicker datePicker = new DatePicker(year.get(), month.get(), day.get());
+                datePicker.show(requireActivity().getSupportFragmentManager(), "datePicker");
+                datePicker.getDataReady().observe(getActivity(), value -> {
+                    if (value) {
+                        year.set(datePicker.getYear());
+                        month.set(datePicker.getMonth());
+                        day.set(datePicker.getDay());
+                        this.toDate = String.format("%04d%02d%02d", datePicker.getYear(), datePicker.getMonth() + 1, datePicker.getDay());
+                        this.calendarToTextView.setText(String.format("To: %02d/%02d/%04d", datePicker.getDay(), datePicker.getMonth() + 1, datePicker.getYear()));
                     }
                 });
             });
@@ -131,10 +147,12 @@ public class WalletDetailsFragment extends Fragment implements OnItemListener {
     }
 
     private void computeFilters() {
-        Toast.makeText(getContext(), "ah nice", Toast.LENGTH_LONG).show();
+        Log.e("Filters", "DateFrom: " + this.fromDate + " DateTo: " + this.toDate);
+        Log.e("Search", this.searchText.getEditText().getText().toString());
+        String searchValue = this.searchText.getEditText().getText().toString().equals("") ? null : this.searchText.getEditText().getText().toString();
     }
 
-    // // Set up the RecyclerView
+    // Set up the RecyclerView
     private void setRecyclerView(final Activity activity) {
         recyclerView = getView().findViewById(R.id.wallet_details_recycler_view);
         recyclerView.setHasFixedSize(true);
