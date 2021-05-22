@@ -10,7 +10,6 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -28,6 +27,8 @@ import com.simoale.debitcredit.R;
 import com.simoale.debitcredit.model.Wallet;
 import com.simoale.debitcredit.recyclerView.OnItemListener;
 import com.simoale.debitcredit.recyclerView.TransactionCardAdapter;
+import com.simoale.debitcredit.ui.category.CategoryViewModel;
+import com.simoale.debitcredit.ui.tag.TagViewModel;
 import com.simoale.debitcredit.ui.transactions.TransactionViewModel;
 import com.simoale.debitcredit.utils.DatePicker;
 
@@ -41,6 +42,8 @@ public class WalletDetailsFragment extends Fragment implements OnItemListener {
     private TransactionCardAdapter transactionAdapter;
     private WalletViewModel walletViewModel;
     private TransactionViewModel transactionViewModel;
+    private CategoryViewModel categoryViewModel;
+    private TagViewModel tagViewModel;
     private RecyclerView recyclerView;
 
     private Button applyFiltersBtn;
@@ -144,10 +147,12 @@ public class WalletDetailsFragment extends Fragment implements OnItemListener {
     }
 
     private void computeFilters() {
-        Toast.makeText(getContext(), "ah nice", Toast.LENGTH_LONG).show();
+        Log.e("Filters", "DateFrom: " + this.fromDate + " DateTo: " + this.toDate);
+        Log.e("Search", this.searchText.getEditText().getText().toString());
+        String searchValue = this.searchText.getEditText().getText().toString().equals("") ? null : this.searchText.getEditText().getText().toString();
     }
 
-    // // Set up the RecyclerView
+    // Set up the RecyclerView
     private void setRecyclerView(final Activity activity) {
         recyclerView = getView().findViewById(R.id.wallet_details_recycler_view);
         recyclerView.setHasFixedSize(true);
