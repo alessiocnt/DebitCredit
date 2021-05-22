@@ -2,7 +2,8 @@ package com.simoale.debitcredit.ui.transactions;
 
 public enum TransactionType {
     IN(1),
-    OUT(-1);
+    OUT(-1),
+    EXCHANGE(2);
     public final int type;
 
     private TransactionType(int type) {
