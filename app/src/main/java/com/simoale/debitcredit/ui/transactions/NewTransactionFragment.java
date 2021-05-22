@@ -37,7 +37,6 @@ import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.LifecycleOwner;
@@ -69,7 +68,6 @@ import com.simoale.debitcredit.model.Transaction;
 import com.simoale.debitcredit.model.Wallet;
 import com.simoale.debitcredit.ui.category.CategoryViewModel;
 import com.simoale.debitcredit.ui.payee.PayeeViewModel;
-import com.simoale.debitcredit.ui.routine.RoutineViewModel;
 import com.simoale.debitcredit.ui.tag.TagViewModel;
 import com.simoale.debitcredit.ui.wallet.WalletViewModel;
 import com.simoale.debitcredit.utils.DatePicker;
@@ -82,7 +80,6 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -206,10 +203,6 @@ public class NewTransactionFragment extends Fragment {
                         String category = categoryEditText.getEditText().getText().toString();
                         String payee = payeeEditText.getEditText().getText().toString();
                         String wallet = walletEditText.getEditText().getText().toString();
-                        AtomicInteger walletId = null;
-                        walletViewModel.getWalletFromName(wallet).observe((LifecycleOwner) activity, w -> {
-                            walletId.set(w.getId());
-                        });
                         List<Chip> tagChips = new ArrayList<>();
                         tagChips.addAll(tagSelected.values());
                         String location = locationText.getText().toString();
@@ -224,13 +217,17 @@ public class NewTransactionFragment extends Fragment {
                             imageUriString = "ic_launcher_foreground";
                         }
 
-                        if (Utilities.checkDataValid(amount, category, dateSelected, wallet)) {
-                            transactionViewModel.addTransaction(new Transaction(Integer.parseInt(amount),
-                                    description, category, payee, dateSelected, walletId.get(), walletId.get(), location, note, imageUriString));
-                            Navigation.findNavController(v).navigate(R.id.action_newTransactionTabFragment2_to_nav_home2);
-                        } else {
-                            Toast.makeText(activity.getBaseContext(), "Every field must be filled", Toast.LENGTH_LONG).show();
-                        }
+                        AtomicInteger walletId = new AtomicInteger();
+                        walletViewModel.getWalletFromName(wallet).observe((LifecycleOwner) activity, w -> {
+                            walletId.set(w.getId());
+                            if (Utilities.checkDataValid(amount, category, dateSelected, wallet)) {
+                                transactionViewModel.addTransaction(new Transaction(Integer.parseInt(amount),
+                                        description, category, payee, dateSelected, walletId.intValue(), walletId.intValue(), location, note, imageUriString));
+                                Navigation.findNavController(v).navigate(R.id.action_newTransactionTabFragment2_to_nav_home2);
+                            } else {
+                                Toast.makeText(activity.getBaseContext(), "Every field must be filled", Toast.LENGTH_LONG).show();
+                            }
+                        });
 
                         transactionViewModel.setImageBitmpap(null);
                     } catch (IOException e) {
