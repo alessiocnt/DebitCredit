@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "c19c2e22bf0cfaff8b7179620b98fa73",
+    "identityHash": "120ac3fb942184cec914ca6a890954eb",
     "entities": [
       {
         "tableName": "budget",
@@ -69,7 +69,16 @@
           ],
           "autoGenerate": true
         },
-        "indices": [],
+        "indices": [
+          {
+            "name": "index_budget_budget_category_name",
+            "unique": false,
+            "columnNames": [
+              "budget_category_name"
+            ],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_budget_budget_category_name` ON `${TABLE_NAME}` (`budget_category_name`)"
+          }
+        ],
         "foreignKeys": [
           {
             "table": "category",
@@ -201,7 +210,32 @@
           ],
           "autoGenerate": true
         },
-        "indices": [],
+        "indices": [
+          {
+            "name": "index_routine_routine_category_name",
+            "unique": false,
+            "columnNames": [
+              "routine_category_name"
+            ],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_routine_routine_category_name` ON `${TABLE_NAME}` (`routine_category_name`)"
+          },
+          {
+            "name": "index_routine_routine_wallet_id",
+            "unique": false,
+            "columnNames": [
+              "routine_wallet_id"
+            ],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_routine_routine_wallet_id` ON `${TABLE_NAME}` (`routine_wallet_id`)"
+          },
+          {
+            "name": "index_routine_routine_payee_name",
+            "unique": false,
+            "columnNames": [
+              "routine_payee_name"
+            ],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_routine_routine_payee_name` ON `${TABLE_NAME}` (`routine_payee_name`)"
+          }
+        ],
         "foreignKeys": [
           {
             "table": "category",
@@ -335,7 +369,24 @@
           ],
           "autoGenerate": true
         },
-        "indices": [],
+        "indices": [
+          {
+            "name": "index_transaction_transaction_category_name",
+            "unique": false,
+            "columnNames": [
+              "transaction_category_name"
+            ],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_transaction_transaction_category_name` ON `${TABLE_NAME}` (`transaction_category_name`)"
+          },
+          {
+            "name": "index_transaction_transaction_payee_name",
+            "unique": false,
+            "columnNames": [
+              "transaction_payee_name"
+            ],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_transaction_transaction_payee_name` ON `${TABLE_NAME}` (`transaction_payee_name`)"
+          }
+        ],
         "foreignKeys": [
           {
             "table": "category",
@@ -407,36 +458,45 @@
       },
       {
         "tableName": "transaction_tag",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`cr_transaction_id` INTEGER NOT NULL, `cr_tag_name` TEXT NOT NULL, PRIMARY KEY(`cr_transaction_id`, `cr_tag_name`), FOREIGN KEY(`cr_transaction_id`) REFERENCES `transaction`(`transaction_id`) ON UPDATE CASCADE ON DELETE RESTRICT , FOREIGN KEY(`cr_tag_name`) REFERENCES `tag`(`tag_name`) ON UPDATE CASCADE ON DELETE RESTRICT )",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`transaction_id` INTEGER NOT NULL, `tag_name` TEXT NOT NULL, PRIMARY KEY(`transaction_id`, `tag_name`), FOREIGN KEY(`transaction_id`) REFERENCES `transaction`(`transaction_id`) ON UPDATE CASCADE ON DELETE RESTRICT , FOREIGN KEY(`tag_name`) REFERENCES `tag`(`tag_name`) ON UPDATE CASCADE ON DELETE RESTRICT )",
         "fields": [
           {
             "fieldPath": "crTransactionId",
-            "columnName": "cr_transaction_id",
+            "columnName": "transaction_id",
             "affinity": "INTEGER",
             "notNull": true
           },
           {
             "fieldPath": "crTagName",
-            "columnName": "cr_tag_name",
+            "columnName": "tag_name",
             "affinity": "TEXT",
             "notNull": true
           }
         ],
         "primaryKey": {
           "columnNames": [
-            "cr_transaction_id",
-            "cr_tag_name"
+            "transaction_id",
+            "tag_name"
           ],
           "autoGenerate": false
         },
-        "indices": [],
+        "indices": [
+          {
+            "name": "index_transaction_tag_tag_name",
+            "unique": false,
+            "columnNames": [
+              "tag_name"
+            ],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_transaction_tag_tag_name` ON `${TABLE_NAME}` (`tag_name`)"
+          }
+        ],
         "foreignKeys": [
           {
             "table": "transaction",
             "onDelete": "RESTRICT",
             "onUpdate": "CASCADE",
             "columns": [
-              "cr_transaction_id"
+              "transaction_id"
             ],
             "referencedColumns": [
               "transaction_id"
@@ -447,7 +507,7 @@
             "onDelete": "RESTRICT",
             "onUpdate": "CASCADE",
             "columns": [
-              "cr_tag_name"
+              "tag_name"
             ],
             "referencedColumns": [
               "tag_name"
@@ -479,7 +539,16 @@
           ],
           "autoGenerate": false
         },
-        "indices": [],
+        "indices": [
+          {
+            "name": "index_routine_tag_tag_name",
+            "unique": false,
+            "columnNames": [
+              "tag_name"
+            ],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_routine_tag_tag_name` ON `${TABLE_NAME}` (`tag_name`)"
+          }
+        ],
         "foreignKeys": [
           {
             "table": "routine",
@@ -509,7 +578,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'c19c2e22bf0cfaff8b7179620b98fa73')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '120ac3fb942184cec914ca6a890954eb')"
     ]
   }
 }

@@ -3,6 +3,7 @@ package com.simoale.debitcredit.model;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
+import androidx.room.Index;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -10,6 +11,7 @@ import static androidx.room.ForeignKey.CASCADE;
 import static androidx.room.ForeignKey.RESTRICT;
 
 @Entity(tableName = "routine_tag",
+        indices = {@Index(value = {"tag_name"})},
         primaryKeys = {"routine_id", "tag_name"},
         foreignKeys = {
                 @ForeignKey(entity = Routine.class,

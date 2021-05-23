@@ -3,6 +3,7 @@ package com.simoale.debitcredit.model;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
+import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
 import static androidx.room.ForeignKey.CASCADE;
@@ -12,6 +13,7 @@ import static androidx.room.ForeignKey.RESTRICT;
  * Class which represents a transaction with its information
  */
 @Entity(tableName = "transaction",
+        indices = {@Index(value = {"transaction_category_name"}), @Index(value = {"transaction_payee_name"})},
         foreignKeys = {
                 @ForeignKey(entity = Category.class,
                         parentColumns = "category_name",
