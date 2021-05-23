@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CompoundButton;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Switch;
@@ -26,6 +27,7 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.Observer;
@@ -82,10 +84,14 @@ public class NewTransactionFragment extends Fragment {
 
     private TextInputLayout amountEditText;
     private TextInputLayout descriptionEditText;
-    private TextInputLayout categoryEditText;
-    private TextInputLayout payeeEditText;
-    private TextInputLayout walletEditText;
-    private TextInputLayout tagEditText;
+    //private TextInputLayout categoryEditText;
+    String categorySelected;
+    //private TextInputLayout payeeEditText;
+    String payeeSelected;
+    //private TextInputLayout walletEditText;
+    String walletSelected;
+    //private TextInputLayout tagEditText;
+    //String tagSelected;
     private Map<Integer, Chip> tagSelected;
     private TextInputLayout noteEditText;
     private TextView dateDisplay;
@@ -137,10 +143,9 @@ public class NewTransactionFragment extends Fragment {
             // Getting the views
             this.amountEditText = activity.findViewById(R.id.transaction_amount_TextInput);
             this.descriptionEditText = activity.findViewById(R.id.transaction_description_TextInput);
-            this.categoryEditText = activity.findViewById(R.id.transaction_category_TextInput);
-            this.payeeEditText = activity.findViewById(R.id.transaction_payee_TextInput);
-            this.walletEditText = activity.findViewById(R.id.transaction_wallet_TextInput);
-            this.tagEditText = activity.findViewById(R.id.transaction_tag_TextInput);
+            //this.payeeEditText = activity.findViewById(R.id.transaction_payee_TextInput);
+            //this.walletEditText = activity.findViewById(R.id.transaction_wallet_TextInput);
+            //this.tagEditText = activity.findViewById(R.id.transaction_tag_TextInput);
             this.dateDisplay = activity.findViewById(R.id.date_display);
             this.noteEditText = activity.findViewById(R.id.transaction_note_TextInput);
             this.locationText = activity.findViewById(R.id.location_text);
@@ -178,6 +183,7 @@ public class NewTransactionFragment extends Fragment {
             setupImageCapture();
             setupLocation();
 
+
             saveBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -185,9 +191,9 @@ public class NewTransactionFragment extends Fragment {
                         // Retrive data
                         Integer amount = transactionType.getType() * Math.abs(Integer.parseInt(amountEditText.getEditText().getText().toString()));
                         String description = descriptionEditText.getEditText().getText().toString();
-                        String category = categoryEditText.getEditText().getText().toString();
-                        String payee = payeeEditText.getEditText().getText().toString();
-                        String wallet = walletEditText.getEditText().getText().toString();
+                        //String category = categoryEditText.getEditText().getText().toString();
+                        //String payee = payeeEditText.getEditText().getText().toString();
+                        //String wallet = walletEditText.getEditText().getText().toString();
                         List<Chip> tagChips = new ArrayList<>();
                         tagChips.addAll(tagSelected.values());
                         String location = locationText.getText().toString();
@@ -203,11 +209,11 @@ public class NewTransactionFragment extends Fragment {
                         }
 
                         AtomicInteger walletId = new AtomicInteger();
-                        walletViewModel.getWalletFromName(wallet).observe((LifecycleOwner) activity, w -> {
+                        walletViewModel.getWalletFromName(walletSelected).observe((LifecycleOwner) activity, w -> {
                             walletId.set(w.getId());
-                            if (Utilities.checkDataValid(amount.toString(), category, dateSelected, wallet)) {
+                            if (Utilities.checkDataValid(amount.toString(), categorySelected, dateSelected, walletSelected)) {
                                 transactionViewModel.addTransaction(new Transaction(amount,
-                                        description, category, payee, dateSelected, walletId.intValue(), walletId.intValue(), location, note, imageUriString));
+                                        description, categorySelected, payeeSelected, dateSelected, walletId.intValue(), walletId.intValue(), location, note, imageUriString));
                                 Navigation.findNavController(v).navigate(R.id.action_newTransactionTabFragment2_to_nav_home2);
                             } else {
                                 Toast.makeText(activity.getBaseContext(), "Every field must be filled", Toast.LENGTH_LONG).show();
@@ -322,16 +328,27 @@ public class NewTransactionFragment extends Fragment {
             public void onCheckedChanged(ChipGroup chipGroup, int i) {
                 Chip chip = chipGroup.findViewById(i);
                 // Set the chosen payee
-                payeeEditText.getEditText().setText(chip.getText());
+                payeeSelected = chip.getText().toString();
             }
         });
         ImageButton add = getView().findViewById(R.id.add_payee);
         add.setOnClickListener(v -> {
-            if (Utilities.checkDataValid(payeeEditText.getEditText().getText().toString())) {
-                payeeViewModel.addPayee(new Payee(payeeEditText.getEditText().getText().toString()));
-            } else {
-                Toast.makeText(activity.getBaseContext(), "Insert a payee name to create a new one", Toast.LENGTH_LONG).show();
-            }
+            // Generate dialog for insertion
+            View dialogView = this.getLayoutInflater().inflate(R.layout.dialog_add, null);
+            AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(activity).setView(dialogView);
+            EditText editText = (EditText) dialogView.findViewById(R.id.dialog_add_InputEditText);
+            dialogBuilder.setMessage("Remember that an item must be unique!")
+                    .setCancelable(false) //Sets whether this dialog is cancelable with the BACK key.
+                    .setPositiveButton("Save", (dialog, id) -> {
+                        if (Utilities.checkDataValid(editText.getText().toString())) {
+                            payeeViewModel.addPayee(new Payee(editText.getText().toString()));
+                        } else {
+                            Toast.makeText(activity.getBaseContext(), "Insert a payee name to create a new one", Toast.LENGTH_LONG).show();
+                        }
+                    })
+                    .setNegativeButton("Cancel", (dialog, id) -> dialog.cancel());
+            AlertDialog alertDialog = dialogBuilder.create();
+            alertDialog.show();
         });
     }
 
@@ -353,16 +370,26 @@ public class NewTransactionFragment extends Fragment {
             public void onCheckedChanged(ChipGroup chipGroup, int i) {
                 Chip chip = chipGroup.findViewById(i);
                 // Set the chosen category
-                categoryEditText.getEditText().setText(chip.getText());
+                categorySelected = chip.getText().toString();
             }
         });
         ImageButton add = getView().findViewById(R.id.add_category);
         add.setOnClickListener(v -> {
-            if (Utilities.checkDataValid(categoryEditText.getEditText().getText().toString())) {
-                categoryViewModel.addCategory(new Category(categoryEditText.getEditText().getText().toString()));
-            } else {
-                Toast.makeText(activity.getBaseContext(), "Insert a category name to create a new one", Toast.LENGTH_LONG).show();
-            }
+            View dialogView = this.getLayoutInflater().inflate(R.layout.dialog_add, null);
+            AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(activity).setView(dialogView);
+            EditText editText = (EditText) dialogView.findViewById(R.id.dialog_add_InputEditText);
+            dialogBuilder.setMessage("Remember that an item must be unique!")
+                    .setCancelable(false) //Sets whether this dialog is cancelable with the BACK key.
+                    .setPositiveButton("Save", (dialog, id) -> {
+                        if (Utilities.checkDataValid(editText.getText().toString())) {
+                            categoryViewModel.addCategory(new Category(editText.getText().toString()));
+                        } else {
+                            Toast.makeText(activity.getBaseContext(), "Insert a category name to create a new one", Toast.LENGTH_LONG).show();
+                        }
+                    })
+                    .setNegativeButton("Cancel", (dialog, id) -> dialog.cancel());
+            AlertDialog alertDialog = dialogBuilder.create();
+            alertDialog.show();
         });
     }
 
@@ -384,7 +411,7 @@ public class NewTransactionFragment extends Fragment {
             public void onCheckedChanged(ChipGroup chipGroup, int i) {
                 Chip chip = chipGroup.findViewById(i);
                 // Set the chosen category
-                walletEditText.getEditText().setText(chip.getText());
+                walletSelected = chip.getText().toString();
             }
         });
     }
@@ -415,11 +442,21 @@ public class NewTransactionFragment extends Fragment {
         });
         ImageButton add = getView().findViewById(R.id.add_tag);
         add.setOnClickListener(v -> {
-            if (Utilities.checkDataValid(tagEditText.getEditText().getText().toString())) {
-                tagViewModel.addTag(new Tag(tagEditText.getEditText().getText().toString()));
-            } else {
-                Toast.makeText(activity.getBaseContext(), "Insert a TAG to create a new one", Toast.LENGTH_LONG).show();
-            }
+            View dialogView = this.getLayoutInflater().inflate(R.layout.dialog_add, null);
+            AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(activity).setView(dialogView);
+            EditText editText = (EditText) dialogView.findViewById(R.id.dialog_add_InputEditText);
+            dialogBuilder.setMessage("Remember that an item must be unique!")
+                    .setCancelable(false) //Sets whether this dialog is cancelable with the BACK key.
+                    .setPositiveButton("Save", (dialog, id) -> {
+                        if (Utilities.checkDataValid(editText.getText().toString())) {
+                            tagViewModel.addTag(new Tag(editText.getText().toString()));
+                        } else {
+                            Toast.makeText(activity.getBaseContext(), "Insert a category name to create a new one", Toast.LENGTH_LONG).show();
+                        }
+                    })
+                    .setNegativeButton("Cancel", (dialog, id) -> dialog.cancel());
+            AlertDialog alertDialog = dialogBuilder.create();
+            alertDialog.show();
         });
     }
 

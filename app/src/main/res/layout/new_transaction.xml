@@ -55,39 +55,18 @@
                     android:layout_height="wrap_content"
                     android:imeOptions="flagNoExtractUi" />
             </com.google.android.material.textfield.TextInputLayout>
+            >
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/transaction_category_TextInput"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                android:layout_width="match_parent"
-                android:layout_height="65dp"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:hint="@string/category"
-                android:inputType="text"
-                app:endIconMode="clear_text"
-                app:errorEnabled="true"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/transaction_description_TextInput">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/transaction_category_InputEditText"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:imeOptions="flagNoExtractUi" />
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <com.google.android.material.chip.ChipGroup
-                android:id="@+id/transaction_category_chip_group"
-                android:layout_width="0dp"
+            <TextView
+                android:id="@+id/category_text"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_margin="10dp"
+                android:text="@string/category"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
+                android:textColor="@android:color/darker_gray"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/transaction_category_TextInput"
-                app:selectionRequired="true"
-                app:singleSelection="true" />
+                app:layout_constraintTop_toBottomOf="@+id/transaction_description_TextInput" />
 
             <ImageButton
                 android:id="@+id/add_category"
@@ -97,41 +76,31 @@
                 android:contentDescription="@string/add_category"
                 android:src="@drawable/ic_plus_sign_24dp"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/transaction_category_TextInput" />
-
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/transaction_payee_TextInput"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                android:layout_width="match_parent"
-                android:layout_height="65dp"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginRight="10dp"
-                android:hint="@string/payee"
-                android:inputType="text"
-                app:endIconMode="clear_text"
-                app:errorEnabled="true"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/transaction_category_chip_group">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/transaction_payee_InputEditText"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:imeOptions="flagNoExtractUi" />
-            </com.google.android.material.textfield.TextInputLayout>
+                app:layout_constraintTop_toBottomOf="@id/transaction_description_TextInput" />
 
             <com.google.android.material.chip.ChipGroup
-                android:id="@+id/transaction_payee_chip_group"
+                android:id="@+id/transaction_category_chip_group"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/transaction_payee_TextInput"
+                app:layout_constraintTop_toBottomOf="@+id/category_text"
                 app:selectionRequired="true"
-                app:singleSelection="true"></com.google.android.material.chip.ChipGroup>
+                app:singleSelection="true" />
+
+
+            <TextView
+                android:id="@+id/payee_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:text="@string/payee"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
+                android:textColor="@android:color/darker_gray"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/transaction_category_chip_group" />
 
             <ImageButton
                 android:id="@+id/add_payee"
@@ -141,7 +110,18 @@
                 android:contentDescription="@string/add_payee"
                 android:src="@drawable/ic_plus_sign_24dp"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/transaction_payee_TextInput" />
+                app:layout_constraintTop_toBottomOf="@id/transaction_category_chip_group" />
+
+            <com.google.android.material.chip.ChipGroup
+                android:id="@+id/transaction_payee_chip_group"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/payee_text"
+                app:selectionRequired="true"
+                app:singleSelection="true"></com.google.android.material.chip.ChipGroup>
 
             <TextView
                 android:id="@+id/date_display"
@@ -160,9 +140,9 @@
                 android:layout_margin="10dp"
                 android:text="@string/choose_a_date"
                 android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
+                android:visibility="invisible"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="parent"
-                android:visibility="invisible"/>
+                app:layout_constraintTop_toBottomOf="parent" />
 
             <ImageButton
                 android:id="@+id/calendar"
@@ -176,27 +156,16 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/transaction_payee_chip_group" />
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/transaction_wallet_TextInput"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                android:layout_width="match_parent"
-                android:layout_height="65dp"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginRight="10dp"
-                android:hint="@string/wallet"
-                android:inputType="text"
-                app:endIconMode="clear_text"
-                app:errorEnabled="true"
+            <TextView
+                android:id="@+id/wallet_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:text="@string/wallet"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
+                android:textColor="@android:color/darker_gray"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/date_display">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/transaction_wallet_InputEditText"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:imeOptions="flagNoExtractUi" />
-            </com.google.android.material.textfield.TextInputLayout>
+                app:layout_constraintTop_toBottomOf="@+id/date_display" />
 
             <com.google.android.material.chip.ChipGroup
                 android:id="@+id/transaction_wallet_chip_group"
@@ -206,40 +175,20 @@
                 android:layout_marginRight="10dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/transaction_wallet_TextInput"
+                app:layout_constraintTop_toBottomOf="@+id/wallet_text"
                 app:selectionRequired="true"
                 app:singleSelection="true"></com.google.android.material.chip.ChipGroup>
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/transaction_tag_TextInput"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                android:layout_width="match_parent"
-                android:layout_height="65dp"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginRight="10dp"
-                android:hint="@string/tag"
-                android:inputType="text"
-                app:endIconMode="clear_text"
-                app:errorEnabled="true"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/transaction_wallet_chip_group">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/transaction_tag_InputEditText"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:imeOptions="flagNoExtractUi" />
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <com.google.android.material.chip.ChipGroup
-                android:id="@+id/transaction_tag_chip_group"
-                android:layout_width="0dp"
+            <TextView
+                android:id="@+id/tag_text"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
+                android:layout_margin="10dp"
+                android:text="@string/tag"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
+                android:textColor="@android:color/darker_gray"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/transaction_tag_TextInput"></com.google.android.material.chip.ChipGroup>
+                app:layout_constraintTop_toBottomOf="@+id/transaction_wallet_chip_group" />
 
             <ImageButton
                 android:id="@+id/add_tag"
@@ -249,7 +198,16 @@
                 android:contentDescription="@string/add_tag"
                 android:src="@drawable/ic_plus_sign_24dp"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/transaction_tag_TextInput" />
+                app:layout_constraintTop_toBottomOf="@id/transaction_wallet_chip_group" />
+
+            <com.google.android.material.chip.ChipGroup
+                android:id="@+id/transaction_tag_chip_group"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tag_text"></com.google.android.material.chip.ChipGroup>
 
             <TextView
                 android:id="@+id/extra"
