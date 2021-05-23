@@ -10,14 +10,16 @@ import com.simoale.debitcredit.model.Budget;
 import com.simoale.debitcredit.model.Category;
 import com.simoale.debitcredit.model.Payee;
 import com.simoale.debitcredit.model.Routine;
+import com.simoale.debitcredit.model.RoutineTagCrossRef;
 import com.simoale.debitcredit.model.Tag;
 import com.simoale.debitcredit.model.Transaction;
+import com.simoale.debitcredit.model.TransactionTagCrossRef;
 import com.simoale.debitcredit.model.Wallet;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-@Database(entities = {Budget.class, Category.class, Payee.class, Routine.class, Tag.class, Transaction.class, Wallet.class}, version = 1, exportSchema = true)
+@Database(entities = {Budget.class, Category.class, Payee.class, Routine.class, Tag.class, Transaction.class, Wallet.class, TransactionTagCrossRef.class, RoutineTagCrossRef.class}, version = 1, exportSchema = true)
 public abstract class DatabaseInstance extends RoomDatabase {
     private static final int NUMBER_OF_THREADS = 4;
     public static final ExecutorService databaseWriteExecutor =

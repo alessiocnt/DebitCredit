@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "ffebf4567c7b6cc2ef862b00216e4296",
+    "identityHash": "c19c2e22bf0cfaff8b7179620b98fa73",
     "entities": [
       {
         "tableName": "budget",
@@ -404,12 +404,112 @@
         },
         "indices": [],
         "foreignKeys": []
+      },
+      {
+        "tableName": "transaction_tag",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`cr_transaction_id` INTEGER NOT NULL, `cr_tag_name` TEXT NOT NULL, PRIMARY KEY(`cr_transaction_id`, `cr_tag_name`), FOREIGN KEY(`cr_transaction_id`) REFERENCES `transaction`(`transaction_id`) ON UPDATE CASCADE ON DELETE RESTRICT , FOREIGN KEY(`cr_tag_name`) REFERENCES `tag`(`tag_name`) ON UPDATE CASCADE ON DELETE RESTRICT )",
+        "fields": [
+          {
+            "fieldPath": "crTransactionId",
+            "columnName": "cr_transaction_id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "crTagName",
+            "columnName": "cr_tag_name",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "cr_transaction_id",
+            "cr_tag_name"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [],
+        "foreignKeys": [
+          {
+            "table": "transaction",
+            "onDelete": "RESTRICT",
+            "onUpdate": "CASCADE",
+            "columns": [
+              "cr_transaction_id"
+            ],
+            "referencedColumns": [
+              "transaction_id"
+            ]
+          },
+          {
+            "table": "tag",
+            "onDelete": "RESTRICT",
+            "onUpdate": "CASCADE",
+            "columns": [
+              "cr_tag_name"
+            ],
+            "referencedColumns": [
+              "tag_name"
+            ]
+          }
+        ]
+      },
+      {
+        "tableName": "routine_tag",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`routine_id` INTEGER NOT NULL, `tag_name` TEXT NOT NULL, PRIMARY KEY(`routine_id`, `tag_name`), FOREIGN KEY(`routine_id`) REFERENCES `routine`(`routine_id`) ON UPDATE CASCADE ON DELETE RESTRICT , FOREIGN KEY(`tag_name`) REFERENCES `tag`(`tag_name`) ON UPDATE CASCADE ON DELETE RESTRICT )",
+        "fields": [
+          {
+            "fieldPath": "routineId",
+            "columnName": "routine_id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "tagName",
+            "columnName": "tag_name",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "routine_id",
+            "tag_name"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [],
+        "foreignKeys": [
+          {
+            "table": "routine",
+            "onDelete": "RESTRICT",
+            "onUpdate": "CASCADE",
+            "columns": [
+              "routine_id"
+            ],
+            "referencedColumns": [
+              "routine_id"
+            ]
+          },
+          {
+            "table": "tag",
+            "onDelete": "RESTRICT",
+            "onUpdate": "CASCADE",
+            "columns": [
+              "tag_name"
+            ],
+            "referencedColumns": [
+              "tag_name"
+            ]
+          }
+        ]
       }
     ],
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'ffebf4567c7b6cc2ef862b00216e4296')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'c19c2e22bf0cfaff8b7179620b98fa73')"
     ]
   }
 }
