@@ -1,24 +1,14 @@
 package com.simoale.debitcredit.ui.transactions;
 
-import android.Manifest;
 import android.app.Activity;
 import android.content.ContentResolver;
 import android.content.ContentValues;
-import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
-import android.location.Location;
-import android.location.LocationManager;
 import android.net.ConnectivityManager;
-import android.net.Network;
-import android.net.NetworkInfo;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
-import android.os.Looper;
 import android.provider.MediaStore;
-import android.provider.Settings;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -36,8 +26,6 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AlertDialog;
-import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.Observer;
@@ -45,24 +33,16 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelStoreOwner;
 import androidx.navigation.Navigation;
 
-import com.android.volley.Request;
 import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.Volley;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
-import com.google.android.gms.location.LocationResult;
-import com.google.android.gms.location.LocationServices;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputLayout;
 import com.simoale.debitcredit.R;
 import com.simoale.debitcredit.model.Category;
-import com.simoale.debitcredit.model.Interval;
 import com.simoale.debitcredit.model.Payee;
 import com.simoale.debitcredit.model.Tag;
 import com.simoale.debitcredit.model.Transaction;
@@ -72,10 +52,8 @@ import com.simoale.debitcredit.ui.payee.PayeeViewModel;
 import com.simoale.debitcredit.ui.tag.TagViewModel;
 import com.simoale.debitcredit.ui.wallet.WalletViewModel;
 import com.simoale.debitcredit.utils.DatePicker;
+import com.simoale.debitcredit.utils.LocationUtils;
 import com.simoale.debitcredit.utils.Utilities;
-
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.io.IOException;
 import java.io.OutputStream;
@@ -89,7 +67,6 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import static android.content.Intent.FLAG_ACTIVITY_NEW_TASK;
 import static com.simoale.debitcredit.utils.Utilities.REQUEST_IMAGE_CAPTURE;
 
 public class NewTransactionFragment extends Fragment {
@@ -120,6 +97,7 @@ public class NewTransactionFragment extends Fragment {
     private Button saveBtn;
     private Button cancelBtn;
 
+    LocationUtils locationUtils;
     // Location variables
     private boolean requestingLocationUpdates = false;
     private FusedLocationProviderClient fusedLocationClient;
@@ -178,22 +156,22 @@ public class NewTransactionFragment extends Fragment {
             this.walletViewModel = new ViewModelProvider((ViewModelStoreOwner) activity).get(WalletViewModel.class);
             this.tagViewModel = new ViewModelProvider((ViewModelStoreOwner) activity).get(TagViewModel.class);
 
+            this.locationUtils = new LocationUtils(activity);
             requestPermissionLauncher = registerForActivityResult(new ActivityResultContracts.RequestPermission(),
                     new ActivityResultCallback<Boolean>() {
                         @Override
                         public void onActivityResult(Boolean result) {
                             if (result) {
-                                startLocationUpdates(activity);
+                                locationUtils.startLocationUpdates();
                                 Log.d("LAB", "PERMISSION GRANTED");
                             } else {
                                 Log.d("LAB", "PERMISSION NOT GRANTED");
-                                showDialog(activity);
+                                locationUtils.showDialog();
                             }
                         }
                     });
-
-            initializeLocation(activity);
-            setupNetwork();
+            locationUtils.initializeLocation(locationText);
+            locationUtils.setupNetwork();
 
             setupDatePicker();
             setupChips();
@@ -253,7 +231,7 @@ public class NewTransactionFragment extends Fragment {
     public void onStart() {
         super.onStart();
         if (getActivity() != null && requestingLocationUpdates) {
-            registerNetworkCallback(getActivity());
+            locationUtils.registerNetworkCallback();
         }
     }
 
@@ -261,14 +239,14 @@ public class NewTransactionFragment extends Fragment {
     public void onResume() {
         super.onResume();
         if (requestingLocationUpdates && getActivity() != null) {
-            startLocationUpdates(getActivity());
+            locationUtils.startLocationUpdates();
         }
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        stopLocationUpdates();
+        locationUtils.stopLocationUpdates();
     }
 
     @Override
@@ -277,71 +255,7 @@ public class NewTransactionFragment extends Fragment {
         if (requestQueue != null) {
             requestQueue.cancelAll(OSM_REQUEST_TAG);
         }
-        unRegisterNetworkCallback();
-    }
-
-    private void initializeLocation(Activity activity) {
-        fusedLocationClient = LocationServices.getFusedLocationProviderClient(activity);
-        locationRequest = LocationRequest.create();
-        // Set the desired interval for active location updates, in milliseconds.
-        locationRequest.setInterval(1000);
-        locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
-
-        locationCallback = new LocationCallback() {
-            @Override
-            public void onLocationResult(@NonNull LocationResult locationResult) {
-                super.onLocationResult(locationResult);
-                // Update UI with location data
-                Location location = locationResult.getLastLocation();
-                if (isNetworkConnected) {
-                    //if internet connection is available, I can make the request
-                    sendVolleyRequest(String.valueOf(location.getLatitude()), String.valueOf(location.getLongitude()));
-
-                    requestingLocationUpdates = false;
-                    stopLocationUpdates();
-                } else {
-                    //if internet connection is not available, I'll show the user a snackbar
-                    snackbar.show();
-                }
-            }
-        };
-    }
-
-    private void setupNetwork() {
-        // TODO idk if it works
-        snackbar = Snackbar.make(activity.findViewById(R.id.nav_host_fragment),
-                "No Internet Available",
-                Snackbar.LENGTH_INDEFINITE)
-                .setAction(R.string.settings, new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Intent intent = new Intent();
-                        intent.setAction(Settings.ACTION_WIRELESS_SETTINGS);
-                        intent.setFlags(FLAG_ACTIVITY_NEW_TASK);
-                        if (intent.resolveActivity(activity.getPackageManager()) != null) {
-                            activity.startActivity(intent);
-                        }
-                    }
-                });
-        networkCallback = new ConnectivityManager.NetworkCallback() {
-            @Override
-            public void onAvailable(@NonNull Network network) {
-                super.onAvailable(network);
-                isNetworkConnected = true;
-                snackbar.dismiss();
-                if (requestingLocationUpdates) {
-                    startLocationUpdates(activity);
-                }
-            }
-
-            @Override
-            public void onLost(@NonNull Network network) {
-                super.onLost(network);
-                isNetworkConnected = false;
-                snackbar.show();
-            }
-        };
-        requestQueue = Volley.newRequestQueue(activity);
+        locationUtils.unRegisterNetworkCallback();
     }
 
     private void setupImageCapture() {
@@ -361,16 +275,15 @@ public class NewTransactionFragment extends Fragment {
                 imageView.setImageBitmap(bitmap);
             }
         });
-
     }
 
     private void setupLocation() {
         locationSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
-                    requestingLocationUpdates = true;
-                    registerNetworkCallback(activity);
-                    startLocationUpdates(activity);
+                    locationUtils.setRequestingLocationUpdates(true);
+                    locationUtils.registerNetworkCallback();
+                    locationUtils.startLocationUpdates();
                 }
             }
         });
@@ -558,151 +471,4 @@ public class NewTransactionFragment extends Fragment {
         return imageUri;
     }
 
-    /**
-     * Method called to start requesting the updates for the Location
-     * It checks also the permission fo the Manifest.permission.ACCESS_FINE_LOCATION
-     *
-     * @param activity the current Activity
-     */
-    private void startLocationUpdates(Activity activity) {
-        final String PERMISSION_REQUESTED = Manifest.permission.ACCESS_FINE_LOCATION;
-        //permission granted
-        if (ActivityCompat.checkSelfPermission(activity, PERMISSION_REQUESTED) == PackageManager.PERMISSION_GRANTED) {
-            statusGPSCheck(activity);
-            fusedLocationClient.requestLocationUpdates(locationRequest, locationCallback, Looper.getMainLooper());
-        } else if (ActivityCompat.shouldShowRequestPermissionRationale(activity, PERMISSION_REQUESTED)) {
-            //if the permission was denied before
-            showDialog(activity);
-        } else {
-            // You can directly ask for the permission.
-            // The registered ActivityResultCallback gets the result of this request.
-            requestPermissionLauncher.launch(PERMISSION_REQUESTED);
-        }
-    }
-
-    /**
-     * Method called to stop the updates for the Location
-     */
-    private void stopLocationUpdates() {
-        fusedLocationClient.removeLocationUpdates(locationCallback);
-    }
-
-    /**
-     * Method called to register the NetworkCallback in the ConnectivityManager (SDK >= N) or
-     * to get info about the network with NetworkInfo (Android 6)
-     *
-     * @param activity the current Activity
-     */
-    private void registerNetworkCallback(Activity activity) {
-        Log.d("LAB", "registerNetworkCallback");
-        ConnectivityManager connectivityManager =
-                (ConnectivityManager) activity.getSystemService(Context.CONNECTIVITY_SERVICE);
-
-        if (connectivityManager != null) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                connectivityManager.registerDefaultNetworkCallback(networkCallback);
-            } else {
-                //Class deprecated since API 29 (android 10) but used for android 6
-                NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
-                isNetworkConnected = networkInfo != null && networkInfo.isConnected();
-            }
-        } else {
-            isNetworkConnected = false;
-        }
-    }
-
-    /**
-     * Method called to unregister the NetworkCallback (SDK >= N) or
-     * to dismiss the snackbar in Android 6 (it works only if the snackbar is still visible)
-     */
-    private void unRegisterNetworkCallback() {
-        if (getActivity() != null) {
-            Log.d("LAB", "unRegisterNetworkCallback");
-            ConnectivityManager connectivityManager =
-                    (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
-            if (connectivityManager != null) {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                    try {
-                        connectivityManager.unregisterNetworkCallback(networkCallback);
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                } else {
-                    snackbar.dismiss();
-                }
-            }
-        }
-    }
-
-    /**
-     * Method called to check the status of the GPS (on or off)
-     * If the GPS is off, a dialog will be displayed to the user to turn it on
-     *
-     * @param activity the current Activity
-     */
-    private void statusGPSCheck(Activity activity) {
-        final LocationManager manager = (LocationManager) activity.getSystemService(Context.LOCATION_SERVICE);
-        if (manager != null && !manager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
-            //if gps is off, show the alert message
-            new AlertDialog.Builder(activity)
-                    .setMessage("Your GPS seems to be disabled, do you want to enable it?")
-                    .setCancelable(false)
-                    .setPositiveButton("Yes", (dialog, id) -> activity.startActivity(
-                            new Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS)))
-                    .setNegativeButton("No", (dialog, id) -> dialog.cancel())
-                    .create()
-                    .show();
-        }
-    }
-
-    /**
-     * Method called to create a new Dialog to check the user for previously denied permission
-     *
-     * @param activity the current Activity
-     */
-    private void showDialog(Activity activity) {
-        new AlertDialog.Builder(activity)
-                .setMessage("Permission was denied, but is needed for the gps functionality.")
-                .setCancelable(false) //Sets whether this dialog is cancelable with the BACK key.
-                .setPositiveButton("OK", (dialog, id) -> activity.startActivity(
-                        new Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS)))
-                .setNegativeButton("Cancel", (dialog, id) -> dialog.cancel())
-                .create()
-                .show();
-    }
-
-    /**
-     * Method called to query the OpenStreetMap API
-     *
-     * @param latitude  latitude of the device
-     * @param longitude longitude of the device
-     */
-    private void sendVolleyRequest(String latitude, String longitude) {
-        String url = "https://nominatim.openstreetmap.org/reverse?lat=" + latitude +
-                "&lon=" + longitude + "&format=jsonv2&limit=1";
-
-        // Request a jsonObject response from the provided URL.
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url,
-                null, new Response.Listener<JSONObject>() {
-            @Override
-            public void onResponse(JSONObject response) {
-                try {
-                    locationText.setText(response.get("name").toString());
-                    unRegisterNetworkCallback();
-                } catch (JSONException e) {
-                    locationText.setText("Error finding your current location");
-                    e.printStackTrace();
-                }
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Log.d("LAB", error.toString());
-            }
-        });
-
-        jsonObjectRequest.setTag(OSM_REQUEST_TAG);
-        // Add the request to the RequestQueue.
-        requestQueue.add(jsonObjectRequest);
-    }
 }
