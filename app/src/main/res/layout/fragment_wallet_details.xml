@@ -146,30 +146,16 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/transaction_search_start_date" />
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/transaction_category_search"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                android:layout_width="match_parent"
-                android:layout_height="65dp"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginRight="10dp"
-                android:hint="@string/category"
-                android:inputType="text"
-                app:endIconMode="clear_text"
-                app:errorEnabled="true"
+            <TextView
+                android:id="@+id/transaction_category_section"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:text="@string/category"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
+                android:textColor="@android:color/darker_gray"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/transaction_search_end_date"
-                app:startIconContentDescription="@string/search_transaction"
-                app:startIconDrawable="@drawable/ic_baseline_search_24">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/transaction_category_InputEditText"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:imeOptions="actionSearch"
-                    android:inputType="text" />
-            </com.google.android.material.textfield.TextInputLayout>
+                app:layout_constraintTop_toBottomOf="@+id/transaction_search_end_date" />
 
             <com.google.android.material.chip.ChipGroup
                 android:id="@+id/transaction_search_category_chip_group"
@@ -179,33 +165,19 @@
                 android:layout_marginRight="10dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/transaction_category_search"
+                app:layout_constraintTop_toBottomOf="@+id/transaction_category_section"
                 app:singleSelection="true" />
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/transaction_tag_search"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                android:layout_width="match_parent"
-                android:layout_height="65dp"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginRight="10dp"
-                android:hint="@string/tag"
-                android:inputType="text"
-                app:endIconMode="clear_text"
-                app:errorEnabled="true"
+            <TextView
+                android:id="@+id/transaction_tag_section"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:text="@string/tag"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
+                android:textColor="@android:color/darker_gray"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/transaction_search_category_chip_group"
-                app:startIconContentDescription="@string/search_transaction"
-                app:startIconDrawable="@drawable/ic_baseline_search_24">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/transaction_tag_InputEditText"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:imeOptions="actionSearch"
-                    android:inputType="text" />
-            </com.google.android.material.textfield.TextInputLayout>
+                app:layout_constraintTop_toBottomOf="@+id/transaction_search_category_chip_group" />
 
             <com.google.android.material.chip.ChipGroup
                 android:id="@+id/transaction_search_tag_chip_group"
@@ -215,7 +187,7 @@
                 android:layout_marginRight="10dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/transaction_tag_search" />
+                app:layout_constraintTop_toBottomOf="@+id/transaction_tag_section" />
 
             <Button
                 android:id="@+id/wallet_details_search_button"
