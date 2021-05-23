@@ -25,7 +25,11 @@ public class TransactionRepository {
     }
 
     public LiveData<List<Transaction>> getTransactionList(int walletIdFrom, int walletIdTo, String description, String dateFrom, String dateTo, String categoryName, List<String> tags) {
-        return transactionDAO.getTransactions(walletIdFrom, walletIdTo, description == null ? null : "%" + description + "%", dateFrom, dateTo, categoryName); // tags missing
+        if (tags == null || tags.size() == 0) {
+            return transactionDAO.getTransactions(walletIdFrom, walletIdTo, description == null ? null : "%" + description + "%", dateFrom, dateTo, categoryName);
+        } else {
+            return transactionDAO.getTransactions(walletIdFrom, walletIdTo, description == null ? null : "%" + description + "%", dateFrom, dateTo, categoryName, tags.toArray(new String[0]));
+        }
     }
 
     public void addTransaction(final Transaction transaction) {

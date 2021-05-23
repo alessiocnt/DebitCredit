@@ -106,7 +106,6 @@ public class WalletDetailsFragment extends Fragment implements OnItemListener {
             walletBalance.setText(this.wallet.getBalance() + "€");
             walletDescription.setText(this.wallet.getDescription());
             transactionViewModel = new ViewModelProvider((ViewModelStoreOwner) activity).get(TransactionViewModel.class);
-            // TODO selezionare solo la lista del wallet interessato che si trova in walletViewModel.getSelected()
             transactionViewModel.getTransactionList(this.wallet.getId(), this.wallet.getId(), null, null, null, null, null).observe((LifecycleOwner) activity, transactions -> {
                 transactionAdapter.setData(transactions);
                 transactionViewModel.getTransactionList().removeObservers((LifecycleOwner) activity);
