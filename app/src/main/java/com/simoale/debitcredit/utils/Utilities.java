@@ -63,7 +63,7 @@ public class Utilities {
 
     public static boolean checkDataValid(String... data) {
         for (String v : data) {
-            if (v.equals("") || v == null) {
+            if (v == null || v.equals("")) {
                 return false;
             }
         }
