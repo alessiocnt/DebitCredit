@@ -170,8 +170,12 @@ public class WalletDetailsFragment extends Fragment implements OnItemListener {
         });
 
         this.categoryChipGroup.setOnCheckedChangeListener((group, checkedId) -> {
-            Chip chip = this.categoryChipGroup.findViewById(checkedId);
-            this.selectedCategoryName = chip.getText().toString();
+            try {
+                Chip chip = this.categoryChipGroup.findViewById(checkedId);
+                this.selectedCategoryName = chip.getText().toString();
+            } catch (NullPointerException e) {
+                this.selectedCategoryName = null;
+            }
         });
 
         this.tagViewModel.getTagList().observe(getActivity(), tags -> {

@@ -58,10 +58,10 @@ public class NewWalletFragment extends Fragment {
 
             this.saveBtn.setOnClickListener(v -> {
                 String walletName = walletNameText.getEditText().getText().toString();
-                String walletAmount = walletAmountText.getEditText().getText().toString();
+                String walletAmount = walletAmountText.getEditText().getText().toString().replace(',', '.');
                 String walletDescription = walletDescriptionText.getEditText().getText().toString();
                 if (Utilities.checkDataValid(walletName, walletAmount, walletDescription)) {
-                    this.walletViewModel.addWallet(new Wallet(walletName, walletDescription, Integer.parseInt(walletAmount), selectedColor.toString()));
+                    this.walletViewModel.addWallet(new Wallet(walletName, walletDescription, Float.parseFloat(walletAmount), selectedColor.toString()));
                     Navigation.findNavController(v).navigate(R.id.action_new_wallet_to_nav_wallet);
                 } else {
                     Toast.makeText(activity.getBaseContext(), "Every field must be filled", Toast.LENGTH_LONG).show();
