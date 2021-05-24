@@ -100,7 +100,7 @@
     <fragment
         android:id="@+id/transactionDetailsFragment"
         android:name="com.simoale.debitcredit.ui.transactions.TransactionDetailsFragment"
-        android:label="TransactionDetailsFragment"
+        android:label="Transaction details"
         tools:layout="@layout/transaction_details" />
     <fragment
         android:id="@+id/nav_graphs"
