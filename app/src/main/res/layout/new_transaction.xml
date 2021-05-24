@@ -132,17 +132,6 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/transaction_payee_chip_group" />
 
-            <TextView
-                android:id="@+id/date_selected"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:text="@string/choose_a_date"
-                android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
-                android:visibility="invisible"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="parent" />
-
             <ImageButton
                 android:id="@+id/calendar"
                 android:layout_width="wrap_content"

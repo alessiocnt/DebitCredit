@@ -5,7 +5,6 @@ import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.net.ConnectivityManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -41,7 +40,6 @@ import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
-import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputLayout;
 import com.simoale.debitcredit.R;
 import com.simoale.debitcredit.model.Category;
@@ -84,14 +82,9 @@ public class NewTransactionFragment extends Fragment {
 
     private TextInputLayout amountEditText;
     private TextInputLayout descriptionEditText;
-    //private TextInputLayout categoryEditText;
     String categorySelected;
-    //private TextInputLayout payeeEditText;
     String payeeSelected;
-    //private TextInputLayout walletEditText;
     String walletSelected;
-    //private TextInputLayout tagEditText;
-    //String tagSelected;
     private Map<Integer, Chip> tagSelected;
     private TextInputLayout noteEditText;
     private TextView dateDisplay;
@@ -103,19 +96,13 @@ public class NewTransactionFragment extends Fragment {
     private Button saveBtn;
     private Button cancelBtn;
 
-    LocationUtils locationUtils;
     // Location variables
+    LocationUtils locationUtils;
     private boolean requestingLocationUpdates = false;
     private FusedLocationProviderClient fusedLocationClient;
     private LocationCallback locationCallback;
     private LocationRequest locationRequest;
     private ActivityResultLauncher<String> requestPermissionLauncher;
-
-    //callback that keep monitored the internet connection
-    private ConnectivityManager.NetworkCallback networkCallback;
-    private Boolean isNetworkConnected = false;
-    private Snackbar snackbar;
-
     private RequestQueue requestQueue;
     private final static String OSM_REQUEST_TAG = "OSM_REQUEST";
 
@@ -143,9 +130,6 @@ public class NewTransactionFragment extends Fragment {
             // Getting the views
             this.amountEditText = activity.findViewById(R.id.transaction_amount_TextInput);
             this.descriptionEditText = activity.findViewById(R.id.transaction_description_TextInput);
-            //this.payeeEditText = activity.findViewById(R.id.transaction_payee_TextInput);
-            //this.walletEditText = activity.findViewById(R.id.transaction_wallet_TextInput);
-            //this.tagEditText = activity.findViewById(R.id.transaction_tag_TextInput);
             this.dateDisplay = activity.findViewById(R.id.date_display);
             this.noteEditText = activity.findViewById(R.id.transaction_note_TextInput);
             this.locationText = activity.findViewById(R.id.location_text);
@@ -191,9 +175,6 @@ public class NewTransactionFragment extends Fragment {
                         // Retrive data
                         Integer amount = transactionType.getType() * Math.abs(Integer.parseInt(amountEditText.getEditText().getText().toString()));
                         String description = descriptionEditText.getEditText().getText().toString();
-                        //String category = categoryEditText.getEditText().getText().toString();
-                        //String payee = payeeEditText.getEditText().getText().toString();
-                        //String wallet = walletEditText.getEditText().getText().toString();
                         List<Chip> tagChips = new ArrayList<>();
                         tagChips.addAll(tagSelected.values());
                         String location = locationText.getText().toString();
@@ -219,14 +200,12 @@ public class NewTransactionFragment extends Fragment {
                                 Toast.makeText(activity.getBaseContext(), "Every field must be filled", Toast.LENGTH_LONG).show();
                             }
                         });
-
                         transactionViewModel.setImageBitmpap(null);
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
                 }
             });
-
             this.cancelBtn.setOnClickListener(v -> {
                 Navigation.findNavController(v).navigate(R.id.action_newTransactionTabFragment2_to_nav_home2);
             });
@@ -426,7 +405,6 @@ public class NewTransactionFragment extends Fragment {
                     Chip chip = (Chip) getLayoutInflater().inflate(R.layout.chip_choice, tagChipGroup, false);
                     chip.setId(View.generateViewId());
                     chip.setText(t.getName());
-
                     chip.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                         public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                             if (isChecked) {
