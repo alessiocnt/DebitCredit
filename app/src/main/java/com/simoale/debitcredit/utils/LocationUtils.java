@@ -64,7 +64,8 @@ public class LocationUtils {
         this.activity = activity;
     }
 
-    public void initializeLocation(TextView endPointTextView) {
+    public void initializeLocation(TextView endPointTextView, ActivityResultLauncher<String> requestPermissionLauncher) {
+        this.requestPermissionLauncher = requestPermissionLauncher;
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(activity);
         locationRequest = LocationRequest.create();
         // Set the desired interval for active location updates, in milliseconds.

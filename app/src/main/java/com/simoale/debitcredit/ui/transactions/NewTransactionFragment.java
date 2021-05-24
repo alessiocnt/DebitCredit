@@ -159,7 +159,7 @@ public class NewTransactionFragment extends Fragment {
                             }
                         }
                     });
-            locationUtils.initializeLocation(locationText);
+            locationUtils.initializeLocation(locationText, requestPermissionLauncher);
             locationUtils.setupNetwork();
 
             setupDatePicker();
