@@ -32,10 +32,6 @@ public class WalletRepository {
         });
     }
 
-    public LiveData<Wallet> getWalletFromName(final String walletName){
-        return walletDAO.getWalletFromName(walletName);
-    }
-
     public void updateBalance(Integer walletId, Integer amount) {
         DatabaseInstance.databaseWriteExecutor.execute(new Runnable() {
             @Override

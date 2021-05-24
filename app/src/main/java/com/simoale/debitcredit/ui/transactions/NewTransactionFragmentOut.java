@@ -66,6 +66,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import static com.simoale.debitcredit.utils.Utilities.REQUEST_IMAGE_CAPTURE;
@@ -188,24 +189,16 @@ public class NewTransactionFragmentOut extends Fragment {
                         } else {
                             imageUriString = "ic_launcher_foreground";
                         }
-
-                        AtomicInteger walletId = new AtomicInteger();
-                        // Retrieve walletId
-                        walletViewModel.getWalletFromName(walletSelected).observe((LifecycleOwner) activity, w -> {
-                            walletId.set(w.getId());
-                            Log.e("observer" , "in");
-                            walletViewModel.getWalletFromName(walletSelected).removeObservers((LifecycleOwner) activity);
-                            if (Utilities.checkDataValid(amount.toString(), categorySelected, dateSelected, walletSelected)) {
-                                transactionViewModel.addTransaction(new Transaction(amount,
-                                        description, categorySelected, payeeSelected, dateSelected, walletId.intValue(), walletId.intValue(), location, note, imageUriString));
-                                //walletViewModel.updateBalance(walletId.intValue(), amount);
-                                Navigation.findNavController(v).navigate(R.id.action_newTransactionTabFragment_to_nav_home);
-                            } else {
-                                Toast.makeText(activity.getBaseContext(), "Every field must be filled", Toast.LENGTH_LONG).show();
-                            }
-                        });
-
-
+                        // Insert data
+                        Wallet currentWallet = walletViewModel.getWalletFromName(walletSelected).getValue();
+                        if (Utilities.checkDataValid(amount.toString(), categorySelected, dateSelected, walletSelected)) {
+                            transactionViewModel.addTransaction(new Transaction(amount,
+                                    description, categorySelected, payeeSelected, dateSelected, currentWallet.getId(), currentWallet.getId(), location, note, imageUriString));
+                            walletViewModel.updateBalance(currentWallet.getId(), amount);
+                            Navigation.findNavController(v).navigate(R.id.action_newTransactionTabFragment_to_nav_home);
+                        } else {
+                            Toast.makeText(activity.getBaseContext(), "Every field must be filled", Toast.LENGTH_LONG).show();
+                        }
                         transactionViewModel.setImageBitmpap(null);
                     } catch (IOException e) {
                         e.printStackTrace();

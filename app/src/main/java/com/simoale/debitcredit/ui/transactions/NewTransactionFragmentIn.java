@@ -189,19 +189,16 @@ public class NewTransactionFragmentIn extends Fragment {
                         } else {
                             imageUriString = "ic_launcher_foreground";
                         }
-
-                        AtomicInteger walletId = new AtomicInteger();
-                        walletViewModel.getWalletFromName(walletSelected).observe((LifecycleOwner) activity, w -> {
-                            walletId.set(w.getId());
-                            if (Utilities.checkDataValid(amount.toString(), categorySelected, dateSelected, walletSelected)) {
-                                transactionViewModel.addTransaction(new Transaction(amount,
-                                        description, categorySelected, payeeSelected, dateSelected, walletId.intValue(), walletId.intValue(), location, note, imageUriString));
-                                //walletViewModel.updateBalance(walletId.intValue(), amount);
-                                Navigation.findNavController(v).navigate(R.id.action_newTransactionTabFragment_to_nav_home);
-                            } else {
-                                Toast.makeText(activity.getBaseContext(), "Every field must be filled", Toast.LENGTH_LONG).show();
-                            }
-                        });
+                        // Insert data
+                        Wallet currentWallet = walletViewModel.getWalletFromName(walletSelected).getValue();
+                        if (Utilities.checkDataValid(amount.toString(), categorySelected, dateSelected, walletSelected)) {
+                            transactionViewModel.addTransaction(new Transaction(amount,
+                                    description, categorySelected, payeeSelected, dateSelected, currentWallet.getId(), currentWallet.getId(), location, note, imageUriString));
+                            walletViewModel.updateBalance(currentWallet.getId(), amount);
+                            Navigation.findNavController(v).navigate(R.id.action_newTransactionTabFragment_to_nav_home);
+                        } else {
+                            Toast.makeText(activity.getBaseContext(), "Every field must be filled", Toast.LENGTH_LONG).show();
+                        }
                         transactionViewModel.setImageBitmpap(null);
                     } catch (IOException e) {
                         e.printStackTrace();

@@ -21,10 +21,6 @@ public interface WalletDAO {
     LiveData<List<Wallet>> getWallets();
 
     @Transaction
-    @Query("SELECT * from wallet WHERE wallet_name = :walletName")
-    LiveData<Wallet> getWalletFromName(String walletName);
-
-    @Transaction
     @Query("UPDATE wallet SET wallet_balance =  wallet_balance + :amount WHERE wallet_id = :walletId")
     void updateBalance(Integer walletId, Integer amount);
 }

@@ -1,14 +1,12 @@
 package com.simoale.debitcredit.ui.wallet;
 
 import android.app.Application;
-import android.util.Log;
 
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.simoale.debitcredit.database.repository.WalletRepository;
-import com.simoale.debitcredit.model.Transaction;
 import com.simoale.debitcredit.model.Wallet;
 
 import java.util.List;
@@ -28,7 +26,7 @@ public class WalletViewModel extends AndroidViewModel {
         walletList = repository.getWalletList();
     }
 
-    public void addWallet(Wallet wallet){
+    public void addWallet(Wallet wallet) {
         repository.addWallet(wallet);
     }
 
@@ -36,7 +34,7 @@ public class WalletViewModel extends AndroidViewModel {
         return walletList;
     }
 
-    public Wallet getWallet(int position){
+    public Wallet getWallet(int position) {
         return walletList.getValue() == null ? null : walletList.getValue().get(position);
     }
 
@@ -49,8 +47,14 @@ public class WalletViewModel extends AndroidViewModel {
     }
 
     public LiveData<Wallet> getWalletFromName(String walletName) {
-        return repository.getWalletFromName(walletName);
-
+        //return repository.getWalletFromName(walletName);
+        MutableLiveData<Wallet> selected = new MutableLiveData<>();
+        this.walletList.getValue().forEach(w -> {
+            if (w.getName() == walletName) {
+                selected.setValue(w);
+            }
+        });
+        return selected;
     }
 
     public void updateBalance(Integer walletId, Integer amount) {
