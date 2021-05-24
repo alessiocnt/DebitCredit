@@ -486,4 +486,16 @@ public class NewTransactionFragment extends Fragment {
         return imageUri;
     }
 
+    public void setupUi() {
+        this.amountEditText = activity.findViewById(R.id.transaction_amount_TextInput);
+        this.descriptionEditText = activity.findViewById(R.id.transaction_description_TextInput);
+        this.dateDisplay = activity.findViewById(R.id.date_display);
+        this.noteEditText = activity.findViewById(R.id.transaction_note_TextInput);
+        this.locationText = activity.findViewById(R.id.location_text);
+        this.locationSwitch = activity.findViewById(R.id.switch_location);
+        this.captureBtn = activity.findViewById(R.id.capture_button);
+        this.imageView = activity.findViewById(R.id.imageView);
+        this.saveBtn = getView().findViewById(R.id.transaction_save_button);
+        this.cancelBtn = getView().findViewById(R.id.transaction_cancel_button);
+    }
 }
