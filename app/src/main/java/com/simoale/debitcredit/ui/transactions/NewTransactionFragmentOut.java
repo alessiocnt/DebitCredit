@@ -130,16 +130,7 @@ public class NewTransactionFragmentOut extends Fragment {
 
         if (activity != null) {
             // Getting the views
-            this.amountEditText = activity.findViewById(R.id.transaction_out_amount_TextInput);
-            this.descriptionEditText = activity.findViewById(R.id.transaction_out_description_TextInput);
-            this.dateDisplay = activity.findViewById(R.id.transaction_out_date_display);
-            this.noteEditText = activity.findViewById(R.id.transaction_out_note_TextInput);
-            this.locationText = activity.findViewById(R.id.transaction_out_location_text);
-            this.locationSwitch = activity.findViewById(R.id.transaction_out_switch_location);
-            this.captureBtn = activity.findViewById(R.id.transaction_out_capture_button);
-            this.imageView = activity.findViewById(R.id.transaction_out_imageView);
-            this.saveBtn = getView().findViewById(R.id.transaction_out_save_button);
-            this.cancelBtn = getView().findViewById(R.id.transaction_out_cancel_button);
+            setupUi();
             // Creation of needed viewMoldel to retrive data
             this.transactionViewModel = new ViewModelProvider((ViewModelStoreOwner) activity).get(TransactionViewModel.class);
             this.categoryViewModel = new ViewModelProvider((ViewModelStoreOwner) activity).get(CategoryViewModel.class);
@@ -240,6 +231,12 @@ public class NewTransactionFragmentOut extends Fragment {
             requestQueue.cancelAll(OSM_REQUEST_TAG);
         }
         locationUtils.unRegisterNetworkCallback();
+    }
+
+    @Override
+    // Needs to ensure that the current Fragment in detached from the FragmentManager
+    public void onDestroy() {
+        super.onDestroy();
     }
 
     private void setupImageCapture() {

@@ -223,4 +223,10 @@ public class WalletDetailsFragment extends Fragment implements OnItemListener {
             Navigation.findNavController(view).navigate(R.id.action_wallet_details_fragment_to_transactionDetailsFragment);
         }
     }
+
+    // Needs to ensure that the current Fragment in detached from the FragmentManager
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+    }
 }
