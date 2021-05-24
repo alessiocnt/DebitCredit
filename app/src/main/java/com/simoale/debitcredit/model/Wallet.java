@@ -18,11 +18,11 @@ public class Wallet {
     @ColumnInfo(name = "wallet_description")
     private String description;
     @ColumnInfo(name = "wallet_balance")
-    private int balance;
+    private float balance;
     @ColumnInfo(name = "wallet_image")
     private String image;
 
-    public Wallet(String name, String description, int balance, String image) {
+    public Wallet(String name, String description, float balance, String image) {
         this.name = name;
         this.description = description;
         this.balance = balance;
@@ -53,11 +53,11 @@ public class Wallet {
         this.description = description;
     }
 
-    public int getBalance() {
+    public float getBalance() {
         return balance;
     }
 
-    public void setBalance(int balance) {
+    public void setBalance(float balance) {
         this.balance = balance;
     }
 
