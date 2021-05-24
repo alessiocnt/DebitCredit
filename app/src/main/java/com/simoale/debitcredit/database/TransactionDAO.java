@@ -23,20 +23,18 @@ public interface TransactionDAO {
     @Query("SELECT DISTINCT * from `transaction`" +
             "WHERE (:walletIdFrom IS NULL OR transaction_wallet_id_from = :walletIdFrom) " +
             "AND (:description IS NULL OR transaction_description LIKE :description)" +
-            "AND (:walletIdTo IS NULL OR transaction_wallet_id_to = :walletIdTo)" +
             "AND (:dateFrom IS NULL OR :dateTo IS NULL OR transaction_date BETWEEN :dateFrom AND :dateTo)" +
             "AND (:category IS NULL OR :category = 0 OR transaction_category_name = :category)")
-    LiveData<List<Transaction>> getTransactions(int walletIdFrom, int walletIdTo, String description, String dateFrom, String dateTo, String category);
+    LiveData<List<Transaction>> getTransactions(int walletIdFrom, String description, String dateFrom, String dateTo, String category);
 
     @androidx.room.Transaction
     @Query("SELECT DISTINCT * from `transaction` JOIN transaction_tag ON `transaction`.transaction_id = transaction_tag.transaction_id " +
             "WHERE (:walletIdFrom IS NULL OR transaction_wallet_id_from = :walletIdFrom)" +
             "AND (:description IS NULL OR transaction_description LIKE :description)" +
-            "AND (:walletIdTo IS NULL OR transaction_wallet_id_to = :walletIdTo)" +
             "AND (:dateFrom IS NULL OR :dateTo IS NULL OR transaction_date BETWEEN :dateFrom AND :dateTo)" +
             "AND (:category IS NULL OR :category = 0 OR transaction_category_name = :category)" +
             "AND transaction_tag.tag_name IN (:tags)")
-    LiveData<List<Transaction>> getTransactions(int walletIdFrom, int walletIdTo, String description, String dateFrom, String dateTo, String category, String[] tags);
+    LiveData<List<Transaction>> getTransactions(int walletIdFrom, String description, String dateFrom, String dateTo, String category, String[] tags);
 
     @androidx.room.Transaction
     @Query("SELECT sum(transaction_amount) " +

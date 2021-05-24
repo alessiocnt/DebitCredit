@@ -24,11 +24,11 @@ public class TransactionRepository {
         return transactionList;
     }
 
-    public LiveData<List<Transaction>> getTransactionList(int walletIdFrom, int walletIdTo, String description, String dateFrom, String dateTo, String categoryName, List<String> tags) {
+    public LiveData<List<Transaction>> getTransactionList(int walletIdFrom, String description, String dateFrom, String dateTo, String categoryName, List<String> tags) {
         if (tags == null || tags.size() == 0) {
-            return transactionDAO.getTransactions(walletIdFrom, walletIdTo, description == null ? null : "%" + description + "%", dateFrom, dateTo, categoryName);
+            return transactionDAO.getTransactions(walletIdFrom, description == null ? null : "%" + description + "%", dateFrom, dateTo, categoryName);
         } else {
-            return transactionDAO.getTransactions(walletIdFrom, walletIdTo, description == null ? null : "%" + description + "%", dateFrom, dateTo, categoryName, tags.toArray(new String[0]));
+            return transactionDAO.getTransactions(walletIdFrom, description == null ? null : "%" + description + "%", dateFrom, dateTo, categoryName, tags.toArray(new String[0]));
         }
     }
 

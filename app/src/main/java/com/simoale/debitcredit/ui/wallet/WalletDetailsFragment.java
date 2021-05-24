@@ -106,7 +106,7 @@ public class WalletDetailsFragment extends Fragment implements OnItemListener {
             walletBalance.setText(this.wallet.getBalance() + "€");
             walletDescription.setText(this.wallet.getDescription());
             transactionViewModel = new ViewModelProvider((ViewModelStoreOwner) activity).get(TransactionViewModel.class);
-            transactionViewModel.getTransactionList(this.wallet.getId(), this.wallet.getId(), null, null, null, null, null).observe((LifecycleOwner) activity, transactions -> {
+            transactionViewModel.getTransactionList(this.wallet.getId(), null, null, null, null, null).observe((LifecycleOwner) activity, transactions -> {
                 transactionAdapter.setData(transactions);
                 transactionViewModel.getTransactionList().removeObservers((LifecycleOwner) activity);
             });
@@ -200,7 +200,7 @@ public class WalletDetailsFragment extends Fragment implements OnItemListener {
         Log.e("Filters", "DateFrom: " + this.fromDate + " DateTo: " + this.toDate);
         String searchValue = this.searchText.getEditText().getText().toString().equals("") ? null : this.searchText.getEditText().getText().toString();
 
-        transactionViewModel.getTransactionList(this.wallet.getId(), this.wallet.getId(), searchValue, this.fromDate, this.toDate, this.selectedCategoryName, this.selectedTagsNames).observe((LifecycleOwner) getActivity(), transactions -> {
+        transactionViewModel.getTransactionList(this.wallet.getId(), searchValue, this.fromDate, this.toDate, this.selectedCategoryName, this.selectedTagsNames).observe((LifecycleOwner) getActivity(), transactions -> {
             transactionAdapter.setData(transactions);
             transactionViewModel.getTransactionList().removeObservers((LifecycleOwner) getActivity());
         });
