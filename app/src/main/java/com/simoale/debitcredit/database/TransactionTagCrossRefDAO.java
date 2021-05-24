@@ -1,0 +1,23 @@
+package com.simoale.debitcredit.database;
+
+import androidx.lifecycle.LiveData;
+import androidx.room.Dao;
+import androidx.room.Insert;
+import androidx.room.OnConflictStrategy;
+import androidx.room.Query;
+import androidx.room.Transaction;
+
+import com.simoale.debitcredit.model.Tag;
+import com.simoale.debitcredit.model.TransactionTagCrossRef;
+
+import java.util.List;
+
+@Dao
+public interface TransactionTagCrossRefDAO {
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    void addTransactionTag(TransactionTagCrossRef transactionTag);
+
+    @Transaction
+    @Query("SELECT * from transaction_tag")
+    LiveData<List<TransactionTagCrossRef>> getTransactionTag();
+}
