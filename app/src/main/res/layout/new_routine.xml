@@ -181,7 +181,7 @@
             app:layout_constraintTop_toBottomOf="@id/separator" />
 
         <ImageView
-            android:id="@+id/calendar"
+            android:id="@+id/transaction_in_calendar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"

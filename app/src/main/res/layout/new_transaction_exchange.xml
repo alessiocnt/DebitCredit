@@ -140,7 +140,7 @@ android:layout_height="match_parent">
         </com.google.android.material.textfield.TextInputLayout>
 
         <TextView
-            android:id="@+id/date_display"
+            android:id="@+id/transaction_in_date_display"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
@@ -150,7 +150,7 @@ android:layout_height="match_parent">
             app:layout_constraintTop_toBottomOf="@id/transaction_exchange_description_TextInput" />
 
         <ImageView
-            android:id="@+id/calendar"
+            android:id="@+id/transaction_in_calendar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
@@ -172,7 +172,7 @@ android:layout_height="match_parent">
             app:endIconMode="clear_text"
             app:errorEnabled="true"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/date_display">
+            app:layout_constraintTop_toBottomOf="@+id/transaction_in_date_display">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/transaction_exchange_tag_InputEditText"
@@ -199,7 +199,7 @@ android:layout_height="match_parent">
         </com.google.android.material.chip.ChipGroup>
 
         <ImageView
-            android:id="@+id/add_tag"
+            android:id="@+id/transaction_in_add_tag"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
@@ -230,7 +230,7 @@ android:layout_height="match_parent">
             tools:layout_editor_absoluteX="10dp" />
 
         <TextView
-            android:id="@+id/location_text"
+            android:id="@+id/transaction_in_location_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
@@ -240,7 +240,7 @@ android:layout_height="match_parent">
             app:layout_constraintTop_toBottomOf="@id/separator" />
 
         <Switch
-            android:id="@+id/switch_location"
+            android:id="@+id/transaction_in_switch_location"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
@@ -248,7 +248,7 @@ android:layout_height="match_parent">
             app:layout_constraintTop_toBottomOf="@id/separator" />
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/transaction_note_TextInput"
+            android:id="@+id/transaction_in_note_TextInput"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="65dp"
@@ -260,17 +260,17 @@ android:layout_height="match_parent">
             app:endIconMode="clear_text"
             app:errorEnabled="true"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/location_text">
+            app:layout_constraintTop_toBottomOf="@+id/transaction_in_location_text">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/transaction_note_InputEditText"
+                android:id="@+id/transaction_in_note_InputEditText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:imeOptions="flagNoExtractUi" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <Button
-            android:id="@+id/capture_button"
+            android:id="@+id/transaction_in_capture_button"
             style="@style/Widget.MaterialComponents.Button.OutlinedButton.Icon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -279,10 +279,10 @@ android:layout_height="match_parent">
             app:icon="@drawable/ic_photo_camera_24dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/transaction_note_TextInput" />
+            app:layout_constraintTop_toBottomOf="@+id/transaction_in_note_TextInput" />
 
         <ImageView
-            android:id="@+id/imageView"
+            android:id="@+id/transaction_in_imageView"
             android:layout_width="0dp"
             android:layout_height="150dp"
             android:layout_margin="10dp"
@@ -291,25 +291,25 @@ android:layout_height="match_parent">
             android:src="@drawable/ic_menu_gallery"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/capture_button" />
+            app:layout_constraintTop_toBottomOf="@+id/transaction_in_capture_button" />
 
         <Button
-            android:id="@+id/transaction_save_button"
+            android:id="@+id/transaction_in_save_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
             android:text="@string/save"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/imageView" />
+            app:layout_constraintTop_toBottomOf="@+id/transaction_in_imageView" />
 
         <Button
-            android:id="@+id/transaction_cancel_button"
+            android:id="@+id/transaction_in_cancel_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
             android:text="@string/cancel"
-            app:layout_constraintEnd_toStartOf="@+id/transaction_save_button"
-            app:layout_constraintTop_toBottomOf="@+id/imageView" />
+            app:layout_constraintEnd_toStartOf="@+id/transaction_in_save_button"
+            app:layout_constraintTop_toBottomOf="@+id/transaction_in_imageView" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

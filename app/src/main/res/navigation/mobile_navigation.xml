@@ -13,7 +13,7 @@
 
         <action
             android:id="@+id/action_nav_home_to_newTransactionTabFragment"
-            app:destination="@id/newTransactionTabFragment2" />
+            app:destination="@id/newTransactionTabFragment" />
         <action
             android:id="@+id/action_nav_home_to_wallet_details_fragment"
             app:destination="@id/wallet_details_fragment" />
@@ -89,12 +89,12 @@
             app:destination="@id/newBudgetFragment" />
     </fragment>
     <fragment
-        android:id="@+id/newTransactionTabFragment2"
+        android:id="@+id/newTransactionTabFragment"
         android:name="com.simoale.debitcredit.ui.transactions.NewTransactionTabFragment"
         android:label="NewTransactionTabFragment"
-        tools:layout="@layout/new_transaction">
+        tools:layout="@layout/new_transaction_out">
         <action
-            android:id="@+id/action_newTransactionTabFragment2_to_nav_home2"
+            android:id="@+id/action_newTransactionTabFragment_to_nav_home"
             app:destination="@id/nav_home" />
     </fragment>
     <fragment
@@ -137,5 +137,32 @@
         android:name="com.simoale.debitcredit.ui.settings.EditTagsFragment"
         android:label="EditTagsFragment"
         tools:layout="@layout/edit_tags" />
+    <fragment
+        android:id="@+id/newExchangeTransactionFragment"
+        android:name="com.simoale.debitcredit.ui.transactions.NewExchangeTransactionFragment"
+        android:label="NewExchangeTransactionFragment"
+        tools:layout="@layout/new_transaction_exchange" >
+        <action
+            android:id="@+id/action_newExchangeTransactionFragment_to_nav_home"
+            app:destination="@id/nav_home" />
+    </fragment>
+    <fragment
+        android:id="@+id/newTransactionFragmentIn"
+        android:name="com.simoale.debitcredit.ui.transactions.NewTransactionFragmentIn"
+        android:label="NewTransactionFragmentIn"
+        tools:layout="@layout/new_transaction_in">
+        <action
+            android:id="@+id/action_newTransactionFragmentIn_to_nav_home"
+            app:destination="@id/nav_home" />
+    </fragment>
+    <fragment
+        android:id="@+id/newTransactionFragmentOut"
+        android:name="com.simoale.debitcredit.ui.transactions.NewTransactionFragmentOut"
+        android:label="NewTransactionFragmentOut"
+        tools:layout="@layout/new_transaction_out">
+        <action
+            android:id="@+id/action_newTransactionFragmentOut_to_nav_home"
+            app:destination="@id/nav_home" />
+    </fragment>
 
 </navigation>

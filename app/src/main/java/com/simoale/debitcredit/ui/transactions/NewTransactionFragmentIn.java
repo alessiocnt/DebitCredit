@@ -33,6 +33,7 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelStoreOwner;
 import androidx.navigation.Navigation;
+import androidx.navigation.fragment.NavHostFragment;
 
 import com.android.volley.RequestQueue;
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -69,7 +70,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import static com.simoale.debitcredit.utils.Utilities.REQUEST_IMAGE_CAPTURE;
 
-public class NewTransactionFragment extends Fragment {
+public class NewTransactionFragmentIn extends Fragment {
 
     private Activity activity;
     private final TransactionType transactionType;
@@ -106,7 +107,7 @@ public class NewTransactionFragment extends Fragment {
     private RequestQueue requestQueue;
     private final static String OSM_REQUEST_TAG = "OSM_REQUEST";
 
-    public NewTransactionFragment(TransactionType type) {
+    public NewTransactionFragmentIn(TransactionType type) {
         this.transactionType = type;
     }
 
@@ -117,7 +118,7 @@ public class NewTransactionFragment extends Fragment {
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        View root = inflater.inflate(R.layout.new_transaction, container, false);
+        View root = inflater.inflate(R.layout.new_transaction_in, container, false);
         return root;
     }
 
@@ -128,16 +129,16 @@ public class NewTransactionFragment extends Fragment {
 
         if (activity != null) {
             // Getting the views
-            this.amountEditText = activity.findViewById(R.id.transaction_amount_TextInput);
-            this.descriptionEditText = activity.findViewById(R.id.transaction_description_TextInput);
-            this.dateDisplay = activity.findViewById(R.id.date_display);
-            this.noteEditText = activity.findViewById(R.id.transaction_note_TextInput);
-            this.locationText = activity.findViewById(R.id.location_text);
-            this.locationSwitch = activity.findViewById(R.id.switch_location);
-            this.captureBtn = activity.findViewById(R.id.capture_button);
-            this.imageView = activity.findViewById(R.id.imageView);
-            this.saveBtn = getView().findViewById(R.id.transaction_save_button);
-            this.cancelBtn = getView().findViewById(R.id.transaction_cancel_button);
+            this.amountEditText = activity.findViewById(R.id.transaction_in_amount_TextInput);
+            this.descriptionEditText = activity.findViewById(R.id.transaction_in_description_TextInput);
+            this.dateDisplay = activity.findViewById(R.id.transaction_in_date_display);
+            this.noteEditText = activity.findViewById(R.id.transaction_in_note_TextInput);
+            this.locationText = activity.findViewById(R.id.transaction_in_location_text);
+            this.locationSwitch = activity.findViewById(R.id.transaction_in_switch_location);
+            this.captureBtn = activity.findViewById(R.id.transaction_in_capture_button);
+            this.imageView = activity.findViewById(R.id.transaction_in_imageView);
+            this.saveBtn = getView().findViewById(R.id.transaction_in_save_button);
+            this.cancelBtn = getView().findViewById(R.id.transaction_in_cancel_button);
             // Creation of needed viewMoldel to retrive data
             this.transactionViewModel = new ViewModelProvider((ViewModelStoreOwner) activity).get(TransactionViewModel.class);
             this.categoryViewModel = new ViewModelProvider((ViewModelStoreOwner) activity).get(CategoryViewModel.class);
@@ -195,7 +196,8 @@ public class NewTransactionFragment extends Fragment {
                             if (Utilities.checkDataValid(amount.toString(), categorySelected, dateSelected, walletSelected)) {
                                 transactionViewModel.addTransaction(new Transaction(amount,
                                         description, categorySelected, payeeSelected, dateSelected, walletId.intValue(), walletId.intValue(), location, note, imageUriString));
-                                Navigation.findNavController(v).navigate(R.id.action_newTransactionTabFragment2_to_nav_home2);
+                                //walletViewModel.updateBalance(walletId.intValue(), amount);
+                                Navigation.findNavController(v).navigate(R.id.action_newTransactionTabFragment_to_nav_home);
                             } else {
                                 Toast.makeText(activity.getBaseContext(), "Every field must be filled", Toast.LENGTH_LONG).show();
                             }
@@ -207,7 +209,7 @@ public class NewTransactionFragment extends Fragment {
                 }
             });
             this.cancelBtn.setOnClickListener(v -> {
-                Navigation.findNavController(v).navigate(R.id.action_newTransactionTabFragment2_to_nav_home2);
+                Navigation.findNavController(v).navigate(R.id.action_newTransactionTabFragment_to_nav_home);
             });
         }
     }
@@ -276,16 +278,16 @@ public class NewTransactionFragment extends Fragment {
 
     private void setupChips() {
         // Category chip group
-        ChipGroup categoryChipGroup = getView().findViewById(R.id.transaction_category_chip_group);
+        ChipGroup categoryChipGroup = getView().findViewById(R.id.transaction_in_category_chip_group);
         setupCategoryChips(categoryChipGroup);
         // Payee chip group
-        ChipGroup payeeChipGroup = getView().findViewById(R.id.transaction_payee_chip_group);
+        ChipGroup payeeChipGroup = getView().findViewById(R.id.transaction_in_payee_chip_group);
         setupPayeeChips(payeeChipGroup);
         // Wallet chip group
-        ChipGroup walletChipGroup = getView().findViewById(R.id.transaction_wallet_chip_group);
+        ChipGroup walletChipGroup = getView().findViewById(R.id.transaction_in_wallet_chip_group);
         setupWalletChips(walletChipGroup);
         // Tag chip group
-        ChipGroup tagChipGroup = getView().findViewById(R.id.transaction_tag_chip_group);
+        ChipGroup tagChipGroup = getView().findViewById(R.id.transaction_in_tag_chip_group);
         setupTagChips(tagChipGroup);
     }
 
@@ -310,7 +312,7 @@ public class NewTransactionFragment extends Fragment {
                 payeeSelected = chip.getText().toString();
             }
         });
-        ImageButton add = getView().findViewById(R.id.add_payee);
+        ImageButton add = getView().findViewById(R.id.transaction_in_add_payee);
         add.setOnClickListener(v -> {
             // Generate dialog for insertion
             View dialogView = this.getLayoutInflater().inflate(R.layout.dialog_add, null);
@@ -352,7 +354,7 @@ public class NewTransactionFragment extends Fragment {
                 categorySelected = chip.getText().toString();
             }
         });
-        ImageButton add = getView().findViewById(R.id.add_category);
+        ImageButton add = getView().findViewById(R.id.transaction_in_add_category);
         add.setOnClickListener(v -> {
             View dialogView = this.getLayoutInflater().inflate(R.layout.dialog_add, null);
             AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(activity).setView(dialogView);
@@ -418,7 +420,7 @@ public class NewTransactionFragment extends Fragment {
                 }
             }
         });
-        ImageButton add = getView().findViewById(R.id.add_tag);
+        ImageButton add = getView().findViewById(R.id.transaction_in_add_tag);
         add.setOnClickListener(v -> {
             View dialogView = this.getLayoutInflater().inflate(R.layout.dialog_add, null);
             AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(activity).setView(dialogView);
@@ -439,7 +441,7 @@ public class NewTransactionFragment extends Fragment {
     }
 
     private void setupDatePicker() {
-        ImageButton calendar = getView().findViewById(R.id.calendar);
+        ImageButton calendar = getView().findViewById(R.id.transaction_in_calendar);
         AtomicInteger year = new AtomicInteger(Calendar.getInstance().get(Calendar.YEAR));
         AtomicInteger month = new AtomicInteger(Calendar.getInstance().get(Calendar.MONTH));
         AtomicInteger day = new AtomicInteger(Calendar.getInstance().get(Calendar.DAY_OF_MONTH));
@@ -487,15 +489,15 @@ public class NewTransactionFragment extends Fragment {
     }
 
     public void setupUi() {
-        this.amountEditText = activity.findViewById(R.id.transaction_amount_TextInput);
-        this.descriptionEditText = activity.findViewById(R.id.transaction_description_TextInput);
-        this.dateDisplay = activity.findViewById(R.id.date_display);
-        this.noteEditText = activity.findViewById(R.id.transaction_note_TextInput);
-        this.locationText = activity.findViewById(R.id.location_text);
-        this.locationSwitch = activity.findViewById(R.id.switch_location);
-        this.captureBtn = activity.findViewById(R.id.capture_button);
-        this.imageView = activity.findViewById(R.id.imageView);
-        this.saveBtn = getView().findViewById(R.id.transaction_save_button);
-        this.cancelBtn = getView().findViewById(R.id.transaction_cancel_button);
+        this.amountEditText = activity.findViewById(R.id.transaction_in_amount_TextInput);
+        this.descriptionEditText = activity.findViewById(R.id.transaction_in_description_TextInput);
+        this.dateDisplay = activity.findViewById(R.id.transaction_in_date_display);
+        this.noteEditText = activity.findViewById(R.id.transaction_in_note_TextInput);
+        this.locationText = activity.findViewById(R.id.transaction_in_location_text);
+        this.locationSwitch = activity.findViewById(R.id.transaction_in_switch_location);
+        this.captureBtn = activity.findViewById(R.id.transaction_in_capture_button);
+        this.imageView = activity.findViewById(R.id.transaction_in_imageView);
+        this.saveBtn = getView().findViewById(R.id.transaction_in_save_button);
+        this.cancelBtn = getView().findViewById(R.id.transaction_in_cancel_button);
     }
 }

@@ -19,9 +19,6 @@ import java.util.List;
 public class NewTransactionTabFragment extends Fragment {
 
     View view;
-    private NewTransactionFragment out = new NewTransactionFragment(TransactionType.OUT);
-    private NewTransactionFragment in = new NewTransactionFragment(TransactionType.IN);
-    private NewExchangeTransactionFragment exc = new NewExchangeTransactionFragment();
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -51,18 +48,6 @@ public class NewTransactionTabFragment extends Fragment {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 viewPager.setCurrentItem(tab.getPosition());
-//                array[tab.getPosition()].setupUi();
-                switch (tab.getPosition()) {
-                    case 0:
-                        out.setupUi();
-                        break;
-                    case 1:
-                        in.setupUi();
-                        break;
-                    default:
-                        exc.setupUi();
-                        break;
-                }
             }
 
             @Override
@@ -78,9 +63,9 @@ public class NewTransactionTabFragment extends Fragment {
     // Used to create a TabList in an odd way
     private List<Fragment> getTabList() {
         List<Fragment> tabList = new ArrayList<>();
-        tabList.add(this.out);
-        tabList.add(this.in);
-        tabList.add(this.exc);
+        tabList.add(new NewTransactionFragmentOut(TransactionType.OUT));
+        tabList.add(new NewTransactionFragmentIn(TransactionType.IN));
+        tabList.add(new NewExchangeTransactionFragment());
         return tabList;
     }
 
