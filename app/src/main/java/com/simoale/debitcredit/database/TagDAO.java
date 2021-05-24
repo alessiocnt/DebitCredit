@@ -19,6 +19,6 @@ public interface TagDAO {
     void addTag(Tag tag);
 
     @Transaction
-    @Query("SELECT * from tag ORDER BY tag_name DESC")
+    @Query("SELECT * from tag ORDER BY tag_name")
     LiveData<List<Tag>> getTags();
 }

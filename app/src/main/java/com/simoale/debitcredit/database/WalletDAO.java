@@ -17,7 +17,7 @@ public interface WalletDAO {
     void addWallet(Wallet wallet);
 
     @Transaction
-    @Query("SELECT * from wallet ORDER BY wallet_balance DESC")
+    @Query("SELECT * from wallet ORDER BY wallet_name")
     LiveData<List<Wallet>> getWallets();
 
     @Transaction

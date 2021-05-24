@@ -19,6 +19,6 @@ public interface PayeeDAO {
     void addPayee(Payee payee);
 
     @Transaction
-    @Query("SELECT * from payee ORDER BY payee_name DESC")
+    @Query("SELECT * from payee ORDER BY payee_name")
     LiveData<List<Payee>> getPayees();
 }

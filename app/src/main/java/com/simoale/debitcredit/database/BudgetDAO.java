@@ -17,7 +17,7 @@ public interface BudgetDAO {
     void addBudget(Budget budget);
 
     @Transaction
-    @Query("SELECT * from budget ORDER BY budget_name DESC")
+    @Query("SELECT * from budget ORDER BY budget_name")
     LiveData<List<Budget>> getBudgets();
 
     @Transaction

@@ -18,6 +18,6 @@ public interface CategoryDAO {
     void addCategory(Category category);
 
     @Transaction
-    @Query("SELECT * from category ORDER BY category_name DESC")
+    @Query("SELECT * from category ORDER BY category_name")
     LiveData<List<Category>> getCategories();
 }

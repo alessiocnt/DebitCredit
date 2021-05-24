@@ -17,7 +17,7 @@ public interface RoutineDAO {
     void addRoutine(Routine routine);
 
     @Transaction
-    @Query("SELECT * from routine ORDER BY routine_name DESC")
+    @Query("SELECT * from routine ORDER BY routine_name")
     LiveData<List<Routine>> getRoutines();
 
     @Transaction
