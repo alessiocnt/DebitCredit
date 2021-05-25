@@ -7,7 +7,6 @@ import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 import androidx.room.Transaction;
 
-import com.simoale.debitcredit.model.Tag;
 import com.simoale.debitcredit.model.TransactionTagCrossRef;
 
 import java.util.List;
@@ -23,4 +22,8 @@ public interface TransactionTagCrossRefDAO {
     @Transaction
     @Query("SELECT * from transaction_tag")
     LiveData<List<TransactionTagCrossRef>> getTransactionTag();
+
+    @Transaction
+    @Query("SELECT tag_name FROM transaction_tag WHERE transaction_id = :transactionId")
+    LiveData<List<String>> getTagsOfTransaction(int transactionId);
 }

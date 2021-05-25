@@ -13,6 +13,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.LifecycleOwner;
+import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelStoreOwner;
 
@@ -22,6 +24,8 @@ import com.simoale.debitcredit.model.Transaction;
 import com.simoale.debitcredit.utils.Utilities;
 
 import java.text.SimpleDateFormat;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class TransactionDetailsFragment extends Fragment {
 
@@ -70,7 +74,10 @@ public class TransactionDetailsFragment extends Fragment {
             this.transactionAmountTextView.setText(String.format("%s€", transaction.getAmount()));
             this.payeeTextView.setText(String.format("Payee: %s", transaction.getPayeeName()));
             this.categoryTextView.setText(String.format("Category: %s", transaction.getCategoryName()));
-            this.tagsTextView.setText("Tags: "); // TODO complete
+            LiveData<List<String>> l = transactionViewModel.getTags(transaction);
+            l.observe((LifecycleOwner) activity, tags -> {
+                this.tagsTextView.setText(String.format("Tags: %s", l.getValue().stream().collect(Collectors.joining(", ")))); // TODO complete
+            });
             if (transaction.getNote() != null && !transaction.getNote().equals("")) {
                 this.notesTextView.setText(String.format("Notes: %s", transaction.getNote()));
             } else {

@@ -38,5 +38,4 @@ public class TransactionTagCrossRef {
         this.crTransactionId = crTransactionId;
         this.crTagName = crTagName;
     }
-
 }
