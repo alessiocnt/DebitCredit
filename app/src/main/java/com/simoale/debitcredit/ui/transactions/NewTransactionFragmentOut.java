@@ -187,8 +187,6 @@ public class NewTransactionFragmentOut extends Fragment {
                         // Retrive data
                         Integer amount = transactionType.getType() * Math.abs(Integer.parseInt(amountEditText.getEditText().getText().toString()));
                         String description = descriptionEditText.getEditText().getText().toString();
-                        //List<Chip> tagChips = new ArrayList<>();
-                        //tagChips.addAll(tagSelected.values());
                         String location = locationText.getText().toString();
                         String note = noteEditText.getEditText().getText().toString();
                         Bitmap bitmap = transactionViewModel.getBitmap().getValue();
@@ -209,10 +207,6 @@ public class NewTransactionFragmentOut extends Fragment {
                             // Update Wallet balance
                             walletViewModel.updateBalance(currentWallet.getId(), amount);
                             // Add transaction tag's
-                            Log.e("transID", lastTransactionID+"");
-                            //DatabaseInstance db = DatabaseInstance.getDatabase(activity);
-                            //String res = db.query(new SimpleSQLiteQuery("select last_insert_rowid()")).toString();
-                            //Log.e("reeeees", res+"");
                             List<TransactionTagCrossRef> transactionTagList = new ArrayList<>();
                             tagSelected.forEach(tag -> transactionTagList.add(new TransactionTagCrossRef(lastTransactionID, tag)));
                             TransactionTagCrossRef transactionTagArray[] = new TransactionTagCrossRef[transactionTagList.size()];

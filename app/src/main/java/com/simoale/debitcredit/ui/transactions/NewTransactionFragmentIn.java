@@ -47,6 +47,7 @@ import com.simoale.debitcredit.model.Category;
 import com.simoale.debitcredit.model.Payee;
 import com.simoale.debitcredit.model.Tag;
 import com.simoale.debitcredit.model.Transaction;
+import com.simoale.debitcredit.model.TransactionTagCrossRef;
 import com.simoale.debitcredit.model.Wallet;
 import com.simoale.debitcredit.ui.category.CategoryViewModel;
 import com.simoale.debitcredit.ui.payee.PayeeViewModel;
@@ -80,13 +81,14 @@ public class NewTransactionFragmentIn extends Fragment {
     private PayeeViewModel payeeViewModel;
     private WalletViewModel walletViewModel;
     private TagViewModel tagViewModel;
+    private TransactionTagViewModel transactionTagViewModel;
 
     private TextInputLayout amountEditText;
     private TextInputLayout descriptionEditText;
     String categorySelected;
     String payeeSelected;
     String walletSelected;
-    private Map<Integer, Chip> tagSelected;
+    private List<String> tagSelected;
     private TextInputLayout noteEditText;
     private TextView dateDisplay;
     private String dateSelected;
@@ -129,22 +131,14 @@ public class NewTransactionFragmentIn extends Fragment {
 
         if (activity != null) {
             // Getting the views
-            this.amountEditText = activity.findViewById(R.id.transaction_in_amount_TextInput);
-            this.descriptionEditText = activity.findViewById(R.id.transaction_in_description_TextInput);
-            this.dateDisplay = activity.findViewById(R.id.transaction_in_date_display);
-            this.noteEditText = activity.findViewById(R.id.transaction_in_note_TextInput);
-            this.locationText = activity.findViewById(R.id.transaction_in_location_text);
-            this.locationSwitch = activity.findViewById(R.id.transaction_in_switch_location);
-            this.captureBtn = activity.findViewById(R.id.transaction_in_capture_button);
-            this.imageView = activity.findViewById(R.id.transaction_in_imageView);
-            this.saveBtn = getView().findViewById(R.id.transaction_in_save_button);
-            this.cancelBtn = getView().findViewById(R.id.transaction_in_cancel_button);
+            setupUi();
             // Creation of needed viewMoldel to retrive data
             this.transactionViewModel = new ViewModelProvider((ViewModelStoreOwner) activity).get(TransactionViewModel.class);
             this.categoryViewModel = new ViewModelProvider((ViewModelStoreOwner) activity).get(CategoryViewModel.class);
             this.payeeViewModel = new ViewModelProvider((ViewModelStoreOwner) activity).get(PayeeViewModel.class);
             this.walletViewModel = new ViewModelProvider((ViewModelStoreOwner) activity).get(WalletViewModel.class);
             this.tagViewModel = new ViewModelProvider((ViewModelStoreOwner) activity).get(TagViewModel.class);
+            this.transactionTagViewModel = new ViewModelProvider((ViewModelStoreOwner) activity).get(TransactionTagViewModel.class);
 
             this.locationUtils = new LocationUtils(activity);
             requestPermissionLauncher = registerForActivityResult(new ActivityResultContracts.RequestPermission(),
@@ -176,8 +170,6 @@ public class NewTransactionFragmentIn extends Fragment {
                         // Retrive data
                         Integer amount = transactionType.getType() * Math.abs(Integer.parseInt(amountEditText.getEditText().getText().toString()));
                         String description = descriptionEditText.getEditText().getText().toString();
-                        List<Chip> tagChips = new ArrayList<>();
-                        tagChips.addAll(tagSelected.values());
                         String location = locationText.getText().toString();
                         String note = noteEditText.getEditText().getText().toString();
                         Bitmap bitmap = transactionViewModel.getBitmap().getValue();
@@ -192,9 +184,15 @@ public class NewTransactionFragmentIn extends Fragment {
                         // Insert data
                         Wallet currentWallet = walletViewModel.getWalletFromName(walletSelected).getValue();
                         if (Utilities.checkDataValid(amount.toString(), categorySelected, dateSelected, walletSelected)) {
-                            transactionViewModel.addTransaction(new Transaction(amount,
+                            int lastTransactionID = (int) transactionViewModel.addTransaction(new Transaction(amount,
                                     description, categorySelected, payeeSelected, dateSelected, currentWallet.getId(), currentWallet.getId(), location, note, imageUriString));
                             walletViewModel.updateBalance(currentWallet.getId(), amount);
+                            // Add transaction tag's
+                            List<TransactionTagCrossRef> transactionTagList = new ArrayList<>();
+                            tagSelected.forEach(tag -> transactionTagList.add(new TransactionTagCrossRef(lastTransactionID, tag)));
+                            TransactionTagCrossRef transactionTagArray[] = new TransactionTagCrossRef[transactionTagList.size()];
+                            for (int i = 0 ; i < transactionTagList.size() ; i++) { transactionTagArray[i] = transactionTagList.get(i); }
+                            transactionTagViewModel.addTransactionTags(transactionTagArray);
                             Navigation.findNavController(v).navigate(R.id.action_newTransactionTabFragment_to_nav_home);
                         } else {
                             Toast.makeText(activity.getBaseContext(), "Every field must be filled", Toast.LENGTH_LONG).show();
@@ -240,6 +238,12 @@ public class NewTransactionFragmentIn extends Fragment {
             requestQueue.cancelAll(OSM_REQUEST_TAG);
         }
         locationUtils.unRegisterNetworkCallback();
+    }
+
+    @Override
+    // Needs to ensure that the current Fragment in detached from the FragmentManager
+    public void onDestroy() {
+        super.onDestroy();
     }
 
     private void setupImageCapture() {
@@ -395,7 +399,7 @@ public class NewTransactionFragmentIn extends Fragment {
     }
 
     private void setupTagChips(ChipGroup tagChipGroup) {
-        this.tagSelected = new HashMap<>();
+        this.tagSelected = new ArrayList<>();
         tagViewModel.getTagList().observe((LifecycleOwner) activity, new Observer<List<Tag>>() {
             @Override
             public void onChanged(List<Tag> tag) {
@@ -407,9 +411,9 @@ public class NewTransactionFragmentIn extends Fragment {
                     chip.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                         public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                             if (isChecked) {
-                                tagSelected.putIfAbsent(chip.getId(), chip);
+                                tagSelected.add(chip.getText().toString());
                             } else {
-                                tagSelected.remove(chip.getId());
+                                tagSelected.remove(chip.getText().toString());
                             }
                         }
                     });
