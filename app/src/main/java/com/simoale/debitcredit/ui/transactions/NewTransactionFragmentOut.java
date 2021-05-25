@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Intent;
-import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
@@ -34,11 +33,6 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelStoreOwner;
 import androidx.navigation.Navigation;
-import androidx.navigation.fragment.NavHostFragment;
-import androidx.room.DatabaseConfiguration;
-import androidx.room.InvalidationTracker;
-import androidx.sqlite.db.SimpleSQLiteQuery;
-import androidx.sqlite.db.SupportSQLiteOpenHelper;
 
 import com.android.volley.RequestQueue;
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -48,15 +42,6 @@ import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
 import com.google.android.material.textfield.TextInputLayout;
 import com.simoale.debitcredit.R;
-import com.simoale.debitcredit.database.BudgetDAO;
-import com.simoale.debitcredit.database.CategoryDAO;
-import com.simoale.debitcredit.database.DatabaseInstance;
-import com.simoale.debitcredit.database.PayeeDAO;
-import com.simoale.debitcredit.database.RoutineDAO;
-import com.simoale.debitcredit.database.TagDAO;
-import com.simoale.debitcredit.database.TransactionDAO;
-import com.simoale.debitcredit.database.TransactionTagCrossRefDAO;
-import com.simoale.debitcredit.database.WalletDAO;
 import com.simoale.debitcredit.model.Category;
 import com.simoale.debitcredit.model.Payee;
 import com.simoale.debitcredit.model.Tag;
@@ -73,18 +58,12 @@ import com.simoale.debitcredit.utils.Utilities;
 
 import java.io.IOException;
 import java.io.OutputStream;
-import java.lang.reflect.Array;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
-import java.util.Collections;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
-import java.util.Map;
-import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import static com.simoale.debitcredit.utils.Utilities.REQUEST_IMAGE_CAPTURE;
@@ -209,14 +188,16 @@ public class NewTransactionFragmentOut extends Fragment {
                             // Update Wallet balance
                             walletViewModel.updateBalance(currentWallet.getId(), amount);
                             // Add transaction tag's
-                            Log.e("transID", lastTransactionID+"");
+                            Log.e("transID", lastTransactionID + "");
                             //DatabaseInstance db = DatabaseInstance.getDatabase(activity);
                             //String res = db.query(new SimpleSQLiteQuery("select last_insert_rowid()")).toString();
                             //Log.e("reeeees", res+"");
                             List<TransactionTagCrossRef> transactionTagList = new ArrayList<>();
                             tagSelected.forEach(tag -> transactionTagList.add(new TransactionTagCrossRef(lastTransactionID, tag)));
                             TransactionTagCrossRef transactionTagArray[] = new TransactionTagCrossRef[transactionTagList.size()];
-                            for (int i = 0 ; i < transactionTagList.size() ; i++) { transactionTagArray[i] = transactionTagList.get(i); }
+                            for (int i = 0; i < transactionTagList.size(); i++) {
+                                transactionTagArray[i] = transactionTagList.get(i);
+                            }
                             transactionTagViewModel.addTransactionTags(transactionTagArray);
                             Navigation.findNavController(v).navigate(R.id.action_newTransactionTabFragment_to_nav_home);
                         } else {
@@ -360,25 +341,20 @@ public class NewTransactionFragmentOut extends Fragment {
     }
 
     private void setupCategoryChips(ChipGroup categoryChipGroup) {
-        categoryViewModel.getCategoryList().observe((LifecycleOwner) activity, new Observer<List<Category>>() {
-            @Override
-            public void onChanged(List<Category> category) {
-                categoryChipGroup.removeAllViews();
-                for (Category cat : category) {
-                    Chip chip = (Chip) getLayoutInflater().inflate(R.layout.chip_choice, categoryChipGroup, false);
-                    chip.setId(View.generateViewId());
-                    chip.setText(cat.getName());
-                    categoryChipGroup.addView(chip);
-                }
+        categoryViewModel.getCategoryList().observe((LifecycleOwner) activity, category -> {
+            categoryChipGroup.removeAllViews();
+            for (Category cat : category) {
+                Chip chip = (Chip) getLayoutInflater().inflate(R.layout.chip_choice, categoryChipGroup, false);
+                chip.setId(View.generateViewId());
+                chip.setText(cat.getName());
+                categoryChipGroup.addView(chip);
             }
+            categoryViewModel.getCategoryList().removeObservers((LifecycleOwner) activity);
         });
-        categoryChipGroup.setOnCheckedChangeListener(new ChipGroup.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(ChipGroup chipGroup, int i) {
-                Chip chip = chipGroup.findViewById(i);
-                // Set the chosen category
-                categorySelected = chip.getText().toString();
-            }
+        categoryChipGroup.setOnCheckedChangeListener((chipGroup, i) -> {
+            Chip chip = chipGroup.findViewById(i);
+            // Set the chosen category
+            categorySelected = chip.getText().toString();
         });
         ImageButton add = getView().findViewById(R.id.transaction_out_add_category);
         add.setOnClickListener(v -> {
@@ -425,25 +401,23 @@ public class NewTransactionFragmentOut extends Fragment {
 
     private void setupTagChips(ChipGroup tagChipGroup) {
         this.tagSelected = new ArrayList<>();
-        tagViewModel.getTagList().observe((LifecycleOwner) activity, new Observer<List<Tag>>() {
-            @Override
-            public void onChanged(List<Tag> tag) {
-                tagChipGroup.removeAllViews();
-                for (Tag t : tag) {
-                    Chip chip = (Chip) getLayoutInflater().inflate(R.layout.chip_choice, tagChipGroup, false);
-                    chip.setId(View.generateViewId());
-                    chip.setText(t.getName());
-                    chip.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                        public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                            if (isChecked) {
-                                tagSelected.add(chip.getText().toString());
-                            } else {
-                                tagSelected.remove(chip.getText().toString());
-                            }
+        tagViewModel.getTagList().observe((LifecycleOwner) activity, tag -> {
+            tagChipGroup.removeAllViews();
+            for (Tag t : tag) {
+                Chip chip = (Chip) getLayoutInflater().inflate(R.layout.chip_choice, tagChipGroup, false);
+                chip.setId(View.generateViewId());
+                chip.setText(t.getName());
+                chip.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                        if (isChecked) {
+                            tagSelected.add(chip.getText().toString());
+                        } else {
+                            tagSelected.remove(chip.getText().toString());
                         }
-                    });
-                    tagChipGroup.addView(chip);
-                }
+                    }
+                });
+                tagChipGroup.addView(chip);
+                tagViewModel.getTagList().removeObservers((LifecycleOwner) activity);
             }
         });
         ImageButton add = getView().findViewById(R.id.transaction_out_add_tag);

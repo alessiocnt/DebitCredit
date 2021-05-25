@@ -167,6 +167,7 @@ public class WalletDetailsFragment extends Fragment implements OnItemListener {
                 chip.setText(category.getName());
                 this.categoryChipGroup.addView(chip);
             }
+            this.categoryViewModel.getCategoryList().removeObservers(getActivity());
         });
 
         this.categoryChipGroup.setOnCheckedChangeListener((group, checkedId) -> {
@@ -193,7 +194,7 @@ public class WalletDetailsFragment extends Fragment implements OnItemListener {
                 this.tagChipGroup.addView(chip);
             }
         });
-
+        this.tagViewModel.getTagList().removeObservers(getActivity());
     }
 
     private void computeFilters() {
