@@ -92,4 +92,10 @@ public class NewWalletFragment extends Fragment {
         }
     }
 
+    @Override
+    // Needs to ensure that the current Fragment in detached from the FragmentManager
+    public void onDestroy() {
+        super.onDestroy();
+    }
+
 }

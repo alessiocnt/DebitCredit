@@ -69,4 +69,10 @@ public class NewTransactionTabFragment extends Fragment {
         return tabList;
     }
 
+    @Override
+    // Needs to ensure that the current Fragment in detached from the FragmentManager
+    public void onDestroy() {
+        super.onDestroy();
+    }
+
 }
