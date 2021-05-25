@@ -5,9 +5,7 @@ import android.app.Application;
 import androidx.lifecycle.LiveData;
 
 import com.simoale.debitcredit.database.DatabaseInstance;
-import com.simoale.debitcredit.database.TagDAO;
 import com.simoale.debitcredit.database.TransactionTagCrossRefDAO;
-import com.simoale.debitcredit.model.Tag;
 import com.simoale.debitcredit.model.TransactionTagCrossRef;
 
 import java.util.List;
@@ -32,6 +30,10 @@ public class TransactionTagCrossRefRepository {
 
     public void addTransactionTags(final TransactionTagCrossRef[] transactionTags) {
         DatabaseInstance.databaseWriteExecutor.execute(() -> this.transactionTagDAO.addTransactionTags(transactionTags));
+    }
+
+    public LiveData<List<String>> getTagsOfTransaction(int transactionId) {
+        return this.transactionTagDAO.getTagsOfTransaction(transactionId);
     }
 
 }
