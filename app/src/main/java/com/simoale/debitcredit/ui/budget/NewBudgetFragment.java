@@ -63,8 +63,8 @@ public class NewBudgetFragment extends Fragment {
     String categorySelected;
     private TextView dateDisplay;
     private String dateSelected;
-    private AutoCompleteTextView numberTextView;
-    private AutoCompleteTextView intervalTextView;
+    private TextInputLayout numberTextView;
+    private TextInputLayout intervalTextView;
     private Button saveBtn;
     private Button cancelBtn;
 
