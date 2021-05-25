@@ -28,6 +28,10 @@ public class TransactionTagViewModel extends AndroidViewModel {
         repository.addTransactionTag(transactionTag);
     }
 
+    public void addTransactionTags(TransactionTagCrossRef[] transactionTag) {
+        repository.addTransactionTags(transactionTag);
+    }
+
     public LiveData<List<TransactionTagCrossRef>> getTransactionTagList() {
         return transactionTagList;
     }

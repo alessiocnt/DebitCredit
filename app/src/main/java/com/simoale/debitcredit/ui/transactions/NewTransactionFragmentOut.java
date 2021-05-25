@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
@@ -34,6 +35,10 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelStoreOwner;
 import androidx.navigation.Navigation;
 import androidx.navigation.fragment.NavHostFragment;
+import androidx.room.DatabaseConfiguration;
+import androidx.room.InvalidationTracker;
+import androidx.sqlite.db.SimpleSQLiteQuery;
+import androidx.sqlite.db.SupportSQLiteOpenHelper;
 
 import com.android.volley.RequestQueue;
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -43,10 +48,20 @@ import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
 import com.google.android.material.textfield.TextInputLayout;
 import com.simoale.debitcredit.R;
+import com.simoale.debitcredit.database.BudgetDAO;
+import com.simoale.debitcredit.database.CategoryDAO;
+import com.simoale.debitcredit.database.DatabaseInstance;
+import com.simoale.debitcredit.database.PayeeDAO;
+import com.simoale.debitcredit.database.RoutineDAO;
+import com.simoale.debitcredit.database.TagDAO;
+import com.simoale.debitcredit.database.TransactionDAO;
+import com.simoale.debitcredit.database.TransactionTagCrossRefDAO;
+import com.simoale.debitcredit.database.WalletDAO;
 import com.simoale.debitcredit.model.Category;
 import com.simoale.debitcredit.model.Payee;
 import com.simoale.debitcredit.model.Tag;
 import com.simoale.debitcredit.model.Transaction;
+import com.simoale.debitcredit.model.TransactionTagCrossRef;
 import com.simoale.debitcredit.model.Wallet;
 import com.simoale.debitcredit.ui.category.CategoryViewModel;
 import com.simoale.debitcredit.ui.payee.PayeeViewModel;
@@ -58,9 +73,12 @@ import com.simoale.debitcredit.utils.Utilities;
 
 import java.io.IOException;
 import java.io.OutputStream;
+import java.lang.reflect.Array;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -81,13 +99,14 @@ public class NewTransactionFragmentOut extends Fragment {
     private PayeeViewModel payeeViewModel;
     private WalletViewModel walletViewModel;
     private TagViewModel tagViewModel;
+    private TransactionTagViewModel transactionTagViewModel;
 
     private TextInputLayout amountEditText;
     private TextInputLayout descriptionEditText;
     String categorySelected;
     String payeeSelected;
     String walletSelected;
-    private Map<Integer, Chip> tagSelected;
+    private List<String> tagSelected;
     private TextInputLayout noteEditText;
     private TextView dateDisplay;
     private String dateSelected;
@@ -137,6 +156,7 @@ public class NewTransactionFragmentOut extends Fragment {
             this.payeeViewModel = new ViewModelProvider((ViewModelStoreOwner) activity).get(PayeeViewModel.class);
             this.walletViewModel = new ViewModelProvider((ViewModelStoreOwner) activity).get(WalletViewModel.class);
             this.tagViewModel = new ViewModelProvider((ViewModelStoreOwner) activity).get(TagViewModel.class);
+            this.transactionTagViewModel = new ViewModelProvider((ViewModelStoreOwner) activity).get(TransactionTagViewModel.class);
 
             this.locationUtils = new LocationUtils(activity);
             requestPermissionLauncher = registerForActivityResult(new ActivityResultContracts.RequestPermission(),
@@ -167,8 +187,8 @@ public class NewTransactionFragmentOut extends Fragment {
                         // Retrive data
                         Integer amount = transactionType.getType() * Math.abs(Integer.parseInt(amountEditText.getEditText().getText().toString()));
                         String description = descriptionEditText.getEditText().getText().toString();
-                        List<Chip> tagChips = new ArrayList<>();
-                        tagChips.addAll(tagSelected.values());
+                        //List<Chip> tagChips = new ArrayList<>();
+                        //tagChips.addAll(tagSelected.values());
                         String location = locationText.getText().toString();
                         String note = noteEditText.getEditText().getText().toString();
                         Bitmap bitmap = transactionViewModel.getBitmap().getValue();
@@ -183,9 +203,21 @@ public class NewTransactionFragmentOut extends Fragment {
                         // Insert data
                         Wallet currentWallet = walletViewModel.getWalletFromName(walletSelected).getValue();
                         if (Utilities.checkDataValid(amount.toString(), categorySelected, dateSelected, walletSelected)) {
-                            transactionViewModel.addTransaction(new Transaction(amount,
+                            // Make the transaction
+                            int lastTransactionID = (int) transactionViewModel.addTransaction(new Transaction(amount,
                                     description, categorySelected, payeeSelected, dateSelected, currentWallet.getId(), currentWallet.getId(), location, note, imageUriString));
+                            // Update Wallet balance
                             walletViewModel.updateBalance(currentWallet.getId(), amount);
+                            // Add transaction tag's
+                            Log.e("transID", lastTransactionID+"");
+                            //DatabaseInstance db = DatabaseInstance.getDatabase(activity);
+                            //String res = db.query(new SimpleSQLiteQuery("select last_insert_rowid()")).toString();
+                            //Log.e("reeeees", res+"");
+                            List<TransactionTagCrossRef> transactionTagList = new ArrayList<>();
+                            tagSelected.forEach(tag -> transactionTagList.add(new TransactionTagCrossRef(lastTransactionID, tag)));
+                            TransactionTagCrossRef transactionTagArray[] = new TransactionTagCrossRef[transactionTagList.size()];
+                            for (int i = 0 ; i < transactionTagList.size() ; i++) { transactionTagArray[i] = transactionTagList.get(i); }
+                            transactionTagViewModel.addTransactionTags(transactionTagArray);
                             Navigation.findNavController(v).navigate(R.id.action_newTransactionTabFragment_to_nav_home);
                         } else {
                             Toast.makeText(activity.getBaseContext(), "Every field must be filled", Toast.LENGTH_LONG).show();
@@ -392,7 +424,7 @@ public class NewTransactionFragmentOut extends Fragment {
     }
 
     private void setupTagChips(ChipGroup tagChipGroup) {
-        this.tagSelected = new HashMap<>();
+        this.tagSelected = new ArrayList<>();
         tagViewModel.getTagList().observe((LifecycleOwner) activity, new Observer<List<Tag>>() {
             @Override
             public void onChanged(List<Tag> tag) {
@@ -404,9 +436,9 @@ public class NewTransactionFragmentOut extends Fragment {
                     chip.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                         public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                             if (isChecked) {
-                                tagSelected.putIfAbsent(chip.getId(), chip);
+                                tagSelected.add(chip.getText().toString());
                             } else {
-                                tagSelected.remove(chip.getId());
+                                tagSelected.remove(chip.getText().toString());
                             }
                         }
                     });

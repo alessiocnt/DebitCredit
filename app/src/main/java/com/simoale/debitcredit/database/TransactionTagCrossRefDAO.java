@@ -17,6 +17,9 @@ public interface TransactionTagCrossRefDAO {
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     void addTransactionTag(TransactionTagCrossRef transactionTag);
 
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    void addTransactionTags(TransactionTagCrossRef... transactionTag);
+
     @Transaction
     @Query("SELECT * from transaction_tag")
     LiveData<List<TransactionTagCrossRef>> getTransactionTag();

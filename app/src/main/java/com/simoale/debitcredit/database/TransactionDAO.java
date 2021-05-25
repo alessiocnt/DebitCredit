@@ -13,7 +13,7 @@ import java.util.List;
 @Dao
 public interface TransactionDAO {
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    void addTransaction(Transaction transaction);
+    long addTransaction(Transaction transaction);
 
     @androidx.room.Transaction
     @Query("SELECT * from `transaction` ORDER BY transaction_date DESC")

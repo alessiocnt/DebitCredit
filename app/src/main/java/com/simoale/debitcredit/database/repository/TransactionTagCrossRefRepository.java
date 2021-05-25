@@ -29,4 +29,9 @@ public class TransactionTagCrossRefRepository {
     public void addTransactionTag(final TransactionTagCrossRef transactionTag) {
         DatabaseInstance.databaseWriteExecutor.execute(() -> this.transactionTagDAO.addTransactionTag(transactionTag));
     }
+
+    public void addTransactionTags(final TransactionTagCrossRef[] transactionTags) {
+        DatabaseInstance.databaseWriteExecutor.execute(() -> this.transactionTagDAO.addTransactionTags(transactionTags));
+    }
+
 }

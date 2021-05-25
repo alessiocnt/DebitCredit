@@ -27,8 +27,8 @@ public class TransactionViewModel extends AndroidViewModel {
         transactionList = repository.getTransactionList();
     }
 
-    public void addTransaction(Transaction transaction) {
-        repository.addTransaction(transaction);
+    public long addTransaction(Transaction transaction) {
+        return repository.addTransaction(transaction);
     }
 
     public LiveData<List<Transaction>> getTransactionList() {
@@ -58,6 +58,7 @@ public class TransactionViewModel extends AndroidViewModel {
     public LiveData<Bitmap> getBitmap() {
         return imageBitmpap;
     }
+
 }
 
 

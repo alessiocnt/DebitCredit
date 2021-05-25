@@ -33,4 +33,10 @@ public class TransactionTagCrossRef {
     @NotNull
     @ColumnInfo(name = "tag_name")
     public String crTagName;
+
+    public TransactionTagCrossRef(int crTransactionId, @NotNull String crTagName) {
+        this.crTransactionId = crTransactionId;
+        this.crTagName = crTagName;
+    }
+
 }
