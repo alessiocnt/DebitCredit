@@ -30,6 +30,7 @@ public class TransactionDetailsFragment extends Fragment {
     private TextView transactionNameTextView;
     private TextView transactionDateTextView;
     private TextView transactionAmountTextView;
+    private TextView payeeTextView;
     private TextView categoryTextView;
     private TextView tagsTextView;
     private TextView notesTextView;
@@ -54,6 +55,7 @@ public class TransactionDetailsFragment extends Fragment {
             this.transactionNameTextView = view.findViewById(R.id.transaction_details_name);
             this.transactionDateTextView = view.findViewById(R.id.transaction_details_date);
             this.transactionAmountTextView = view.findViewById(R.id.transaction_details_amount);
+            this.payeeTextView = view.findViewById(R.id.transaction_details_payee_textView);
             this.categoryTextView = view.findViewById(R.id.transaction_details_category_textView);
             this.tagsTextView = view.findViewById(R.id.transaction_details_tag_textView);
             this.notesTextView = view.findViewById(R.id.transaction_details_notes);
@@ -66,13 +68,18 @@ public class TransactionDetailsFragment extends Fragment {
             this.transactionNameTextView.setText(transaction.getDescription());
             this.transactionDateTextView.setText(new SimpleDateFormat("dd/MM/yyyy").format(Utilities.getDateFromString(transaction.getDate())));
             this.transactionAmountTextView.setText(String.format("%s€", transaction.getAmount()));
+            this.payeeTextView.setText(String.format("Payee: %s", transaction.getPayeeName()));
             this.categoryTextView.setText(String.format("Category: %s", transaction.getCategoryName()));
             this.tagsTextView.setText("Tags: "); // TODO complete
             if (transaction.getNote() != null && !transaction.getNote().equals("")) {
                 this.notesTextView.setText(String.format("Notes: %s", transaction.getNote()));
+            } else {
+                this.notesTextView.setText("Notes: NA");
             }
-            if (transaction.getLocation() != null && !transaction.getLocation().equals("")) {
+            if (transaction.getLocation() != null && !transaction.getLocation().equals("Save location")) {
                 this.positionTextView.setText(String.format("Location: %s", transaction.getLocation()));
+            } else {
+                this.positionTextView.setText("Location: NA");
             }
             if (!transaction.getImage().equals("ic_launcher_foreground")) {
                 this.image.setImageBitmap(Utilities.getImageBitmap(activity, Uri.parse(transaction.getImage())));

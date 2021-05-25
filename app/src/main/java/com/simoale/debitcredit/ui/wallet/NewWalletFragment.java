@@ -18,6 +18,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelStoreOwner;
 import androidx.navigation.Navigation;
 
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.google.android.material.textfield.TextInputLayout;
 import com.simoale.debitcredit.R;
 import com.simoale.debitcredit.model.Wallet;
@@ -73,18 +74,20 @@ public class NewWalletFragment extends Fragment {
             });
 
             Drawable walletDrawable = selectColorBtn.getCompoundDrawables()[1];
-            this.selectColorBtn.setOnClickListener(v -> {
-                new ColorSheet().colorPicker(
-                        colors,
-                        selectedColor.get(),
-                        false,
-                        color -> {
-                            selectedColor.set(color);
-                            walletDrawable.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
-                            return null;
-                        }
+            ColorSheet c = new ColorSheet().colorPicker(
+                    colors,
+                    selectedColor.get(),
+                    false,
+                    color -> {
+                        selectedColor.set(color);
+                        walletDrawable.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
+                        return null;
+                    }
 
-                ).show(((AppCompatActivity) activity).getSupportFragmentManager());
+            );
+            c.setStyle(BottomSheetDialogFragment.STYLE_NORMAL, R.style.ColorSheet);
+            this.selectColorBtn.setOnClickListener(v -> {
+                c.show(((AppCompatActivity) activity).getSupportFragmentManager());
             });
         }
     }
