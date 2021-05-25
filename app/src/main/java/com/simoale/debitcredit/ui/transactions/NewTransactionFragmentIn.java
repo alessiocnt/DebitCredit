@@ -33,7 +33,6 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelStoreOwner;
 import androidx.navigation.Navigation;
-import androidx.navigation.fragment.NavHostFragment;
 
 import com.android.volley.RequestQueue;
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -63,10 +62,8 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
-import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import static com.simoale.debitcredit.utils.Utilities.REQUEST_IMAGE_CAPTURE;
@@ -191,7 +188,9 @@ public class NewTransactionFragmentIn extends Fragment {
                             List<TransactionTagCrossRef> transactionTagList = new ArrayList<>();
                             tagSelected.forEach(tag -> transactionTagList.add(new TransactionTagCrossRef(lastTransactionID, tag)));
                             TransactionTagCrossRef transactionTagArray[] = new TransactionTagCrossRef[transactionTagList.size()];
-                            for (int i = 0 ; i < transactionTagList.size() ; i++) { transactionTagArray[i] = transactionTagList.get(i); }
+                            for (int i = 0; i < transactionTagList.size(); i++) {
+                                transactionTagArray[i] = transactionTagList.get(i);
+                            }
                             transactionTagViewModel.addTransactionTags(transactionTagArray);
                             Navigation.findNavController(v).navigate(R.id.action_newTransactionTabFragment_to_nav_home);
                         } else {
@@ -293,17 +292,15 @@ public class NewTransactionFragmentIn extends Fragment {
     }
 
     private void setupPayeeChips(ChipGroup payeeChipGroup) {
-        payeeViewModel.getPayeeList().observe((LifecycleOwner) activity, new Observer<List<Payee>>() {
-            @Override
-            public void onChanged(List<Payee> payee) {
-                payeeChipGroup.removeAllViews();
-                for (Payee p : payee) {
-                    Chip chip = (Chip) getLayoutInflater().inflate(R.layout.chip_choice, payeeChipGroup, false);
-                    chip.setId(View.generateViewId());
-                    chip.setText(p.getName());
-                    payeeChipGroup.addView(chip);
-                }
+        payeeViewModel.getPayeeList().observe((LifecycleOwner) activity, payee -> {
+            payeeChipGroup.removeAllViews();
+            for (Payee p : payee) {
+                Chip chip = (Chip) getLayoutInflater().inflate(R.layout.chip_choice, payeeChipGroup, false);
+                chip.setId(View.generateViewId());
+                chip.setText(p.getName());
+                payeeChipGroup.addView(chip);
             }
+            payeeViewModel.getPayeeList().removeObservers((LifecycleOwner) activity);
         });
         payeeChipGroup.setOnCheckedChangeListener(new ChipGroup.OnCheckedChangeListener() {
             @Override
@@ -335,17 +332,15 @@ public class NewTransactionFragmentIn extends Fragment {
     }
 
     private void setupCategoryChips(ChipGroup categoryChipGroup) {
-        categoryViewModel.getCategoryList().observe((LifecycleOwner) activity, new Observer<List<Category>>() {
-            @Override
-            public void onChanged(List<Category> category) {
-                categoryChipGroup.removeAllViews();
-                for (Category cat : category) {
-                    Chip chip = (Chip) getLayoutInflater().inflate(R.layout.chip_choice, categoryChipGroup, false);
-                    chip.setId(View.generateViewId());
-                    chip.setText(cat.getName());
-                    categoryChipGroup.addView(chip);
-                }
+        categoryViewModel.getCategoryList().observe((LifecycleOwner) activity, category -> {
+            categoryChipGroup.removeAllViews();
+            for (Category cat : category) {
+                Chip chip = (Chip) getLayoutInflater().inflate(R.layout.chip_choice, categoryChipGroup, false);
+                chip.setId(View.generateViewId());
+                chip.setText(cat.getName());
+                categoryChipGroup.addView(chip);
             }
+            categoryViewModel.getCategoryList().removeObservers((LifecycleOwner) activity);
         });
         categoryChipGroup.setOnCheckedChangeListener(new ChipGroup.OnCheckedChangeListener() {
             @Override
@@ -376,17 +371,15 @@ public class NewTransactionFragmentIn extends Fragment {
     }
 
     private void setupWalletChips(ChipGroup walletChipGroup) {
-        walletViewModel.getWalletList().observe((LifecycleOwner) activity, new Observer<List<Wallet>>() {
-            @Override
-            public void onChanged(List<Wallet> wallet) {
-                walletChipGroup.removeAllViews();
-                for (Wallet w : wallet) {
-                    Chip chip = (Chip) getLayoutInflater().inflate(R.layout.chip_choice, walletChipGroup, false);
-                    chip.setId(View.generateViewId());
-                    chip.setText(w.getName());
-                    walletChipGroup.addView(chip);
-                }
+        walletViewModel.getWalletList().observe((LifecycleOwner) activity, wallet -> {
+            walletChipGroup.removeAllViews();
+            for (Wallet w : wallet) {
+                Chip chip = (Chip) getLayoutInflater().inflate(R.layout.chip_choice, walletChipGroup, false);
+                chip.setId(View.generateViewId());
+                chip.setText(w.getName());
+                walletChipGroup.addView(chip);
             }
+            walletViewModel.getWalletList().removeObservers((LifecycleOwner) activity);
         });
         walletChipGroup.setOnCheckedChangeListener(new ChipGroup.OnCheckedChangeListener() {
             @Override
@@ -400,25 +393,23 @@ public class NewTransactionFragmentIn extends Fragment {
 
     private void setupTagChips(ChipGroup tagChipGroup) {
         this.tagSelected = new ArrayList<>();
-        tagViewModel.getTagList().observe((LifecycleOwner) activity, new Observer<List<Tag>>() {
-            @Override
-            public void onChanged(List<Tag> tag) {
-                tagChipGroup.removeAllViews();
-                for (Tag t : tag) {
-                    Chip chip = (Chip) getLayoutInflater().inflate(R.layout.chip_choice, tagChipGroup, false);
-                    chip.setId(View.generateViewId());
-                    chip.setText(t.getName());
-                    chip.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                        public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                            if (isChecked) {
-                                tagSelected.add(chip.getText().toString());
-                            } else {
-                                tagSelected.remove(chip.getText().toString());
-                            }
+        tagViewModel.getTagList().observe((LifecycleOwner) activity, tag -> {
+            tagChipGroup.removeAllViews();
+            for (Tag t : tag) {
+                Chip chip = (Chip) getLayoutInflater().inflate(R.layout.chip_choice, tagChipGroup, false);
+                chip.setId(View.generateViewId());
+                chip.setText(t.getName());
+                chip.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                        if (isChecked) {
+                            tagSelected.add(chip.getText().toString());
+                        } else {
+                            tagSelected.remove(chip.getText().toString());
                         }
-                    });
-                    tagChipGroup.addView(chip);
-                }
+                    }
+                });
+                tagChipGroup.addView(chip);
+                tagViewModel.getTagList().removeObservers((LifecycleOwner) activity);
             }
         });
         ImageButton add = getView().findViewById(R.id.transaction_in_add_tag);

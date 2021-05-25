@@ -294,17 +294,15 @@ public class NewTransactionFragmentOut extends Fragment {
     }
 
     private void setupPayeeChips(ChipGroup payeeChipGroup) {
-        payeeViewModel.getPayeeList().observe((LifecycleOwner) activity, new Observer<List<Payee>>() {
-            @Override
-            public void onChanged(List<Payee> payee) {
-                payeeChipGroup.removeAllViews();
-                for (Payee p : payee) {
-                    Chip chip = (Chip) getLayoutInflater().inflate(R.layout.chip_choice, payeeChipGroup, false);
-                    chip.setId(View.generateViewId());
-                    chip.setText(p.getName());
-                    payeeChipGroup.addView(chip);
-                }
+        payeeViewModel.getPayeeList().observe((LifecycleOwner) activity, payee -> {
+            payeeChipGroup.removeAllViews();
+            for (Payee p : payee) {
+                Chip chip = (Chip) getLayoutInflater().inflate(R.layout.chip_choice, payeeChipGroup, false);
+                chip.setId(View.generateViewId());
+                chip.setText(p.getName());
+                payeeChipGroup.addView(chip);
             }
+            payeeViewModel.getPayeeList().removeObservers((LifecycleOwner) activity);
         });
         payeeChipGroup.setOnCheckedChangeListener(new ChipGroup.OnCheckedChangeListener() {
             @Override
@@ -372,17 +370,15 @@ public class NewTransactionFragmentOut extends Fragment {
     }
 
     private void setupWalletChips(ChipGroup walletChipGroup) {
-        walletViewModel.getWalletList().observe((LifecycleOwner) activity, new Observer<List<Wallet>>() {
-            @Override
-            public void onChanged(List<Wallet> wallet) {
-                walletChipGroup.removeAllViews();
-                for (Wallet w : wallet) {
-                    Chip chip = (Chip) getLayoutInflater().inflate(R.layout.chip_choice, walletChipGroup, false);
-                    chip.setId(View.generateViewId());
-                    chip.setText(w.getName());
-                    walletChipGroup.addView(chip);
-                }
+        walletViewModel.getWalletList().observe((LifecycleOwner) activity, wallet -> {
+            walletChipGroup.removeAllViews();
+            for (Wallet w : wallet) {
+                Chip chip = (Chip) getLayoutInflater().inflate(R.layout.chip_choice, walletChipGroup, false);
+                chip.setId(View.generateViewId());
+                chip.setText(w.getName());
+                walletChipGroup.addView(chip);
             }
+            walletViewModel.getWalletList().removeObservers((LifecycleOwner) activity);
         });
         walletChipGroup.setOnCheckedChangeListener(new ChipGroup.OnCheckedChangeListener() {
             @Override
