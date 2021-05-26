@@ -60,9 +60,6 @@
             android:id="@+id/action_nav_settings_to_changePasswordFragment"
             app:destination="@id/changePasswordFragment" />
         <action
-            android:id="@+id/action_nav_settings_to_editWalletsFragment"
-            app:destination="@id/editWalletsFragment" />
-        <action
             android:id="@+id/action_nav_settings_to_editCategoriesFragment"
             app:destination="@id/editCategoriesFragment" />
         <action
@@ -126,11 +123,6 @@
         android:name="com.simoale.debitcredit.ui.settings.ChangePasswordFragment"
         android:label="ChangePasswordFragment"
         tools:layout="@layout/change_password" />
-    <fragment
-        android:id="@+id/editWalletsFragment"
-        android:name="com.simoale.debitcredit.ui.settings.EditWalletsFragment"
-        android:label="EditWalletsFragment"
-        tools:layout="@layout/edit_wallets" />
     <fragment
         android:id="@+id/editCategoriesFragment"
         android:name="com.simoale.debitcredit.ui.settings.EditCategoriesFragment"

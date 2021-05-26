@@ -30,31 +30,6 @@
             android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1" />
     </com.google.android.material.card.MaterialCardView>
 
-    <com.google.android.material.card.MaterialCardView
-        android:id="@+id/edit_wallets_button"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:clickable="true"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/change_password_button">
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_marginStart="10dp"
-            android:src="@drawable/ic_wallet_white_24" />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:layout_marginStart="50dp"
-            android:gravity="center_vertical"
-            android:text="Edit wallets"
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1" />
-    </com.google.android.material.card.MaterialCardView>
 
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/edit_categories_button"
@@ -64,7 +39,7 @@
         android:clickable="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/edit_wallets_button">
+        app:layout_constraintTop_toBottomOf="@id/change_password_button">
 
         <ImageView
             android:layout_width="wrap_content"
