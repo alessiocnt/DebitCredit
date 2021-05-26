@@ -11,6 +11,7 @@ import androidx.lifecycle.MutableLiveData;
 import com.simoale.debitcredit.database.repository.TransactionRepository;
 import com.simoale.debitcredit.database.repository.TransactionTagCrossRefRepository;
 import com.simoale.debitcredit.model.Transaction;
+import com.simoale.debitcredit.model.TransactionTagCrossRef;
 
 import java.util.List;
 
@@ -32,6 +33,11 @@ public class TransactionViewModel extends AndroidViewModel {
 
     public long addTransaction(Transaction transaction) {
         return repository.addTransaction(transaction);
+    }
+
+    public void addTransaction(Transaction transaction, List<String> tags) {
+        long id = repository.addTransaction(transaction);
+        this.transactionTagCrossRefRepository.addTransactionTags(tags.stream().map(t -> new TransactionTagCrossRef((int) id, t)).toArray(TransactionTagCrossRef[]::new));
     }
 
     public LiveData<List<Transaction>> getTransactionList() {

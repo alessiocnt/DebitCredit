@@ -28,6 +28,11 @@ import static androidx.room.ForeignKey.RESTRICT;
 
 public class RoutineTagCrossRef {
 
+    public RoutineTagCrossRef(int routineId, @NotNull String tagName) {
+        this.routineId = routineId;
+        this.tagName = tagName;
+    }
+
     @ColumnInfo(name = "routine_id")
     public int routineId;
 

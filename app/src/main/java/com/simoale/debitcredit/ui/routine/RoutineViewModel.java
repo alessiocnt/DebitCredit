@@ -9,9 +9,11 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.simoale.debitcredit.database.repository.RoutineRepository;
+import com.simoale.debitcredit.database.repository.RoutineTagCrossRefRepository;
 import com.simoale.debitcredit.database.repository.TransactionRepository;
 import com.simoale.debitcredit.model.Interval;
 import com.simoale.debitcredit.model.Routine;
+import com.simoale.debitcredit.model.RoutineTagCrossRef;
 import com.simoale.debitcredit.model.Transaction;
 import com.simoale.debitcredit.utils.Utilities;
 
@@ -24,6 +26,7 @@ public class RoutineViewModel extends AndroidViewModel {
 
     private final MutableLiveData<Routine> routineSelected = new MutableLiveData<>();
     private RoutineRepository repository;
+    private RoutineTagCrossRefRepository routineTagCrossRefRepository;
     private TransactionRepository transactionRepository;
     private LiveData<List<Routine>> routineList;
 
@@ -31,11 +34,17 @@ public class RoutineViewModel extends AndroidViewModel {
         super(application);
         repository = new RoutineRepository(application);
         transactionRepository = new TransactionRepository(application);
+        routineTagCrossRefRepository = new RoutineTagCrossRefRepository(application);
         routineList = repository.getRoutineList();
     }
 
     public void addRoutine(Routine routine) {
         repository.addRoutine(routine);
+    }
+
+    public void addRoutine(Routine routine, List<String> selectedTags) {
+        long id = repository.addRoutine(routine);
+        routineTagCrossRefRepository.addRoutineTags(selectedTags.stream().map(s -> new RoutineTagCrossRef((int) id, s)).toArray(RoutineTagCrossRef[]::new));
     }
 
     public LiveData<List<Routine>> getRoutineList() {
@@ -97,9 +106,11 @@ public class RoutineViewModel extends AndroidViewModel {
             // TODO fix routine payee
             this.transactionRepository.addTransaction(new Transaction(routine.getAmount(),
                     "Transaction from routine: " + routine.getName(), routine.getCategoryName(),
-                    /*routine.getPayeeId()*/ routine.getPayeeName(), Utilities.getStringFromDate(nextUpdate.getTime()),
+                    routine.getPayeeName(), Utilities.getStringFromDate(nextUpdate.getTime()),
                     routine.getWalletId(), routine.getWalletId(), null, null, null));
         }
         return new Pair<>(dateLastUpdate, dateNextUpdate);
     }
+
+
 }

@@ -111,7 +111,11 @@
         android:id="@+id/newRoutineFragment"
         android:name="com.simoale.debitcredit.ui.routine.NewRoutineFragment"
         android:label="NewRoutineFragment"
-        tools:layout="@layout/new_routine" />
+        tools:layout="@layout/new_routine" >
+        <action
+            android:id="@+id/action_newRoutineFragment_to_nav_routine"
+            app:destination="@id/nav_routine" />
+    </fragment>
     <fragment
         android:id="@+id/newBudgetFragment"
         android:name="com.simoale.debitcredit.ui.budget.NewBudgetFragment"

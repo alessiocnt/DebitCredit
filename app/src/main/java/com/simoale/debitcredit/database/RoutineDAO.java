@@ -14,7 +14,7 @@ import java.util.List;
 @Dao
 public interface RoutineDAO {
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    void addRoutine(Routine routine);
+    long addRoutine(Routine routine);
 
     @Transaction
     @Query("SELECT * from routine ORDER BY routine_name")

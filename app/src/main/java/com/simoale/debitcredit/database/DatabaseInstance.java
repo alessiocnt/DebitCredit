@@ -57,4 +57,6 @@ public abstract class DatabaseInstance extends RoomDatabase {
     public abstract WalletDAO WalletDAO();
 
     public abstract TransactionTagCrossRefDAO TransactionTagCrossRefDAO();
+
+    public abstract RoutineTagCrossRefDAO RoutineTagCrossRefDAO();
 }
