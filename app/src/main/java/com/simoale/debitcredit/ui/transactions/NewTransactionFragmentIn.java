@@ -46,7 +46,6 @@ import com.simoale.debitcredit.model.Category;
 import com.simoale.debitcredit.model.Payee;
 import com.simoale.debitcredit.model.Tag;
 import com.simoale.debitcredit.model.Transaction;
-import com.simoale.debitcredit.model.TransactionTagCrossRef;
 import com.simoale.debitcredit.model.Wallet;
 import com.simoale.debitcredit.ui.category.CategoryViewModel;
 import com.simoale.debitcredit.ui.payee.PayeeViewModel;
@@ -181,17 +180,9 @@ public class NewTransactionFragmentIn extends Fragment {
                         // Insert data
                         Wallet currentWallet = walletViewModel.getWalletFromName(walletSelected).getValue();
                         if (Utilities.checkDataValid(amount.toString(), categorySelected, dateSelected, walletSelected)) {
-                            int lastTransactionID = (int) transactionViewModel.addTransaction(new Transaction(amount,
-                                    description, categorySelected, payeeSelected, dateSelected, currentWallet.getId(), currentWallet.getId(), location, note, imageUriString));
+                            transactionViewModel.addTransaction(new Transaction(amount,
+                                    description, categorySelected, payeeSelected, dateSelected, currentWallet.getId(), currentWallet.getId(), location, note, imageUriString), tagSelected);
                             walletViewModel.updateBalance(currentWallet.getId(), amount);
-                            // Add transaction tag's
-                            List<TransactionTagCrossRef> transactionTagList = new ArrayList<>();
-                            tagSelected.forEach(tag -> transactionTagList.add(new TransactionTagCrossRef(lastTransactionID, tag)));
-                            TransactionTagCrossRef transactionTagArray[] = new TransactionTagCrossRef[transactionTagList.size()];
-                            for (int i = 0; i < transactionTagList.size(); i++) {
-                                transactionTagArray[i] = transactionTagList.get(i);
-                            }
-                            transactionTagViewModel.addTransactionTags(transactionTagArray);
                             Navigation.findNavController(v).navigate(R.id.action_newTransactionTabFragment_to_nav_home);
                         } else {
                             Toast.makeText(activity.getBaseContext(), "Every field must be filled", Toast.LENGTH_LONG).show();

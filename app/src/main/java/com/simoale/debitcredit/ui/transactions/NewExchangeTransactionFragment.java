@@ -46,7 +46,6 @@ import com.simoale.debitcredit.model.Category;
 import com.simoale.debitcredit.model.Payee;
 import com.simoale.debitcredit.model.Tag;
 import com.simoale.debitcredit.model.Transaction;
-import com.simoale.debitcredit.model.TransactionTagCrossRef;
 import com.simoale.debitcredit.model.Wallet;
 import com.simoale.debitcredit.ui.category.CategoryViewModel;
 import com.simoale.debitcredit.ui.payee.PayeeViewModel;
@@ -178,30 +177,13 @@ public class NewExchangeTransactionFragment extends Fragment {
                         Wallet currentToWallet = walletViewModel.getWalletFromName(walletToSelected).getValue();
                         if (Utilities.checkDataValid(amount.toString(), categorySelected, dateSelected, walletFromSelected, walletToSelected)) {
                             // Make the transaction
-                            int lastFromTransactionID = (int) transactionViewModel.addTransaction(new Transaction(-amount,
-                                    description, categorySelected, payeeSelected, dateSelected, currentFromWallet.getId(), currentToWallet.getId(), location, note, imageUriString));
-                            int lastToTransactionID = (int) transactionViewModel.addTransaction(new Transaction(amount,
-                                    description, categorySelected, payeeSelected, dateSelected, currentToWallet.getId(), currentFromWallet.getId(), location, note, imageUriString));
+                            transactionViewModel.addTransaction(new Transaction(-amount,
+                                    description, categorySelected, payeeSelected, dateSelected, currentFromWallet.getId(), currentToWallet.getId(), location, note, imageUriString), tagSelected);
+                            transactionViewModel.addTransaction(new Transaction(amount,
+                                    description, categorySelected, payeeSelected, dateSelected, currentToWallet.getId(), currentFromWallet.getId(), location, note, imageUriString), tagSelected);
                             // Update Wallet balance
                             walletViewModel.updateBalance(currentFromWallet.getId(), -amount);
                             walletViewModel.updateBalance(currentToWallet.getId(), amount);
-                            // Add transaction tag's
-                            List<TransactionTagCrossRef> transactionTagFromList = new ArrayList<>();
-                            List<TransactionTagCrossRef> transactionTagToList = new ArrayList<>();
-                            tagSelected.forEach(tag -> {
-                                transactionTagFromList.add(new TransactionTagCrossRef(lastFromTransactionID, tag));
-                                transactionTagToList.add(new TransactionTagCrossRef(lastToTransactionID, tag));
-                            });
-                            TransactionTagCrossRef transactionTagFromArray[] = new TransactionTagCrossRef[transactionTagFromList.size()];
-                            TransactionTagCrossRef transactionTagToArray[] = new TransactionTagCrossRef[transactionTagToList.size()];
-                            for (int i = 0; i < transactionTagFromList.size(); i++) {
-                                transactionTagFromArray[i] = transactionTagFromList.get(i);
-                            }
-                            for (int i = 0; i < transactionTagToList.size(); i++) {
-                                transactionTagToArray[i] = transactionTagToList.get(i);
-                            }
-                            transactionTagViewModel.addTransactionTags(transactionTagFromArray);
-                            transactionTagViewModel.addTransactionTags(transactionTagToArray);
                             Navigation.findNavController(v).navigate(R.id.action_newTransactionTabFragment_to_nav_home);
                         } else {
                             Toast.makeText(activity.getBaseContext(), "Every field must be filled", Toast.LENGTH_LONG).show();

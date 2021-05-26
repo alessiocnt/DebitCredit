@@ -21,7 +21,6 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.stream.Collectors;
 
 public class RoutineViewModel extends AndroidViewModel {
 
@@ -45,9 +44,7 @@ public class RoutineViewModel extends AndroidViewModel {
 
     public void addRoutine(Routine routine, List<String> selectedTags) {
         long id = repository.addRoutine(routine);
-
         routineTagCrossRefRepository.addRoutineTags(selectedTags.stream().map(s -> new RoutineTagCrossRef((int) id, s)).toArray(RoutineTagCrossRef[]::new));
-        Log.e("Added routine", "tags: " + selectedTags.stream().collect(Collectors.joining(" - ")));
     }
 
     public LiveData<List<Routine>> getRoutineList() {
@@ -109,7 +106,7 @@ public class RoutineViewModel extends AndroidViewModel {
             // TODO fix routine payee
             this.transactionRepository.addTransaction(new Transaction(routine.getAmount(),
                     "Transaction from routine: " + routine.getName(), routine.getCategoryName(),
-                    /*routine.getPayeeId()*/ routine.getPayeeName(), Utilities.getStringFromDate(nextUpdate.getTime()),
+                    routine.getPayeeName(), Utilities.getStringFromDate(nextUpdate.getTime()),
                     routine.getWalletId(), routine.getWalletId(), null, null, null));
         }
         return new Pair<>(dateLastUpdate, dateNextUpdate);
