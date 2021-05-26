@@ -230,11 +230,6 @@ public class NewTransactionFragmentIn extends Fragment {
         locationUtils.unRegisterNetworkCallback();
     }
 
-    @Override
-    // Needs to ensure that the current Fragment in detached from the FragmentManager
-    public void onDestroy() {
-        super.onDestroy();
-    }
 
     private void setupImageCapture() {
         captureBtn.setOnClickListener(new View.OnClickListener() {
@@ -291,7 +286,7 @@ public class NewTransactionFragmentIn extends Fragment {
                 chip.setText(p.getName());
                 payeeChipGroup.addView(chip);
             }
-            payeeViewModel.getPayeeList().removeObservers((LifecycleOwner) activity);
+
         });
         payeeChipGroup.setOnCheckedChangeListener(new ChipGroup.OnCheckedChangeListener() {
             @Override
@@ -331,7 +326,7 @@ public class NewTransactionFragmentIn extends Fragment {
                 chip.setText(cat.getName());
                 categoryChipGroup.addView(chip);
             }
-            categoryViewModel.getCategoryList().removeObservers((LifecycleOwner) activity);
+
         });
         categoryChipGroup.setOnCheckedChangeListener(new ChipGroup.OnCheckedChangeListener() {
             @Override
@@ -370,7 +365,7 @@ public class NewTransactionFragmentIn extends Fragment {
                 chip.setText(w.getName());
                 walletChipGroup.addView(chip);
             }
-            walletViewModel.getWalletList().removeObservers((LifecycleOwner) activity);
+
         });
         walletChipGroup.setOnCheckedChangeListener(new ChipGroup.OnCheckedChangeListener() {
             @Override
@@ -400,7 +395,7 @@ public class NewTransactionFragmentIn extends Fragment {
                     }
                 });
                 tagChipGroup.addView(chip);
-                tagViewModel.getTagList().removeObservers((LifecycleOwner) activity);
+
             }
         });
         ImageButton add = getView().findViewById(R.id.transaction_in_add_tag);
@@ -482,5 +477,15 @@ public class NewTransactionFragmentIn extends Fragment {
         this.imageView = activity.findViewById(R.id.transaction_in_imageView);
         this.saveBtn = getView().findViewById(R.id.transaction_in_save_button);
         this.cancelBtn = getView().findViewById(R.id.transaction_in_cancel_button);
+    }
+
+    @Override
+    // Needs to ensure that the current Fragment in detached from the FragmentManager
+    public void onDestroy() {
+        super.onDestroy();
+        categoryViewModel.getCategoryList().removeObservers((LifecycleOwner) activity);
+        payeeViewModel.getPayeeList().removeObservers((LifecycleOwner) activity);
+        walletViewModel.getWalletList().removeObservers((LifecycleOwner) activity);
+        tagViewModel.getTagList().removeObservers((LifecycleOwner) activity);
     }
 }

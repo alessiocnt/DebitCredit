@@ -30,8 +30,6 @@ public class SettingsFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         MaterialCardView changePwdBtn = view.findViewById(R.id.change_password_button);
         changePwdBtn.setOnClickListener((v) -> Navigation.findNavController(v).navigate(R.id.action_nav_settings_to_changePasswordFragment));
-        MaterialCardView editWalletsBtn = view.findViewById(R.id.edit_wallets_button);
-        editWalletsBtn.setOnClickListener((v) -> Navigation.findNavController(v).navigate(R.id.action_nav_settings_to_editWalletsFragment));
         MaterialCardView editCatsBtn = view.findViewById(R.id.edit_categories_button);
         editCatsBtn.setOnClickListener((v) -> Navigation.findNavController(v).navigate(R.id.action_nav_settings_to_editCategoriesFragment));
         MaterialCardView editTagsBtn = view.findViewById(R.id.edit_tags_button);
