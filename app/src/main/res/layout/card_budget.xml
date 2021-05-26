@@ -37,41 +37,48 @@ app:strokeColor="@color/material_on_surface_stroke">
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/budget_name"
+            android:id="@+id/budget_card_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
             android:layout_marginTop="12dp"
             android:text="@string/budget_name"
             android:textAppearance="?attr/textAppearanceHeadline4"
-            app:layout_constraintStart_toEndOf="@+id/budget_chart"
+            app:layout_constraintStart_toEndOf="@+id/budget_card_chart"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/budget_balance"
+            android:id="@+id/budget_card_category"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
-            android:layout_marginStart="52dp"
-            android:layout_marginBottom="4dp"
-            android:text="@string/budget_balance"
+            android:text="budget category"
             android:textAppearance="?attr/textAppearanceBody1"
-
-            app:layout_constraintStart_toEndOf="@+id/budget_chart"
-            app:layout_constraintTop_toBottomOf="@+id/budget_name" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/budget_card_name" />
 
         <TextView
-            android:id="@+id/budget_renovation"
+            android:id="@+id/budget_card_balance"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:text="@string/budget_balance"
+            android:textAppearance="?attr/textAppearanceBody1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/budget_card_name" />
+
+        <TextView
+            android:id="@+id/budget_card_renovation"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
             android:text="@string/budget_renovation"
             android:textAppearance="?attr/textAppearanceBody1"
-            app:layout_constraintStart_toEndOf="@+id/budget_balance"
-            app:layout_constraintTop_toBottomOf="@+id/budget_name" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/budget_card_balance" />
 
         <ImageView
-            android:id="@+id/budget_more"
+            android:id="@+id/budget_card_more"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
