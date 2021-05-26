@@ -32,7 +32,6 @@ public class BudgetFragment extends Fragment implements OnItemListener {
 
     private BudgetCardAdapter budgetAdapter;
     private BudgetViewModel budgetViewModel;
-    private RecyclerView recyclerView;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -67,7 +66,7 @@ public class BudgetFragment extends Fragment implements OnItemListener {
 
     private void setRecyclerView(final Activity activity) {
         // Set up the RecyclerView
-        recyclerView = getView().findViewById(R.id.budget_recycler_view);
+        RecyclerView recyclerView = getView().findViewById(R.id.budget_recycler_view);
         recyclerView.setHasFixedSize(true);
         final OnItemListener listener = this;
         budgetAdapter = new BudgetCardAdapter(activity, listener);

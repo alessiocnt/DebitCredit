@@ -6,22 +6,21 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.lifecycle.LifecycleOwner;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.lifecycle.ViewModelStoreOwner;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.simoale.debitcredit.R;
-import com.simoale.debitcredit.database.repository.TransactionRepository;
 import com.simoale.debitcredit.model.Budget;
-import com.simoale.debitcredit.model.Wallet;
 import com.simoale.debitcredit.ui.budget.BudgetCardViewHolder;
-import com.simoale.debitcredit.ui.graphs.Chart;
-import com.simoale.debitcredit.ui.graphs.CircularGaugeChart;
-import com.simoale.debitcredit.ui.wallet.WalletCardViewHolder;
+import com.simoale.debitcredit.ui.budget.BudgetViewModel;
+import com.simoale.debitcredit.utils.Utilities;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Adapter linked to the RecyclerView of the wallet, that extends a custom Adapter
@@ -38,7 +37,9 @@ public class BudgetCardAdapter extends RecyclerView.Adapter<BudgetCardViewHolder
         this.listener = listener;
     }
 
-    /** Called when RecyclerView needs a new RecyclerView.ViewHolder of the given type to represent an item. */
+    /**
+     * Called when RecyclerView needs a new RecyclerView.ViewHolder of the given type to represent an item.
+     */
     @NonNull
     @Override
     public BudgetCardViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -47,25 +48,36 @@ public class BudgetCardAdapter extends RecyclerView.Adapter<BudgetCardViewHolder
         return new BudgetCardViewHolder(layoutView, listener);
     }
 
-    /** Called by RecyclerView to display the data at the specified position.
+    /**
+     * Called by RecyclerView to display the data at the specified position.
      * This method should update the contents of the RecyclerView.ViewHolder.itemView to reflect
      * the item at the given position.
      */
     @Override
     public void onBindViewHolder(@NonNull BudgetCardViewHolder holder, int position) {
+        BudgetViewModel budgetViewModel = new ViewModelProvider((ViewModelStoreOwner) activity).get(BudgetViewModel.class);
         Budget currentBudget = budgetList.get(position);
 
         holder.getName().setText(currentBudget.getName());
-        holder.getBudget().setText(String.valueOf(currentBudget.getLimit()));
+        holder.getRenovation().setText(String.format("Renovation date: %s", new SimpleDateFormat("dd/MM/yyyy").format(Utilities.getDateFromString(currentBudget.getDateNextUpdate()))));
+        holder.getCategory().setText(currentBudget.getCategoryName());
+        //LiveData<Float> budgetLeftover = budgetViewModel.calculateBudgetLeftover(currentBudget);
+        //holder.getBudget().setText(String.format("%.2f€", budgetLeftover));
 
-/**
-        Map<String, Integer> data = new HashMap<>();
-        Date lasteBudgetRefresh = new Date(System.currentTimeMillis());
-        data.put(currentBudget.getName(), new TransactionRepository(activity.getApplication()).getBudgetSpent(currentBudget.getCategoryId(), )));
-        Chart circularGauge = new CircularGaugeChart(holder.getGaugeChartView(), data, null);
-        circularGauge.instantiateChart();**/
+
+        //holder.getBudget().setText(budgetLeftover.toString());
+
+
+
+
+        /**
+         Map<String, Integer> data = new HashMap<>();
+         Date lasteBudgetRefresh = new Date(System.currentTimeMillis());
+         data.put(currentBudget.getName(), new TransactionRepository(activity.getApplication()).getBudgetSpent(currentBudget.getCategoryId(), )));
+         Chart circularGauge = new CircularGaugeChart(holder.getGaugeChartView(), data, null);
+         circularGauge.instantiateChart();**/
         // TODO calcolare laq data del prossimo budget!!!!
-        holder.getRenovation().setText(String.valueOf(currentBudget.getDate()));
+        //holder.getRenovation().setText(String.valueOf(currentBudget.getDate()));
     }
 
     @Override

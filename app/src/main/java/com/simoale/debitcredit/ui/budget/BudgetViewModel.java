@@ -1,24 +1,31 @@
 package com.simoale.debitcredit.ui.budget;
 
 import android.app.Application;
+import android.util.Log;
 import android.util.Pair;
 
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
+import com.simoale.debitcredit.database.DatabaseInstance;
 import com.simoale.debitcredit.database.repository.BudgetRepository;
 import com.simoale.debitcredit.database.repository.TransactionRepository;
 import com.simoale.debitcredit.model.Budget;
 import com.simoale.debitcredit.model.Interval;
 import com.simoale.debitcredit.utils.Utilities;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicLong;
+import java.util.concurrent.atomic.AtomicReference;
 
 public class BudgetViewModel extends AndroidViewModel {
 
@@ -77,7 +84,7 @@ public class BudgetViewModel extends AndroidViewModel {
         // devo aggiornare ogni repeatNumber*repeatInterval
         int daysBetweenUpdates = repeatNumber * Interval.valueOf(repeatInterval.toUpperCase()).daysNumber;
         long numberOfUpdates = dayDiff / daysBetweenUpdates;
-        if (numberOfUpdates != 0) {
+        if (numberOfUpdates != 0 || dateNextUpdate == null) {
             Calendar lastUpdate = Calendar.getInstance();
             lastUpdate.setTime(Utilities.getDateFromString(dateLastUpdate));
             lastUpdate.add(Calendar.DAY_OF_MONTH, (int) (numberOfUpdates * daysBetweenUpdates));
@@ -102,6 +109,7 @@ public class BudgetViewModel extends AndroidViewModel {
         });
         return budgetLeftover;
     }
+
 }
 
 

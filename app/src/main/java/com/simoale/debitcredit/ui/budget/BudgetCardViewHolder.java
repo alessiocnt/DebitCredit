@@ -19,6 +19,7 @@ public class BudgetCardViewHolder extends RecyclerView.ViewHolder implements Vie
 
     private TextView name;
     private TextView budget;
+    private TextView category;
     private TextView renovation;
     private AnyChartView gaugeChartView;
     private ImageView more;
@@ -27,9 +28,10 @@ public class BudgetCardViewHolder extends RecyclerView.ViewHolder implements Vie
 
     public BudgetCardViewHolder(@NonNull View view, OnItemListener lister) {
         super(view);
-        name = view.findViewById(R.id.budget_name);
-        budget = view.findViewById(R.id.budget_balance);
-        renovation = view.findViewById(R.id.budget_renovation);
+        name = view.findViewById(R.id.budget_card_name);
+        budget = view.findViewById(R.id.budget_card_balance);
+        category = view.findViewById(R.id.budget_card_category);
+        renovation = view.findViewById(R.id.budget_card_renovation);
         more = view.findViewById(R.id.wallet_more);
 
         gaugeChartView = view.findViewById(R.id.budget_card_chart);
@@ -69,6 +71,10 @@ public class BudgetCardViewHolder extends RecyclerView.ViewHolder implements Vie
         return more;
     }
 
+    public TextView getCategory() {
+        return category;
+    }
+
     public OnItemListener getItemListener() {
         return itemListener;
     }
@@ -83,5 +89,9 @@ public class BudgetCardViewHolder extends RecyclerView.ViewHolder implements Vie
 
     public void setRenovation(TextView renovation) {
         this.renovation = renovation;
+    }
+
+    public void setCategory(TextView category) {
+        this.category = category;
     }
 }
