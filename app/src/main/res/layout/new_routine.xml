@@ -225,7 +225,7 @@
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/routine_repeat_number"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
-            android:layout_width="0dp"
+            android:layout_width="110dp"
             android:layout_height="65dp"
             android:layout_margin="10dp"
             android:hint="times"
