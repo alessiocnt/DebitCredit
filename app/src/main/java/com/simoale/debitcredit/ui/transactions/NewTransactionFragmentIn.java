@@ -164,7 +164,7 @@ public class NewTransactionFragmentIn extends Fragment {
                 public void onClick(View v) {
                     try {
                         // Retrive data
-                        Integer amount = transactionType.getType() * Math.abs(Integer.parseInt(amountEditText.getEditText().getText().toString()));
+                        Float amount = transactionType.getType() * Math.abs(Float.parseFloat(amountEditText.getEditText().getText().toString().replace(',', '.')));
                         String description = descriptionEditText.getEditText().getText().toString();
                         String location = locationText.getText().toString();
                         String note = noteEditText.getEditText().getText().toString();

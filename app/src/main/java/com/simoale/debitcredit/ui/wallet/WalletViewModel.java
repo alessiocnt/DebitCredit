@@ -57,7 +57,7 @@ public class WalletViewModel extends AndroidViewModel {
         return selected;
     }
 
-    public void updateBalance(Integer walletId, Integer amount) {
+    public void updateBalance(Integer walletId, Float amount) {
         repository.updateBalance(walletId, amount);
     }
 

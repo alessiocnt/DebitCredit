@@ -22,5 +22,5 @@ public interface WalletDAO {
 
     @Transaction
     @Query("UPDATE wallet SET wallet_balance =  wallet_balance + :amount WHERE wallet_id = :walletId")
-    void updateBalance(Integer walletId, Integer amount);
+    void updateBalance(Integer walletId, Float amount);
 }
