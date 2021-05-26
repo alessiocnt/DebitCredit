@@ -75,6 +75,7 @@ public class RoutineViewModel extends AndroidViewModel {
     }
 
     private Pair<String, String> updateRoutineDates(Routine routine) {
+        // TODO add or remove tags
         String dateLastUpdate = routine.getDateLastUpdate();
         String dateNextUpdate = routine.getDateNextUpdate();
         int repeatNumber = routine.getRepeatNumber();
@@ -103,7 +104,6 @@ public class RoutineViewModel extends AndroidViewModel {
         while (numberOfUpdates > 0) {
             numberOfUpdates--;
             nextUpdate.add(Calendar.DAY_OF_MONTH, -daysBetweenUpdates);
-            // TODO fix routine payee
             this.transactionRepository.addTransaction(new Transaction(routine.getAmount(),
                     "Transaction from routine: " + routine.getName(), routine.getCategoryName(),
                     routine.getPayeeName(), Utilities.getStringFromDate(nextUpdate.getTime()),

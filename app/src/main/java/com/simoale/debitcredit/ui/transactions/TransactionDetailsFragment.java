@@ -76,7 +76,7 @@ public class TransactionDetailsFragment extends Fragment {
             this.categoryTextView.setText(String.format("Category: %s", transaction.getCategoryName()));
             LiveData<List<String>> l = transactionViewModel.getTags(transaction);
             l.observe((LifecycleOwner) activity, tags -> {
-                this.tagsTextView.setText(String.format("Tags: %s", l.getValue().stream().collect(Collectors.joining(", ")))); // TODO complete
+                this.tagsTextView.setText(String.format("Tags: %s", l.getValue().stream().collect(Collectors.joining(", "))));
             });
             if (transaction.getNote() != null && !transaction.getNote().equals("")) {
                 this.notesTextView.setText(String.format("Notes: %s", transaction.getNote()));
@@ -93,8 +93,6 @@ public class TransactionDetailsFragment extends Fragment {
             } else {
                 this.imgCard.setVisibility(View.INVISIBLE);
             }
-
-//            ic_launcher_foreground
         } else {
             Log.e(LOG, "Activity is null");
         }
