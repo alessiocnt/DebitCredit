@@ -32,7 +32,7 @@ public class WalletRepository {
         });
     }
 
-    public void updateBalance(Integer walletId, Integer amount) {
+    public void updateBalance(Integer walletId, Float amount) {
         DatabaseInstance.databaseWriteExecutor.execute(new Runnable() {
             @Override
             public void run() {

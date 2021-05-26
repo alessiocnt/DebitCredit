@@ -21,7 +21,7 @@
     <string name="wallet_more_menu">wallet more menu</string>
     <string name="add">add</string>
     <string name="home">home</string>
-    <string name="budget_name">budget name</string>
+    <string name="budget_name">Budget name</string>
     <string name="budget_balance">budget balance</string>
     <string name="budget_renovation">budget renovation</string>
     <string name="budget_more_menu">budget more menu</string>
@@ -69,4 +69,5 @@
     <string name="location">Location</string>
     <string name="wallet_from">Wallet from</string>
     <string name="wallet_to">Wallet to</string>
+    <string name="repeat_every">Repeat every</string>
 </resources>
