@@ -188,7 +188,7 @@ public class NewRoutineFragment extends Fragment {
                 chip.setText(wallet.getName());
                 this.walletChipGroup.addView(chip);
             }
-            this.walletViewModel.getWalletList().removeObservers((LifecycleOwner) this.activity);
+
         });
         this.walletChipGroup.setOnCheckedChangeListener((group, checkedId) -> {
             Chip chip = group.findViewById(checkedId);
@@ -203,7 +203,7 @@ public class NewRoutineFragment extends Fragment {
                 chip.setText(category.getName());
                 this.categoryChipGroup.addView(chip);
             }
-            this.categoryViewModel.getCategoryList().removeObservers((LifecycleOwner) this.activity);
+
         });
         this.categoryChipGroup.setOnCheckedChangeListener((group, checkedId) -> {
             Chip chip = group.findViewById(checkedId);
@@ -218,7 +218,7 @@ public class NewRoutineFragment extends Fragment {
                 chip.setText(payee.getName());
                 this.payeeChipGroup.addView(chip);
             }
-            this.payeeViewModel.getPayeeList().removeObservers((LifecycleOwner) this.activity);
+
         });
         this.payeeChipGroup.setOnCheckedChangeListener((group, checkedId) -> {
             Chip chip = group.findViewById(checkedId);
@@ -242,7 +242,7 @@ public class NewRoutineFragment extends Fragment {
                 });
                 this.tagChipGroup.addView(chip);
             }
-            this.tagViewModel.getTagList().removeObservers((LifecycleOwner) this.activity);
+
         });
 
     }
@@ -302,5 +302,14 @@ public class NewRoutineFragment extends Fragment {
             AlertDialog alertDialog = dialogBuilder.create();
             alertDialog.show();
         });
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        this.walletViewModel.getWalletList().removeObservers((LifecycleOwner) this.activity);
+        this.categoryViewModel.getCategoryList().removeObservers((LifecycleOwner) this.activity);
+        this.payeeViewModel.getPayeeList().removeObservers((LifecycleOwner) this.activity);
+        this.tagViewModel.getTagList().removeObservers((LifecycleOwner) this.activity);
     }
 }
