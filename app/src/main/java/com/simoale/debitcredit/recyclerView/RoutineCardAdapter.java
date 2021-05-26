@@ -11,7 +11,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.simoale.debitcredit.R;
 import com.simoale.debitcredit.model.Routine;
 import com.simoale.debitcredit.ui.routine.RoutineCardViewHolder;
+import com.simoale.debitcredit.utils.Utilities;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -45,25 +47,11 @@ public class RoutineCardAdapter extends RecyclerView.Adapter<RoutineCardViewHold
     @Override
     public void onBindViewHolder(@NonNull RoutineCardViewHolder holder, int position) {
         Routine currentRoutine = routineList.get(position);
-        /*
-        String image_path = currentWallet.getImage();
-        if (image_path.contains("ic_")) {
-            Drawable drawable = ContextCompat.getDrawable(activity, activity.getResources()
-                    .getIdentifier(image_path, "drawable",
-                            activity.getPackageName()));
-            holder.getImage().setImageDrawable(drawable);
-        } else {
-            Bitmap bitmap = Utilities.getImageBitmap(activity, Uri.parse(image_path));
-            if (bitmap != null){
-                holder.getImage().setImageBitmap(bitmap);
-            }
-        }
-*/
         holder.getName().setText(currentRoutine.getName());
-        holder.getRoutineImport().setText(String.valueOf(currentRoutine.getAmount()));
+        holder.getRoutineImport().setText(String.format("%.2f€", currentRoutine.getAmount()));
         // TODO fix dates and intervals
-        holder.getFrequency().setText(String.valueOf(currentRoutine.getRepeatInterval()));
-        holder.getStartDate().setText(String.valueOf(currentRoutine.getDate()));
+        holder.getFrequency().setText(String.format("Repeat every: %s %s(s)", String.valueOf(currentRoutine.getRepeatNumber()), String.valueOf(currentRoutine.getRepeatInterval())));
+        holder.getStartDate().setText(String.format("Starting from: %s", new SimpleDateFormat("dd/MM/yyyy").format(Utilities.getDateFromString(currentRoutine.getDate()))));
     }
 
     @Override

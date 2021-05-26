@@ -53,7 +53,7 @@ public class WalletCardAdapter extends RecyclerView.Adapter<WalletCardViewHolder
         String icon_color = currentWallet.getImage();
         holder.getImage().getDrawable().setTint(Integer.parseInt(icon_color));
         holder.getName().setText(currentWallet.getName());
-        holder.getBalance().setText(String.valueOf(currentWallet.getBalance()));
+        holder.getBalance().setText(String.format("%.2f€", currentWallet.getBalance()));
     }
 
     @Override
