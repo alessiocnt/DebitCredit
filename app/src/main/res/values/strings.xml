@@ -69,4 +69,5 @@
     <string name="location">Location</string>
     <string name="wallet_from">Wallet from</string>
     <string name="wallet_to">Wallet to</string>
+    <string name="repeat_every">Repeat every</string>
 </resources>
