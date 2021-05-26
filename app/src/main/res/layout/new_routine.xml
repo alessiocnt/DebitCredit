@@ -94,8 +94,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
+            android:backgroundTint="@color/rally_green_500"
             android:contentDescription="@string/add_category"
             android:src="@drawable/ic_plus_sign_24dp"
+            android:tint="@color/white"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/new_routine_wallet_chip_group" />
 
@@ -107,7 +109,7 @@
             android:layout_marginRight="10dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/category_text"
+            app:layout_constraintTop_toBottomOf="@+id/new_routine_add_category"
             app:selectionRequired="true"
             app:singleSelection="true" />
 
@@ -128,8 +130,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
+            android:backgroundTint="@color/rally_green_500"
             android:contentDescription="@string/add_payee"
             android:src="@drawable/ic_plus_sign_24dp"
+            android:tint="@color/white"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/new_routine_category_chip_group" />
 
@@ -140,7 +144,7 @@
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/payee_text"
+            app:layout_constraintTop_toBottomOf="@+id/new_routine_add_payee"
             app:selectionRequired="true"
             app:singleSelection="true" />
 
@@ -161,8 +165,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
+            android:backgroundTint="@color/rally_green_500"
             android:contentDescription="@string/add_tag"
             android:src="@drawable/ic_plus_sign_24dp"
+            android:tint="@color/white"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/new_routine_payee_chip_group" />
 
@@ -173,7 +179,7 @@
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tag_text" />
+            app:layout_constraintTop_toBottomOf="@+id/new_routine_add_tag" />
 
 
         <View
@@ -192,7 +198,8 @@
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
             android:text="Start date:"
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
+            android:textColor="@android:color/darker_gray"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/separator" />
 
@@ -201,10 +208,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
-            android:backgroundTint="@color/rally_background"
+            android:backgroundTint="@color/rally_green_500"
             android:contentDescription="calendar_picker"
-            android:padding="0dp"
             android:src="@drawable/ic_calendar_24dp"
+            android:tint="@color/white"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/separator" />
 
@@ -213,27 +220,26 @@
             android:id="@+id/routine_repeat_TextInput"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
+            android:layout_margin="10dp"
             android:text="Repeat every"
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
-            app:layout_constraintBottom_toBottomOf="@+id/routine_repeat_number"
-            app:layout_constraintEnd_toStartOf="@id/routine_repeat_number"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
+            android:textColor="@android:color/darker_gray"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/routine_repeat_number" />
+            app:layout_constraintTop_toBottomOf="@+id/routine_start_date" />
 
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/routine_repeat_number"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
-            android:layout_width="110dp"
+            android:layout_width="0dp"
             android:layout_height="65dp"
             android:layout_margin="10dp"
             android:hint="times"
             android:inputType="numberDecimal"
             app:errorEnabled="true"
             app:layout_constraintEnd_toStartOf="@id/routine_repeat_interval"
-            app:layout_constraintStart_toEndOf="@id/routine_repeat_TextInput"
-            app:layout_constraintTop_toBottomOf="@id/routine_start_date">
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/routine_repeat_TextInput">
 
 
             <AutoCompleteTextView
@@ -256,7 +262,7 @@
             app:errorEnabled="true"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/routine_repeat_number"
-            app:layout_constraintTop_toBottomOf="@id/routine_start_date">
+            app:layout_constraintTop_toBottomOf="@id/routine_repeat_TextInput">
 
 
             <AutoCompleteTextView
