@@ -21,6 +21,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelStoreOwner;
+import androidx.navigation.Navigation;
 
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
@@ -28,6 +29,7 @@ import com.google.android.material.textfield.TextInputLayout;
 import com.simoale.debitcredit.R;
 import com.simoale.debitcredit.model.Category;
 import com.simoale.debitcredit.model.Payee;
+import com.simoale.debitcredit.model.Routine;
 import com.simoale.debitcredit.model.Tag;
 import com.simoale.debitcredit.model.Wallet;
 import com.simoale.debitcredit.ui.category.CategoryViewModel;
@@ -116,9 +118,36 @@ public class NewRoutineFragment extends Fragment {
             this.prepareAutoCompleteTextViews();
 
 
+            this.saveButton.setOnClickListener(v -> this.handleSaveClick(v));
+            this.cancelButton.setOnClickListener(v -> this.handleCancelClick(v));
+
         } else {
             Log.e(TAG, "activity is null");
         }
+    }
+
+    private void handleSaveClick(View view) {
+        boolean dataOk = false;
+        String routineName = this.routineNameTextInput.getEditText().getText().toString();
+        String routineImport = this.routineImportTextInput.getEditText().getText().toString().replace(',', '.');
+        String times = this.timesTextView.getText().toString();
+        String interval = this.intervalTextView.getText().toString().replace("(s)", "");
+
+        dataOk = Utilities.checkDataValid(routineName, routineImport, this.selectedWallet, this.selectedCategory, this.selectedPayee, this.selectedTags.get(0), this.dateSelected, times, interval);
+
+        if (dataOk) {
+            this.routineViewModel.addRoutine(new Routine(routineName, Float.parseFloat(routineImport),
+                    this.selectedPayee, this.walletViewModel.getWalletFromName(this.selectedWallet).getValue().getId(),
+                    this.selectedCategory, this.dateSelected, this.dateSelected, null, Integer.parseInt(times), interval), this.selectedTags);
+            Navigation.findNavController(view).navigate(R.id.action_newRoutineFragment_to_nav_routine);
+        } else {
+            Toast.makeText(getContext(), "All fields are required", Toast.LENGTH_LONG).show();
+        }
+
+    }
+
+    private void handleCancelClick(View view) {
+        Navigation.findNavController(view).navigate(R.id.action_newRoutineFragment_to_nav_routine);
     }
 
     private void prepareAutoCompleteTextViews() {
@@ -163,7 +192,7 @@ public class NewRoutineFragment extends Fragment {
         });
         this.walletChipGroup.setOnCheckedChangeListener((group, checkedId) -> {
             Chip chip = group.findViewById(checkedId);
-            this.selectedCategory = chip.getText().toString();
+            this.selectedWallet = chip.getText().toString();
         });
 
         this.categoryViewModel.getCategoryList().observe((LifecycleOwner) this.activity, categories -> {
@@ -199,22 +228,23 @@ public class NewRoutineFragment extends Fragment {
         this.tagViewModel.getTagList().observe((LifecycleOwner) this.activity, tags -> {
             this.tagChipGroup.removeAllViews();
             for (Tag tag : tags) {
-                Chip chip = (Chip) getLayoutInflater().inflate(R.layout.chip_choice, payeeChipGroup, false);
+                Chip chip = (Chip) getLayoutInflater().inflate(R.layout.chip_choice, this.tagChipGroup, false);
                 chip.setId(View.generateViewId());
                 chip.setText(tag.getName());
+                chip.setOnCheckedChangeListener((buttonView, isChecked) -> {
+                    if (isChecked) {
+                        this.selectedTags.add(chip.getText().toString());
+                        Log.e("Added", chip.getText().toString());
+                    } else {
+                        this.selectedTags.remove(chip.getText().toString());
+                        Log.e("Removed", chip.getText().toString());
+                    }
+                });
                 this.tagChipGroup.addView(chip);
             }
             this.tagViewModel.getTagList().removeObservers((LifecycleOwner) this.activity);
         });
-        this.tagChipGroup.setOnCheckedChangeListener((group, checkedId) -> {
-            Chip chip = group.findViewById(checkedId);
-            String tag = chip.getText().toString();
-            if (this.selectedTags.contains(tag)) {
-                this.selectedTags.remove(tag);
-            } else {
-                this.selectedTags.add(tag);
-            }
-        });
+
     }
 
     private void addButtonsListenerPrepare() {
