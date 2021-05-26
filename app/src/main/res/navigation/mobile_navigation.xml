@@ -120,7 +120,11 @@
         android:id="@+id/newBudgetFragment"
         android:name="com.simoale.debitcredit.ui.budget.NewBudgetFragment"
         android:label="NewBudgetFragment"
-        tools:layout="@layout/new_budget" />
+        tools:layout="@layout/new_budget" >
+        <action
+            android:id="@+id/action_newBudgetFragment_to_nav_budget"
+            app:destination="@id/nav_budget" />
+    </fragment>
     <fragment
         android:id="@+id/changePasswordFragment"
         android:name="com.simoale.debitcredit.ui.settings.ChangePasswordFragment"

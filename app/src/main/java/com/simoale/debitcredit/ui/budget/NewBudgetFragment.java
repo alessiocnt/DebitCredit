@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
@@ -31,6 +32,7 @@ import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
 import com.google.android.material.textfield.TextInputLayout;
 import com.simoale.debitcredit.R;
+import com.simoale.debitcredit.model.Budget;
 import com.simoale.debitcredit.model.Category;
 import com.simoale.debitcredit.model.Payee;
 import com.simoale.debitcredit.model.Transaction;
@@ -51,6 +53,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.stream.IntStream;
 
 public class NewBudgetFragment extends Fragment {
 
@@ -63,8 +66,8 @@ public class NewBudgetFragment extends Fragment {
     String categorySelected;
     private TextView dateDisplay;
     private String dateSelected;
-    private TextInputLayout numberTextView;
-    private TextInputLayout intervalTextView;
+    private AutoCompleteTextView numberTextView;
+    private AutoCompleteTextView intervalTextView;
     private Button saveBtn;
     private Button cancelBtn;
 
@@ -88,64 +91,37 @@ public class NewBudgetFragment extends Fragment {
 
             setupDatePicker();
             setupChips();
+            prepareAutoCompleteTextViews();
 
-            this.saveBtn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    /*try {
-                        // Retrive data
-                        Integer amount = transactionType.getType() * Math.abs(Integer.parseInt(amountEditText.getEditText().getText().toString()));
-                        String description = descriptionEditText.getEditText().getText().toString();
-                        String location = locationText.getText().toString();
-                        String note = noteEditText.getEditText().getText().toString();
-                        Bitmap bitmap = transactionViewModel.getBitmap().getValue();
-                        String imageUriString;
-                        if (bitmap != null) {
-                            //method to save the image in the gallery of the device
-                            imageUriString = String.valueOf(saveImage(bitmap, activity));
-                            //Toast.makeText(activity,"Image Saved", Toast.LENGTH_SHORT).show();
-                        } else {
-                            imageUriString = "ic_launcher_foreground";
-                        }
-                        // Insert data
-                        Wallet currentWallet = walletViewModel.getWalletFromName(walletSelected).getValue();
-                        if (Utilities.checkDataValid(amount.toString(), categorySelected, dateSelected, walletSelected)) {
-                            // Make the transaction
-                            int lastTransactionID = (int) transactionViewModel.addTransaction(new Transaction(amount,
-                                    description, categorySelected, payeeSelected, dateSelected, currentWallet.getId(), currentWallet.getId(), location, note, imageUriString));
-                            // Update Wallet balance
-                            walletViewModel.updateBalance(currentWallet.getId(), amount);
-                            // Add transaction tag's
+            this.saveBtn.setOnClickListener(v -> {
+                // Retrive data
+                String name = nameEditText.getEditText().getText().toString();
+                String limit = limitEditText.getEditText().getText().toString().replace(',', '.');
+                String number = numberTextView.getText().toString();
+                String interval = intervalTextView.getText().toString().replace("(s)", "");
 
-                            List<TransactionTagCrossRef> transactionTagList = new ArrayList<>();
-                            tagSelected.forEach(tag -> transactionTagList.add(new TransactionTagCrossRef(lastTransactionID, tag)));
-                            TransactionTagCrossRef transactionTagArray[] = new TransactionTagCrossRef[transactionTagList.size()];
-                            for (int i = 0; i < transactionTagList.size(); i++) {
-                                transactionTagArray[i] = transactionTagList.get(i);
-                            }
-                            transactionTagViewModel.addTransactionTags(transactionTagArray);
-                            Navigation.findNavController(v).navigate(R.id.action_newTransactionTabFragment_to_nav_home);
-                        } else {
-                            Toast.makeText(activity.getBaseContext(), "Every field must be filled", Toast.LENGTH_LONG).show();
-                        }
-                        transactionViewModel.setImageBitmpap(null);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }*/
+                // Insert data
+                if (Utilities.checkDataValid(name, limit, number, interval, categorySelected, dateSelected)) {
+                    // Make the transaction
+                    budgetViewModel.addBudget(new Budget(name,
+                            categorySelected, Float.parseFloat(limit), dateSelected, dateSelected, null, Integer.parseInt(number), interval));
+                    Navigation.findNavController(v).navigate(R.id.action_newBudgetFragment_to_nav_budget);
+                } else {
+                    Toast.makeText(activity.getBaseContext(), "Every field must be filled", Toast.LENGTH_LONG).show();
                 }
             });
             this.cancelBtn.setOnClickListener(v -> {
-                Navigation.findNavController(v).navigate(R.id.action_newTransactionTabFragment_to_nav_home);
+                Navigation.findNavController(v).navigate(R.id.action_newBudgetFragment_to_nav_budget);
             });
         }
     }
 
     private void setupUi() {
-        this.nameEditText = activity.findViewById(R.id.budget_name);
+        this.nameEditText = activity.findViewById(R.id.budget_name_TextInput);
         this.limitEditText = activity.findViewById(R.id.budget_limit_TextInput);
         this.dateDisplay = activity.findViewById(R.id.budget_start_date);
-        this.numberTextView = activity.findViewById(R.id.budget_repeat_number);
-        this.numberTextView = activity.findViewById(R.id.budget_repeat_interval);
+        this.numberTextView = activity.findViewById(R.id.budget_repeat_number_autocomplete);
+        this.intervalTextView = activity.findViewById(R.id.budget_repeat_interval_autocomplete);
         this.saveBtn = activity.findViewById(R.id.budget_save_button);
         this.cancelBtn = activity.findViewById(R.id.budget_cancel_button);
     }
@@ -210,5 +186,15 @@ public class NewBudgetFragment extends Fragment {
             AlertDialog alertDialog = dialogBuilder.create();
             alertDialog.show();
         });
+    }
+
+    private void prepareAutoCompleteTextViews() {
+        String[] times = IntStream.range(1, 31).mapToObj(String::valueOf).toArray(String[]::new);
+        ArrayAdapter<String> timesAdapter = new ArrayAdapter<>(getActivity(), R.layout.support_simple_spinner_dropdown_item, times);
+        this.numberTextView.setAdapter(timesAdapter);
+
+        String[] interval = new String[]{"Day(s)", "Week(s)", "Month(s)", "Year(s)"};
+        ArrayAdapter<String> intervalAdapter = new ArrayAdapter<>(getActivity(), R.layout.support_simple_spinner_dropdown_item, interval);
+        this.intervalTextView.setAdapter(intervalAdapter);
     }
 }

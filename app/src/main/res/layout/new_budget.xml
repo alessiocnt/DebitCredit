@@ -160,6 +160,7 @@
             app:layout_constraintTop_toBottomOf="@id/budget_start_date">
 
             <AutoCompleteTextView
+                android:id="@+id/budget_repeat_number_autocomplete"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="none"
@@ -180,6 +181,7 @@
             app:layout_constraintTop_toBottomOf="@id/budget_start_date">
 
             <AutoCompleteTextView
+                android:id="@+id/budget_repeat_interval_autocomplete"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="none"
