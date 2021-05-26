@@ -71,7 +71,7 @@ public class TransactionDetailsFragment extends Fragment {
             Transaction transaction = this.transactionViewModel.getSelected().getValue();
             this.transactionNameTextView.setText(transaction.getDescription());
             this.transactionDateTextView.setText(new SimpleDateFormat("dd/MM/yyyy").format(Utilities.getDateFromString(transaction.getDate())));
-            this.transactionAmountTextView.setText(String.format("%s€", transaction.getAmount()));
+            this.transactionAmountTextView.setText(String.format("%.2f€", transaction.getAmount()));
             this.payeeTextView.setText(String.format("Payee: %s", transaction.getPayeeName()));
             this.categoryTextView.setText(String.format("Category: %s", transaction.getCategoryName()));
             LiveData<List<String>> l = transactionViewModel.getTags(transaction);

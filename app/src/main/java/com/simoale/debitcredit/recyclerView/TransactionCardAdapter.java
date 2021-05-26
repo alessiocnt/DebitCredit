@@ -54,7 +54,7 @@ public class TransactionCardAdapter extends RecyclerView.Adapter<TransactionCard
 
         holder.getDescription().setText(currentTransaction.getDescription());
         holder.getDate().setText(new SimpleDateFormat("dd/MM/yyyy").format(Utilities.getDateFromString(currentTransaction.getDate())));
-        holder.getAmount().setText(String.valueOf(currentTransaction.getAmount()));
+        holder.getAmount().setText(String.format("%.2f€", currentTransaction.getAmount()));
     }
 
     @Override
