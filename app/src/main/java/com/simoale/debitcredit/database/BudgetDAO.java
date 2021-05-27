@@ -22,7 +22,13 @@ public interface BudgetDAO {
 
     @Transaction
     @Query("UPDATE budget " +
-            "SET budget_last_update = :lastUpdate, budget_next_update = :nextUpdate " +
+            "SET budget_last_update = :lastUpdate, budget_next_update = :nextUpdate, budget_current_amount = budget_limit " +
             "WHERE budget_id = :id")
     void updateBudgetDates(String lastUpdate, String nextUpdate, int id);
+
+    @Transaction
+    @Query("UPDATE budget " +
+            "SET budget_current_amount = budget_current_amount + :amount " +
+            "WHERE budget_category_name = :categoryName")
+    void updateBalance(String categoryName, float amount);
 }

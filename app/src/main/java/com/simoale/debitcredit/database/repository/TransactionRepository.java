@@ -1,6 +1,7 @@
 package com.simoale.debitcredit.database.repository;
 
 import android.app.Application;
+import android.util.Log;
 
 import androidx.lifecycle.LiveData;
 
@@ -16,10 +17,12 @@ public class TransactionRepository {
     private TransactionDAO transactionDAO;
     private LiveData<List<Transaction>> transactionList;
     private WalletRepository walletRepository;
+    private BudgetRepository budgetRepository;
 
     public TransactionRepository(Application application) {
         DatabaseInstance db = DatabaseInstance.getDatabase(application);
         this.walletRepository = new WalletRepository(application);
+        this.budgetRepository = new BudgetRepository(application);
         transactionDAO = db.TransactionDAO();
         transactionList = transactionDAO.getTransactions();
     }
@@ -54,6 +57,8 @@ public class TransactionRepository {
             e.printStackTrace();
         }
         this.walletRepository.updateBalance(transaction.getWalletIdFrom(), transaction.getAmount());
+        Log.e("viewmodel trans", transaction.getAmount() + "");
+        this.budgetRepository.updateBalance(transaction.getCategoryName(), transaction.getAmount());
         return result.get();
     }
 

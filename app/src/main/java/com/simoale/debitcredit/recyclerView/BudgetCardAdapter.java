@@ -55,16 +55,10 @@ public class BudgetCardAdapter extends RecyclerView.Adapter<BudgetCardViewHolder
     public void onBindViewHolder(@NonNull BudgetCardViewHolder holder, int position) {
         BudgetViewModel budgetViewModel = new ViewModelProvider((ViewModelStoreOwner) activity).get(BudgetViewModel.class);
         Budget currentBudget = budgetList.get(position);
-
         holder.getName().setText(currentBudget.getName());
-//        Utilities.getDateFromString(currentBudget.getDateNextUpdate());
         holder.getRenovation().setText(String.format("Renovation date: %s", new SimpleDateFormat("dd/MM/yyyy").format(Utilities.getDateFromString(currentBudget.getDateNextUpdate()))));
         holder.getCategory().setText(currentBudget.getCategoryName());
-        //LiveData<Float> budgetLeftover = budgetViewModel.calculateBudgetLeftover(currentBudget);
-        //holder.getBudget().setText(String.format("%.2f€", budgetLeftover));
-
-
-        //holder.getBudget().setText(budgetLeftover.toString());
+        holder.getBudget().setText(String.format("%.2f€", currentBudget.getCurrentAmount()));
 
 
         /**

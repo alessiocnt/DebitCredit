@@ -1,6 +1,7 @@
 package com.simoale.debitcredit.ui.budget;
 
 import android.app.Application;
+import android.util.Log;
 import android.util.Pair;
 
 import androidx.lifecycle.AndroidViewModel;
@@ -63,10 +64,11 @@ public class BudgetViewModel extends AndroidViewModel {
         executorService.execute(() -> {
             for (Budget budget : budgets) {
                 Pair<String, String> dates = updateBudgetDates(budget.getDateLastUpdate(), budget.getDateNextUpdate(), budget.getRepeatNumber(), budget.getRepeatInterval());
-                repository.updateBudgetDates(dates.first, dates.second, budget.getId());
+                if (dates != null) {
+                    repository.updateBudgetDates(dates.first, dates.second, budget.getId());
+                }
             }
         });
-
     }
 
     private Pair<String, String> updateBudgetDates(String dateLastUpdate, String dateNextUpdate, int repeatNumber, String repeatInterval) {
@@ -86,8 +88,9 @@ public class BudgetViewModel extends AndroidViewModel {
             nextUpdate.setTime(Utilities.getDateFromString(dateLastUpdate));
             nextUpdate.add(Calendar.DAY_OF_MONTH, daysBetweenUpdates);
             dateNextUpdate = Utilities.getStringFromDate(nextUpdate.getTime());
+            return new Pair<>(dateLastUpdate, dateNextUpdate);
         }
-        return new Pair<>(dateLastUpdate, dateNextUpdate);
+        return null;
     }
 
     public Map<String, Integer> calculateBudgetsLeftover(List<Budget> budgets) {

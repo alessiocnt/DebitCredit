@@ -1,6 +1,7 @@
 package com.simoale.debitcredit.database.repository;
 
 import android.app.Application;
+import android.util.Log;
 
 import androidx.lifecycle.LiveData;
 
@@ -37,5 +38,16 @@ public class BudgetRepository {
 
     public void updateBudgetDates(String lastUpdate, String nextUpdate, int id) {
         budgetDAO.updateBudgetDates(lastUpdate, nextUpdate, id);
+    }
+
+    public void updateBalance(String categoryName, float amount) {
+
+        DatabaseInstance.databaseWriteExecutor.execute(new Runnable() {
+            @Override
+            public void run() {
+                Log.e("adsfsdfgasdgadfgdasfg", ""+ categoryName + " " + amount);
+                budgetDAO.updateBalance(categoryName, amount);
+            }
+        });
     }
 }

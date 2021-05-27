@@ -28,6 +28,7 @@ import com.google.android.material.textfield.TextInputLayout;
 import com.simoale.debitcredit.R;
 import com.simoale.debitcredit.model.Budget;
 import com.simoale.debitcredit.model.Category;
+import com.simoale.debitcredit.model.Interval;
 import com.simoale.debitcredit.ui.category.CategoryViewModel;
 import com.simoale.debitcredit.utils.DatePicker;
 import com.simoale.debitcredit.utils.Utilities;
@@ -84,8 +85,27 @@ public class NewBudgetFragment extends Fragment {
                 // Insert data
                 if (Utilities.checkDataValid(name, limit, number, interval, categorySelected, dateSelected)) {
                     // Make the transaction
+
+                    long today = Calendar.getInstance().getTime().getTime();
+                    long last = Utilities.getDateFromString(dateSelected).getTime();
+                    long diff = today - last;
+                    long dayDiff = diff / (1000 * 60 * 60 * 24);
+                    // devo aggiornare ogni repeatNumber*repeatInterval
+                    int daysBetweenUpdates = Integer.parseInt(number) * Interval.valueOf(interval.toUpperCase()).daysNumber;
+                    long numberOfUpdates = dayDiff / daysBetweenUpdates;
+                    String dateNextUpdate;
+                    Calendar lastUpdate = Calendar.getInstance();
+                    lastUpdate.setTime(Utilities.getDateFromString(dateSelected));
+                    lastUpdate.add(Calendar.DAY_OF_MONTH, (int) (numberOfUpdates * daysBetweenUpdates));
+                    dateSelected = Utilities.getStringFromDate(lastUpdate.getTime());
+                    Calendar nextUpdate = Calendar.getInstance();
+                    nextUpdate.setTime(Utilities.getDateFromString(dateSelected));
+                    nextUpdate.add(Calendar.DAY_OF_MONTH, daysBetweenUpdates);
+                    dateNextUpdate = Utilities.getStringFromDate(nextUpdate.getTime());
+
+
                     budgetViewModel.addBudget(new Budget(name,
-                            categorySelected, Float.parseFloat(limit), dateSelected, dateSelected, dateSelected, Integer.parseInt(number), interval, Float.parseFloat(limit)));
+                            categorySelected, Float.parseFloat(limit), dateSelected, dateSelected, dateNextUpdate, Integer.parseInt(number), interval, Float.parseFloat(limit)));
                     Navigation.findNavController(v).navigate(R.id.action_newBudgetFragment_to_nav_budget);
                 } else {
                     Toast.makeText(activity.getBaseContext(), "Every field must be filled", Toast.LENGTH_LONG).show();
@@ -142,7 +162,6 @@ public class NewBudgetFragment extends Fragment {
                 chip.setText(cat.getName());
                 categoryChipGroup.addView(chip);
             }
-            categoryViewModel.getCategoryList().removeObservers((LifecycleOwner) activity);
         });
         categoryChipGroup.setOnCheckedChangeListener((chipGroup, i) -> {
             Chip chip = chipGroup.findViewById(i);
@@ -177,5 +196,11 @@ public class NewBudgetFragment extends Fragment {
         String[] interval = new String[]{"Day(s)", "Week(s)", "Month(s)", "Year(s)"};
         ArrayAdapter<String> intervalAdapter = new ArrayAdapter<>(getActivity(), R.layout.support_simple_spinner_dropdown_item, interval);
         this.intervalTextView.setAdapter(intervalAdapter);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        categoryViewModel.getCategoryList().removeObservers((LifecycleOwner) activity);
     }
 }

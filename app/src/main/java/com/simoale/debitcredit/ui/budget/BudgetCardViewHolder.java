@@ -15,7 +15,7 @@ import com.simoale.debitcredit.recyclerView.OnItemListener;
 /**
  * A ViewHolder describes an item view and the metadata about its place within the RecyclerView.
  */
-public class BudgetCardViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
+public class BudgetCardViewHolder extends RecyclerView.ViewHolder {
 
     private TextView name;
     private TextView budget;
@@ -24,7 +24,6 @@ public class BudgetCardViewHolder extends RecyclerView.ViewHolder implements Vie
     private AnyChartView gaugeChartView;
     private ImageView more;
 
-    private OnItemListener itemListener;
 
     public BudgetCardViewHolder(@NonNull View view, OnItemListener lister) {
         super(view);
@@ -37,15 +36,8 @@ public class BudgetCardViewHolder extends RecyclerView.ViewHolder implements Vie
         gaugeChartView = view.findViewById(R.id.budget_card_chart);
         gaugeChartView.setProgressBar(view.findViewById(R.id.budget_card_progress_bar));
         APIlib.getInstance().setActiveAnyChartView(gaugeChartView);
-
-        itemListener = lister;
-        itemView.setOnClickListener(this);
     }
 
-    @Override
-    public void onClick(View v) {
-        itemListener.onItemClick(getAdapterPosition());
-    }
 
     public AnyChartView getGaugeChartView() {
         return gaugeChartView;
@@ -73,10 +65,6 @@ public class BudgetCardViewHolder extends RecyclerView.ViewHolder implements Vie
 
     public TextView getCategory() {
         return category;
-    }
-
-    public OnItemListener getItemListener() {
-        return itemListener;
     }
 
     public void setName(TextView name) {
