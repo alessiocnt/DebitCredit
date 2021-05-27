@@ -29,10 +29,12 @@ public class SettingsFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         MaterialCardView changePwdBtn = view.findViewById(R.id.change_password_button);
-        changePwdBtn.setOnClickListener((v) -> Navigation.findNavController(v).navigate(R.id.action_nav_settings_to_changePasswordFragment));
+        changePwdBtn.setOnClickListener(v -> Navigation.findNavController(v).navigate(R.id.action_nav_settings_to_changePasswordFragment));
         MaterialCardView editCatsBtn = view.findViewById(R.id.edit_categories_button);
-        editCatsBtn.setOnClickListener((v) -> Navigation.findNavController(v).navigate(R.id.action_nav_settings_to_editCategoriesFragment));
+        editCatsBtn.setOnClickListener(v -> Navigation.findNavController(v).navigate(R.id.action_nav_settings_to_editCategoriesFragment));
         MaterialCardView editTagsBtn = view.findViewById(R.id.edit_tags_button);
-        editTagsBtn.setOnClickListener((v) -> Navigation.findNavController(v).navigate(R.id.action_nav_settings_to_editTagsFragment));
+        editTagsBtn.setOnClickListener(v -> Navigation.findNavController(v).navigate(R.id.action_nav_settings_to_editTagsFragment));
+        MaterialCardView editPayeesBtn = view.findViewById(R.id.edit_payees_button);
+        editPayeesBtn.setOnClickListener(v -> Navigation.findNavController(v).navigate(R.id.action_nav_settings_to_editPayeesFragment));
     }
 }
