@@ -9,6 +9,8 @@ import com.simoale.debitcredit.database.TagDAO;
 import com.simoale.debitcredit.model.Tag;
 
 import java.util.List;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class TagRepository {
     private TagDAO tagDAO;
@@ -30,5 +32,22 @@ public class TagRepository {
 
     public void editTag(Tag oldTag, Tag newTag) {
         DatabaseInstance.databaseWriteExecutor.execute(() -> tagDAO.editTag(oldTag.getName(), newTag.getName()));
+    }
+
+    public boolean deleteTag(Tag tag) {
+        AtomicBoolean ret = new AtomicBoolean(true);
+        DatabaseInstance.databaseWriteExecutor.execute(() -> {
+            try {
+                tagDAO.deleteTag(tag);
+            } catch (Exception e) {
+                ret.set(false);
+            }
+        });
+        try {
+            DatabaseInstance.databaseWriteExecutor.awaitTermination(100, TimeUnit.MILLISECONDS);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        return ret.get();
     }
 }

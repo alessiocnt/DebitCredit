@@ -2,7 +2,6 @@ package com.simoale.debitcredit.recyclerView;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -70,8 +69,17 @@ public class TagCardAdapter extends RecyclerView.Adapter<EditTagCardViewHolder> 
                         alertDialogBuilder.setCancelable(false)
                                 .setTitle("Delete")
                                 .setMessage("Are you sure you want to delete this tag?")
-                                .setPositiveButton("Delete", (dialog1, which) -> Log.e("Time to", "DELETE tag"))
-                                .setNegativeButton("Cancel", (dialog1, which) -> Log.e("Time to", "NON DELETE tag"))
+                                .setPositiveButton("Delete", (dialog1, which) -> {
+                                    if (!tagViewModel.deleteTag(tag)) {
+                                        new AlertDialog.Builder(activity)
+                                                .setTitle("Error")
+                                                .setMessage("Cannot delete tag")
+                                                .setPositiveButton("Ok", (dialog2, which1) -> dialog2.cancel())
+                                                .create().show();
+
+                                    }
+                                })
+                                .setNegativeButton("Cancel", (dialog1, which) -> dialog1.cancel())
                                 .create().show();
                     });
             AlertDialog alertDialog = dialogBuilder.create();

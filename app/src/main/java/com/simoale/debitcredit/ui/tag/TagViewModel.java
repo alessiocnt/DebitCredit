@@ -47,6 +47,10 @@ public class TagViewModel extends AndroidViewModel {
     public void editTag(Tag oldTag, Tag newTag) {
         repository.editTag(oldTag, newTag);
     }
+
+    public boolean deleteTag(Tag tag) {
+        return repository.deleteTag(tag);
+    }
 }
 
 
