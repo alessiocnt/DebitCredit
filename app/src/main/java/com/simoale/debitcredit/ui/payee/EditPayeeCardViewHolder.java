@@ -8,25 +8,18 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.simoale.debitcredit.R;
-import com.simoale.debitcredit.recyclerView.OnItemListener;
 
-public class EditPayeeCardViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+public class EditPayeeCardViewHolder extends RecyclerView.ViewHolder {
 
     private TextView payeeName;
     private ImageView more;
-    private OnItemListener itemListener;
 
-    public EditPayeeCardViewHolder(@NonNull View view, OnItemListener listener) {
+    public EditPayeeCardViewHolder(@NonNull View view) {
         super(view);
         this.payeeName = view.findViewById(R.id.payee_name);
         this.more = view.findViewById(R.id.payee_more);
     }
-
-    @Override
-    public void onClick(View v) {
-        itemListener.onItemClick(getAdapterPosition());
-    }
-
+    
     public TextView getPayeeName() {
         return payeeName;
     }
@@ -42,9 +35,4 @@ public class EditPayeeCardViewHolder extends RecyclerView.ViewHolder implements 
     public void setMore(ImageView more) {
         this.more = more;
     }
-
-    public OnItemListener getItemListener() {
-        return itemListener;
-    }
-
 }

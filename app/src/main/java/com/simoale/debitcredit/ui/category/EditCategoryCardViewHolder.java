@@ -8,23 +8,16 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.simoale.debitcredit.R;
-import com.simoale.debitcredit.recyclerView.OnItemListener;
 
-public class EditCategoryCardViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+public class EditCategoryCardViewHolder extends RecyclerView.ViewHolder {
 
     private TextView categoryName;
     private ImageView more;
-    private OnItemListener itemListener;
 
-    public EditCategoryCardViewHolder(@NonNull View view, OnItemListener listener) {
+    public EditCategoryCardViewHolder(@NonNull View view) {
         super(view);
         this.categoryName = view.findViewById(R.id.category_name);
         this.more = view.findViewById(R.id.category_more);
-    }
-
-    @Override
-    public void onClick(View v) {
-        itemListener.onItemClick(getAdapterPosition());
     }
 
     public TextView getCategoryName() {
@@ -42,9 +35,4 @@ public class EditCategoryCardViewHolder extends RecyclerView.ViewHolder implemen
     public void setMore(ImageView more) {
         this.more = more;
     }
-
-    public OnItemListener getItemListener() {
-        return itemListener;
-    }
-
 }

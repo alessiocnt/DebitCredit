@@ -198,7 +198,6 @@ public class WalletDetailsFragment extends Fragment implements OnItemListener {
     }
 
     private void computeFilters() {
-        Log.e("Filters", "DateFrom: " + this.fromDate + " DateTo: " + this.toDate);
         String searchValue = this.searchText.getEditText().getText().toString().equals("") ? null : this.searchText.getEditText().getText().toString();
 
         transactionViewModel.getTransactionList(this.wallet.getId(), searchValue, this.fromDate, this.toDate, this.selectedCategoryName, this.selectedTagsNames).observe((LifecycleOwner) getActivity(), transactions -> {

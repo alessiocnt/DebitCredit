@@ -2,14 +2,13 @@ package com.simoale.debitcredit.database;
 
 import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
+import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 import androidx.room.Transaction;
 
-import com.simoale.debitcredit.model.Category;
 import com.simoale.debitcredit.model.Payee;
-import com.simoale.debitcredit.model.Wallet;
 
 import java.util.List;
 
@@ -21,4 +20,11 @@ public interface PayeeDAO {
     @Transaction
     @Query("SELECT * from payee ORDER BY payee_name")
     LiveData<List<Payee>> getPayees();
+
+    @Transaction
+    @Query("UPDATE payee SET payee_name = :newPayee WHERE payee_name = :oldPayee")
+    void editPayee(String oldPayee, String newPayee);
+
+    @Delete
+    void deletePayee(Payee payee);
 }

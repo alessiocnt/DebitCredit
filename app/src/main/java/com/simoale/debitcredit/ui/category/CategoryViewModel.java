@@ -38,12 +38,20 @@ public class CategoryViewModel extends AndroidViewModel {
         return categoryList.getValue() == null ? null : categoryList.getValue().get(position);
     }
 
+    public void editCategory(Category oldCat, Category newCat) {
+        repository.editCategory(oldCat, newCat);
+    }
+
     public void select(Category category) {
         categorySelected.setValue(category);
     }
 
     public LiveData<Category> getSelected() {
         return categorySelected;
+    }
+
+    public boolean deleteCategory(Category category) {
+        return repository.deleteCategory(category);
     }
 }
 
