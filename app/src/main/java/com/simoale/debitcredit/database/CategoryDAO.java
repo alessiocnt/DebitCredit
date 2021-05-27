@@ -8,7 +8,6 @@ import androidx.room.Query;
 import androidx.room.Transaction;
 
 import com.simoale.debitcredit.model.Category;
-import com.simoale.debitcredit.model.Wallet;
 
 import java.util.List;
 
@@ -20,4 +19,8 @@ public interface CategoryDAO {
     @Transaction
     @Query("SELECT * from category ORDER BY category_name")
     LiveData<List<Category>> getCategories();
+
+    @Transaction
+    @Query("UPDATE category SET category_name = :newCat WHERE category_name = :oldCat")
+    void editCategory(String oldCat, String newCat);
 }

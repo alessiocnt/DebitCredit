@@ -1,6 +1,7 @@
 package com.simoale.debitcredit.database.repository;
 
 import android.app.Application;
+
 import androidx.lifecycle.LiveData;
 
 import com.simoale.debitcredit.database.CategoryDAO;
@@ -19,7 +20,7 @@ public class CategoryRepository {
         categoryList = categoryDAO.getCategories();
     }
 
-    public LiveData<List<Category>> getCategoryList(){
+    public LiveData<List<Category>> getCategoryList() {
         return categoryList;
     }
 
@@ -30,5 +31,9 @@ public class CategoryRepository {
                 categoryDAO.addCategory(category);
             }
         });
+    }
+
+    public void editCategory(Category oldCat, Category newCat) {
+        DatabaseInstance.databaseWriteExecutor.execute(() -> categoryDAO.editCategory(oldCat.getName(), newCat.getName()));
     }
 }
