@@ -49,6 +49,10 @@ public class CategoryViewModel extends AndroidViewModel {
     public LiveData<Category> getSelected() {
         return categorySelected;
     }
+
+    public boolean deleteCategory(Category category) {
+        return repository.deleteCategory(category);
+    }
 }
 
 
