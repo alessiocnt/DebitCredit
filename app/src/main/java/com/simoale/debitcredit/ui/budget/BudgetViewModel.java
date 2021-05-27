@@ -93,8 +93,9 @@ public class BudgetViewModel extends AndroidViewModel {
         return null;
     }
 
-    public Map<String, Integer> calculateBudgetsLeftover(List<Budget> budgets) {
+    public MutableLiveData<Map<String, Integer>> calculateBudgetsLeftover(List<Budget> budgets) {
         TransactionRepository transactionRepository = new TransactionRepository(getApplication());
+        MutableLiveData<Map<String, Integer>> resultMap = new MutableLiveData<>(new HashMap<>());
         Map<String, Integer> budgetLeftover = new HashMap<>();
         ExecutorService executorService = Executors.newSingleThreadExecutor();
         executorService.execute(() -> {
@@ -102,8 +103,9 @@ public class BudgetViewModel extends AndroidViewModel {
                 budgetLeftover.put(budget.getName(),
                         (int) (100 - (transactionRepository.getBudgetSpent(budget.getCategoryName(), budget.getDateLastUpdate()) / budget.getLimit()) * 100));
             }
+            resultMap.postValue(budgetLeftover);
         });
-        return budgetLeftover;
+        return resultMap;
     }
 
 }

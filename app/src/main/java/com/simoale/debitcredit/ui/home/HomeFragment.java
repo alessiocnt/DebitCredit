@@ -40,7 +40,10 @@ public class HomeFragment extends Fragment implements OnItemListener {
 
     private HomeViewModel homeViewModel;
     private View view;
+    private Activity activity;
 
+    BudgetViewModel budgetViewModel;
+    RoutineViewModel routineViewModel;
     private WalletCardAdapter walletAdapter;
     private WalletViewModel walletViewModel;
     private RecyclerView recyclerView;
@@ -64,15 +67,19 @@ public class HomeFragment extends Fragment implements OnItemListener {
 
         Chart circularGauge = new CircularGaugeChart(gaugeChartView, lineData, "Your current budgets status");
         circularGauge.instantiateChart();*/
-
+       // this.updateDbData(activity);
         return this.view;
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
         final Activity activity = getActivity();
+        this.activity = activity;
+
+        this.budgetViewModel = new ViewModelProvider((ViewModelStoreOwner) activity).get(BudgetViewModel.class);
+        this.routineViewModel = new ViewModelProvider((ViewModelStoreOwner) activity).get(RoutineViewModel.class);
+
         if (activity != null) {
             setRecyclerView(activity);
             walletViewModel = new ViewModelProvider((ViewModelStoreOwner) activity).get(WalletViewModel.class);
@@ -123,15 +130,19 @@ public class HomeFragment extends Fragment implements OnItemListener {
     }
 
     private void updateDbData(Activity activity) {
-        BudgetViewModel budgetViewModel = new ViewModelProvider((ViewModelStoreOwner) activity).get(BudgetViewModel.class);
+
         budgetViewModel.getBudgetList().observe((LifecycleOwner) activity, budgets -> {
             // Update budgets if needed
             budgetViewModel.update(budgets);
             // Retrive data from viewModel for budget's leftover
-            Map<String, Integer> budgetLeftover = budgetViewModel.calculateBudgetsLeftover(budgetViewModel.getBudgetList().getValue());
-            generateChart(budgetLeftover);
-            // Remove observer to avoid other unnecessary updates
-            budgetViewModel.getBudgetList().removeObservers((LifecycleOwner) activity);
+            budgetViewModel.calculateBudgetsLeftover(budgets).observe((LifecycleOwner) activity, budgetLeftover -> {
+                Log.e("budg", budgets.size() + "");
+                Log.e("leftover", budgetLeftover.values().size() + "");
+                if (budgetLeftover.values().size() != 0) {
+                    generateChart(budgetLeftover);
+                }
+            });
+            //budgetViewModel.getBudgetList().removeObservers((LifecycleOwner) activity);
         });
 
         RoutineViewModel routineViewModel = new ViewModelProvider((ViewModelStoreOwner) activity).get(RoutineViewModel.class);
@@ -139,5 +150,12 @@ public class HomeFragment extends Fragment implements OnItemListener {
             routineViewModel.update(routines);
             routineViewModel.getRoutineList().removeObservers((LifecycleOwner) activity);
         });
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        budgetViewModel.getBudgetList().removeObservers((LifecycleOwner) activity);
+        routineViewModel.getRoutineList().removeObservers((LifecycleOwner) activity);
     }
 }
