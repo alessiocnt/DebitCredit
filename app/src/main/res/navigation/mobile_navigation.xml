@@ -65,6 +65,9 @@
         <action
             android:id="@+id/action_nav_settings_to_editTagsFragment"
             app:destination="@id/editTagsFragment" />
+        <action
+            android:id="@+id/action_nav_settings_to_editPayeesFragment"
+            app:destination="@id/editPayeesFragment" />
 
     </fragment>
     <fragment
@@ -108,7 +111,7 @@
         android:id="@+id/newRoutineFragment"
         android:name="com.simoale.debitcredit.ui.routine.NewRoutineFragment"
         android:label="NewRoutineFragment"
-        tools:layout="@layout/new_routine" >
+        tools:layout="@layout/new_routine">
         <action
             android:id="@+id/action_newRoutineFragment_to_nav_routine"
             app:destination="@id/nav_routine" />
@@ -117,7 +120,7 @@
         android:id="@+id/newBudgetFragment"
         android:name="com.simoale.debitcredit.ui.budget.NewBudgetFragment"
         android:label="NewBudgetFragment"
-        tools:layout="@layout/new_budget" >
+        tools:layout="@layout/new_budget">
         <action
             android:id="@+id/action_newBudgetFragment_to_nav_budget"
             app:destination="@id/nav_budget" />
@@ -141,7 +144,7 @@
         android:id="@+id/newExchangeTransactionFragment"
         android:name="com.simoale.debitcredit.ui.transactions.NewExchangeTransactionFragment"
         android:label="NewExchangeTransactionFragment"
-        tools:layout="@layout/new_transaction_exchange" >
+        tools:layout="@layout/new_transaction_exchange">
         <action
             android:id="@+id/action_newExchangeTransactionFragment_to_nav_home"
             app:destination="@id/nav_home" />
@@ -164,5 +167,10 @@
             android:id="@+id/action_newTransactionFragmentOut_to_nav_home"
             app:destination="@id/nav_home" />
     </fragment>
+    <fragment
+        android:id="@+id/editPayeesFragment"
+        android:name="com.simoale.debitcredit.ui.settings.EditPayeesFragment"
+        android:label="EditPayeesFragment"
+        tools:layout="@layout/edit_payees" />
 
 </navigation>
