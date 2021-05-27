@@ -85,7 +85,7 @@ public class NewBudgetFragment extends Fragment {
                 if (Utilities.checkDataValid(name, limit, number, interval, categorySelected, dateSelected)) {
                     // Make the transaction
                     budgetViewModel.addBudget(new Budget(name,
-                            categorySelected, Float.parseFloat(limit), dateSelected, dateSelected, null, Integer.parseInt(number), interval, Float.parseFloat(limit)));
+                            categorySelected, Float.parseFloat(limit), dateSelected, dateSelected, dateSelected, Integer.parseInt(number), interval, Float.parseFloat(limit)));
                     Navigation.findNavController(v).navigate(R.id.action_newBudgetFragment_to_nav_budget);
                 } else {
                     Toast.makeText(activity.getBaseContext(), "Every field must be filled", Toast.LENGTH_LONG).show();
@@ -120,7 +120,7 @@ public class NewBudgetFragment extends Fragment {
                     year.set(datePicker.getYear());
                     month.set(datePicker.getMonth());
                     day.set(datePicker.getDay());
-                    this.dateSelected = String.format("%04d%02d%02d", datePicker.getYear(), datePicker.getMonth(), datePicker.getDay());
+                    this.dateSelected = String.format("%04d%02d%02d", datePicker.getYear(), datePicker.getMonth() + 1, datePicker.getDay());
                     this.dateDisplay.setText(String.format("Start date: %02d/%02d/%04d", datePicker.getDay(), datePicker.getMonth() + 1, datePicker.getYear()));
                 }
             });

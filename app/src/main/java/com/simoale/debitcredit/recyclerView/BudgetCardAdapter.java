@@ -57,6 +57,7 @@ public class BudgetCardAdapter extends RecyclerView.Adapter<BudgetCardViewHolder
         Budget currentBudget = budgetList.get(position);
 
         holder.getName().setText(currentBudget.getName());
+//        Utilities.getDateFromString(currentBudget.getDateNextUpdate());
         holder.getRenovation().setText(String.format("Renovation date: %s", new SimpleDateFormat("dd/MM/yyyy").format(Utilities.getDateFromString(currentBudget.getDateNextUpdate()))));
         holder.getCategory().setText(currentBudget.getCategoryName());
         //LiveData<Float> budgetLeftover = budgetViewModel.calculateBudgetLeftover(currentBudget);
@@ -64,8 +65,6 @@ public class BudgetCardAdapter extends RecyclerView.Adapter<BudgetCardViewHolder
 
 
         //holder.getBudget().setText(budgetLeftover.toString());
-
-
 
 
         /**
