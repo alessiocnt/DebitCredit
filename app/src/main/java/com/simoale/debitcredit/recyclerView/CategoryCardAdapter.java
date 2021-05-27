@@ -2,6 +2,7 @@ package com.simoale.debitcredit.recyclerView;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -62,7 +63,16 @@ public class CategoryCardAdapter extends RecyclerView.Adapter<EditCategoryCardVi
                             Toast.makeText(activity.getBaseContext(), "Category name cannot be empty", Toast.LENGTH_LONG).show();
                         }
                     })
-                    .setNegativeButton("Cancel", (dialog, id) -> dialog.cancel());
+                    .setNegativeButton("Cancel", (dialog, id) -> dialog.cancel())
+                    .setNeutralButton("Delete", (dialog, id) -> {
+                        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(activity);
+                        alertDialogBuilder.setCancelable(false)
+                                .setTitle("Delete")
+                                .setMessage("Are you sure you want to delete this category?")
+                                .setPositiveButton("Delete", (dialog1, which) -> Log.e("Time to", "DELETE cat"))
+                                .setNegativeButton("Cancel", (dialog1, which) -> Log.e("Time to", "NON DELETE cat"))
+                                .create().show();
+                    });
             AlertDialog alertDialog = dialogBuilder.create();
             alertDialog.show();
         });

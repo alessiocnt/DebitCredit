@@ -2,6 +2,7 @@ package com.simoale.debitcredit.recyclerView;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -63,7 +64,16 @@ public class TagCardAdapter extends RecyclerView.Adapter<EditTagCardViewHolder> 
                             Toast.makeText(activity.getBaseContext(), "Tag name cannot be empty", Toast.LENGTH_LONG).show();
                         }
                     })
-                    .setNegativeButton("Cancel", (dialog, id) -> dialog.cancel());
+                    .setNegativeButton("Cancel", (dialog, id) -> dialog.cancel())
+                    .setNeutralButton("Delete", (dialog, id) -> {
+                        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(activity);
+                        alertDialogBuilder.setCancelable(false)
+                                .setTitle("Delete")
+                                .setMessage("Are you sure you want to delete this tag?")
+                                .setPositiveButton("Delete", (dialog1, which) -> Log.e("Time to", "DELETE tag"))
+                                .setNegativeButton("Cancel", (dialog1, which) -> Log.e("Time to", "NON DELETE tag"))
+                                .create().show();
+                    });
             AlertDialog alertDialog = dialogBuilder.create();
             alertDialog.show();
         });
