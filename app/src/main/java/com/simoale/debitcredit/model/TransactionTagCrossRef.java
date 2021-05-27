@@ -17,7 +17,7 @@ import static androidx.room.ForeignKey.RESTRICT;
                 @ForeignKey(entity = Transaction.class,
                         parentColumns = "transaction_id",
                         childColumns = "transaction_id",
-                        onDelete = RESTRICT,
+                        onDelete = CASCADE,
                         onUpdate = CASCADE),
                 @ForeignKey(entity = Tag.class,
                         parentColumns = "tag_name",

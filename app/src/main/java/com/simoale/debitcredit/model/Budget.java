@@ -38,8 +38,10 @@ public class Budget {
     public int repeatNumber;
     @ColumnInfo(name = "budget_repeat_interval")
     public String repeatInterval;
+    @ColumnInfo(name = "budget_current_amount")
+    public float currentAmount;
 
-    public Budget(String name, String categoryName, float limit, String date, String dateLastUpdate, String dateNextUpdate, int repeatNumber, String repeatInterval) {
+    public Budget(String name, String categoryName, float limit, String date, String dateLastUpdate, String dateNextUpdate, int repeatNumber, String repeatInterval, float currentAmount) {
         this.name = name;
         this.categoryName = categoryName;
         this.limit = limit;
@@ -48,6 +50,7 @@ public class Budget {
         this.dateNextUpdate = dateNextUpdate;
         this.repeatNumber = repeatNumber;
         this.repeatInterval = repeatInterval;
+        this.currentAmount = currentAmount;
     }
 
 
@@ -121,6 +124,14 @@ public class Budget {
 
     public void setRepeatInterval(String repeatInterval) {
         this.repeatInterval = repeatInterval;
+    }
+
+    public float getCurrentAmount() {
+        return currentAmount;
+    }
+
+    public void setCurrentAmount(float currentAmount) {
+        this.currentAmount = currentAmount;
     }
 
 

@@ -1,9 +1,7 @@
 package com.simoale.debitcredit.ui.budget;
 
 import android.app.Activity;
-import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,13 +10,9 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.ImageView;
-import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.activity.result.ActivityResultCallback;
-import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
@@ -34,24 +28,11 @@ import com.google.android.material.textfield.TextInputLayout;
 import com.simoale.debitcredit.R;
 import com.simoale.debitcredit.model.Budget;
 import com.simoale.debitcredit.model.Category;
-import com.simoale.debitcredit.model.Payee;
-import com.simoale.debitcredit.model.Transaction;
-import com.simoale.debitcredit.model.TransactionTagCrossRef;
-import com.simoale.debitcredit.model.Wallet;
 import com.simoale.debitcredit.ui.category.CategoryViewModel;
-import com.simoale.debitcredit.ui.payee.PayeeViewModel;
-import com.simoale.debitcredit.ui.tag.TagViewModel;
-import com.simoale.debitcredit.ui.transactions.TransactionTagViewModel;
-import com.simoale.debitcredit.ui.transactions.TransactionViewModel;
-import com.simoale.debitcredit.ui.wallet.WalletViewModel;
 import com.simoale.debitcredit.utils.DatePicker;
-import com.simoale.debitcredit.utils.LocationUtils;
 import com.simoale.debitcredit.utils.Utilities;
 
-import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.IntStream;
 
@@ -104,7 +85,7 @@ public class NewBudgetFragment extends Fragment {
                 if (Utilities.checkDataValid(name, limit, number, interval, categorySelected, dateSelected)) {
                     // Make the transaction
                     budgetViewModel.addBudget(new Budget(name,
-                            categorySelected, Float.parseFloat(limit), dateSelected, dateSelected, null, Integer.parseInt(number), interval));
+                            categorySelected, Float.parseFloat(limit), dateSelected, dateSelected, null, Integer.parseInt(number), interval, Float.parseFloat(limit)));
                     Navigation.findNavController(v).navigate(R.id.action_newBudgetFragment_to_nav_budget);
                 } else {
                     Toast.makeText(activity.getBaseContext(), "Every field must be filled", Toast.LENGTH_LONG).show();

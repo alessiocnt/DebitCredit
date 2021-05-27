@@ -2,11 +2,11 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "81624571a40b8df238548d57d05e360e",
+    "identityHash": "838818861eaf446df55a762023e9c779",
     "entities": [
       {
         "tableName": "budget",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`budget_id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `budget_name` TEXT, `budget_category_name` TEXT, `budget_limit` REAL NOT NULL, `budget_date` TEXT, `budget_last_update` TEXT, `budget_next_update` TEXT, `budget_repeat_number` INTEGER NOT NULL, `budget_repeat_interval` TEXT, FOREIGN KEY(`budget_category_name`) REFERENCES `category`(`category_name`) ON UPDATE CASCADE ON DELETE RESTRICT )",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`budget_id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `budget_name` TEXT, `budget_category_name` TEXT, `budget_limit` REAL NOT NULL, `budget_date` TEXT, `budget_last_update` TEXT, `budget_next_update` TEXT, `budget_repeat_number` INTEGER NOT NULL, `budget_repeat_interval` TEXT, `budget_current_amount` REAL NOT NULL, FOREIGN KEY(`budget_category_name`) REFERENCES `category`(`category_name`) ON UPDATE CASCADE ON DELETE RESTRICT )",
         "fields": [
           {
             "fieldPath": "budgetId",
@@ -61,6 +61,12 @@
             "columnName": "budget_repeat_interval",
             "affinity": "TEXT",
             "notNull": false
+          },
+          {
+            "fieldPath": "currentAmount",
+            "columnName": "budget_current_amount",
+            "affinity": "REAL",
+            "notNull": true
           }
         ],
         "primaryKey": {
@@ -458,7 +464,7 @@
       },
       {
         "tableName": "transaction_tag",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`transaction_id` INTEGER NOT NULL, `tag_name` TEXT NOT NULL, PRIMARY KEY(`transaction_id`, `tag_name`), FOREIGN KEY(`transaction_id`) REFERENCES `transaction`(`transaction_id`) ON UPDATE CASCADE ON DELETE RESTRICT , FOREIGN KEY(`tag_name`) REFERENCES `tag`(`tag_name`) ON UPDATE CASCADE ON DELETE RESTRICT )",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`transaction_id` INTEGER NOT NULL, `tag_name` TEXT NOT NULL, PRIMARY KEY(`transaction_id`, `tag_name`), FOREIGN KEY(`transaction_id`) REFERENCES `transaction`(`transaction_id`) ON UPDATE CASCADE ON DELETE CASCADE , FOREIGN KEY(`tag_name`) REFERENCES `tag`(`tag_name`) ON UPDATE CASCADE ON DELETE RESTRICT )",
         "fields": [
           {
             "fieldPath": "crTransactionId",
@@ -493,7 +499,7 @@
         "foreignKeys": [
           {
             "table": "transaction",
-            "onDelete": "RESTRICT",
+            "onDelete": "CASCADE",
             "onUpdate": "CASCADE",
             "columns": [
               "transaction_id"
@@ -517,7 +523,7 @@
       },
       {
         "tableName": "routine_tag",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`routine_id` INTEGER NOT NULL, `tag_name` TEXT NOT NULL, PRIMARY KEY(`routine_id`, `tag_name`), FOREIGN KEY(`routine_id`) REFERENCES `routine`(`routine_id`) ON UPDATE CASCADE ON DELETE RESTRICT , FOREIGN KEY(`tag_name`) REFERENCES `tag`(`tag_name`) ON UPDATE CASCADE ON DELETE RESTRICT )",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`routine_id` INTEGER NOT NULL, `tag_name` TEXT NOT NULL, PRIMARY KEY(`routine_id`, `tag_name`), FOREIGN KEY(`routine_id`) REFERENCES `routine`(`routine_id`) ON UPDATE CASCADE ON DELETE CASCADE , FOREIGN KEY(`tag_name`) REFERENCES `tag`(`tag_name`) ON UPDATE CASCADE ON DELETE RESTRICT )",
         "fields": [
           {
             "fieldPath": "routineId",
@@ -552,7 +558,7 @@
         "foreignKeys": [
           {
             "table": "routine",
-            "onDelete": "RESTRICT",
+            "onDelete": "CASCADE",
             "onUpdate": "CASCADE",
             "columns": [
               "routine_id"
@@ -578,7 +584,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '81624571a40b8df238548d57d05e360e')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '838818861eaf446df55a762023e9c779')"
     ]
   }
 }
