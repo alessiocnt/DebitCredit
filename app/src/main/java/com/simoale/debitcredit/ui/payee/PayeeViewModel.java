@@ -6,9 +6,7 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
-import com.simoale.debitcredit.database.repository.CategoryRepository;
 import com.simoale.debitcredit.database.repository.PayeeRepository;
-import com.simoale.debitcredit.model.Category;
 import com.simoale.debitcredit.model.Payee;
 
 import java.util.List;
@@ -26,7 +24,7 @@ public class PayeeViewModel extends AndroidViewModel {
         payeeList = repository.getPayeeList();
     }
 
-    public void addPayee(Payee payee){
+    public void addPayee(Payee payee) {
         repository.addPayee(payee);
     }
 
@@ -34,7 +32,7 @@ public class PayeeViewModel extends AndroidViewModel {
         return payeeList;
     }
 
-    public Payee getPayee(int position){
+    public Payee getPayee(int position) {
         return payeeList.getValue() == null ? null : payeeList.getValue().get(position);
     }
 
@@ -44,6 +42,10 @@ public class PayeeViewModel extends AndroidViewModel {
 
     public LiveData<Payee> getSelected() {
         return payeeSelected;
+    }
+
+    public void editPayee(Payee oldPayee, Payee newPayee) {
+        repository.editPayee(oldPayee, newPayee);
     }
 }
 
