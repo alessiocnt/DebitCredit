@@ -45,7 +45,7 @@
     <fragment
         android:id="@+id/nav_routine"
         android:name="com.simoale.debitcredit.ui.routine.RoutineFragment"
-        android:label="@string/routine"
+        android:label="Routine"
         tools:layout="@layout/fragment_budget">
         <action
             android:id="@+id/action_nav_routine_to_newRoutineFragment"
@@ -54,7 +54,7 @@
     <fragment
         android:id="@+id/nav_settings"
         android:name="com.simoale.debitcredit.ui.settings.SettingsFragment"
-        android:label="settings"
+        android:label="Settings"
         tools:layout="@layout/fragment_settings">
         <action
             android:id="@+id/action_nav_settings_to_changePasswordFragment"
@@ -82,7 +82,7 @@
     <fragment
         android:id="@+id/nav_budget"
         android:name="com.simoale.debitcredit.ui.budget.BudgetFragment"
-        android:label="budget"
+        android:label="Budget"
         tools:layout="@layout/fragment_budget">
         <action
             android:id="@+id/action_nav_budget_to_newBudgetFragment"
@@ -91,7 +91,7 @@
     <fragment
         android:id="@+id/newTransactionTabFragment"
         android:name="com.simoale.debitcredit.ui.transactions.NewTransactionTabFragment"
-        android:label="NewTransactionTabFragment"
+        android:label="New Transaction"
         tools:layout="@layout/new_transaction_out">
         <action
             android:id="@+id/action_newTransactionTabFragment_to_nav_home"
@@ -105,12 +105,12 @@
     <fragment
         android:id="@+id/nav_graphs"
         android:name="com.simoale.debitcredit.ui.graphs.GraphsFragment"
-        android:label="fragment_graphs"
+        android:label="Graphs"
         tools:layout="@layout/fragment_graphs" />
     <fragment
         android:id="@+id/newRoutineFragment"
         android:name="com.simoale.debitcredit.ui.routine.NewRoutineFragment"
-        android:label="NewRoutineFragment"
+        android:label="New Routine"
         tools:layout="@layout/new_routine">
         <action
             android:id="@+id/action_newRoutineFragment_to_nav_routine"
@@ -119,7 +119,7 @@
     <fragment
         android:id="@+id/newBudgetFragment"
         android:name="com.simoale.debitcredit.ui.budget.NewBudgetFragment"
-        android:label="NewBudgetFragment"
+        android:label="New Budget"
         tools:layout="@layout/new_budget">
         <action
             android:id="@+id/action_newBudgetFragment_to_nav_budget"
@@ -128,17 +128,17 @@
     <fragment
         android:id="@+id/changePasswordFragment"
         android:name="com.simoale.debitcredit.ui.settings.ChangePasswordFragment"
-        android:label="ChangePasswordFragment"
+        android:label="Change Password"
         tools:layout="@layout/change_password" />
     <fragment
         android:id="@+id/editCategoriesFragment"
         android:name="com.simoale.debitcredit.ui.settings.EditCategoriesFragment"
-        android:label="EditCategoriesFragment"
+        android:label="Edit Categories"
         tools:layout="@layout/edit_categories" />
     <fragment
         android:id="@+id/editTagsFragment"
         android:name="com.simoale.debitcredit.ui.settings.EditTagsFragment"
-        android:label="EditTagsFragment"
+        android:label="Edit Tags"
         tools:layout="@layout/edit_tags" />
     <fragment
         android:id="@+id/newExchangeTransactionFragment"
@@ -170,7 +170,7 @@
     <fragment
         android:id="@+id/editPayeesFragment"
         android:name="com.simoale.debitcredit.ui.settings.EditPayeesFragment"
-        android:label="EditPayeesFragment"
+        android:label="Edit Payees"
         tools:layout="@layout/edit_payees" />
 
 </navigation>
