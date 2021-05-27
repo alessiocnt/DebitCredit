@@ -88,7 +88,7 @@ public class TransactionDetailsFragment extends Fragment {
             } else {
                 this.positionTextView.setText("Location: NA");
             }
-            if (!transaction.getImage().equals("ic_launcher_foreground")) {
+            if (transaction.getImage() != null && !transaction.getImage().equals("ic_launcher_foreground")) {
                 this.image.setImageBitmap(Utilities.getImageBitmap(activity, Uri.parse(transaction.getImage())));
             } else {
                 this.imgCard.setVisibility(View.INVISIBLE);

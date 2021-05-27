@@ -104,6 +104,7 @@ public class RoutineViewModel extends AndroidViewModel {
         while (numberOfUpdates > 0) {
             numberOfUpdates--;
             nextUpdate.add(Calendar.DAY_OF_MONTH, -daysBetweenUpdates);
+            Log.e("aaa", String.valueOf(routine.getAmount()));
             this.transactionRepository.addTransaction(new Transaction(routine.getAmount(),
                     "Transaction from routine: " + routine.getName(), routine.getCategoryName(),
                     routine.getPayeeName(), Utilities.getStringFromDate(nextUpdate.getTime()),

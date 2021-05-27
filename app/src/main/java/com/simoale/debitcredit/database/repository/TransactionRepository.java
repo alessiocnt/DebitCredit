@@ -15,9 +15,11 @@ import java.util.concurrent.atomic.AtomicLong;
 public class TransactionRepository {
     private TransactionDAO transactionDAO;
     private LiveData<List<Transaction>> transactionList;
+    private WalletRepository walletRepository;
 
     public TransactionRepository(Application application) {
         DatabaseInstance db = DatabaseInstance.getDatabase(application);
+        this.walletRepository = new WalletRepository(application);
         transactionDAO = db.TransactionDAO();
         transactionList = transactionDAO.getTransactions();
     }
@@ -51,7 +53,7 @@ public class TransactionRepository {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-
+        this.walletRepository.updateBalance(transaction.getWalletIdFrom(), transaction.getAmount());
         return result.get();
     }
 

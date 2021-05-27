@@ -182,7 +182,7 @@ public class NewTransactionFragmentIn extends Fragment {
                         if (Utilities.checkDataValid(amount.toString(), categorySelected, dateSelected, walletSelected)) {
                             transactionViewModel.addTransaction(new Transaction(amount,
                                     description, categorySelected, payeeSelected, dateSelected, currentWallet.getId(), currentWallet.getId(), location, note, imageUriString), tagSelected);
-                            walletViewModel.updateBalance(currentWallet.getId(), amount);
+//                            walletViewModel.updateBalance(currentWallet.getId(), amount);
                             Navigation.findNavController(v).navigate(R.id.action_newTransactionTabFragment_to_nav_home);
                         } else {
                             Toast.makeText(activity.getBaseContext(), "Every field must be filled", Toast.LENGTH_LONG).show();

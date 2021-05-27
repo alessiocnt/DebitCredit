@@ -180,8 +180,8 @@ public class NewExchangeTransactionFragment extends Fragment {
                         transactionViewModel.addTransaction(new Transaction(amount,
                                 description, categorySelected, payeeSelected, dateSelected, currentToWallet.getId(), currentFromWallet.getId(), location, note, imageUriString), tagSelected);
                         // Update Wallet balance
-                        walletViewModel.updateBalance(currentFromWallet.getId(), -amount);
-                        walletViewModel.updateBalance(currentToWallet.getId(), amount);
+//                        walletViewModel.updateBalance(currentFromWallet.getId(), -amount);
+//                        walletViewModel.updateBalance(currentToWallet.getId(), amount);
                         Navigation.findNavController(v).navigate(R.id.action_newTransactionTabFragment_to_nav_home);
                     } else {
                         Toast.makeText(activity.getBaseContext(), "Every field must be filled", Toast.LENGTH_LONG).show();

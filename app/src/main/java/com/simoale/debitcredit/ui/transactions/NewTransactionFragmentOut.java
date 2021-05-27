@@ -183,7 +183,7 @@ public class NewTransactionFragmentOut extends Fragment {
                             transactionViewModel.addTransaction(new Transaction(amount,
                                     description, categorySelected, payeeSelected, dateSelected, currentWallet.getId(), currentWallet.getId(), location, note, imageUriString), tagSelected);
                             // Update Wallet balance
-                            walletViewModel.updateBalance(currentWallet.getId(), amount);
+//                            walletViewModel.updateBalance(currentWallet.getId(), amount);
                             // Add transaction tag's
                             Navigation.findNavController(v).navigate(R.id.action_newTransactionTabFragment_to_nav_home);
                         } else {
@@ -231,7 +231,6 @@ public class NewTransactionFragmentOut extends Fragment {
         }
         locationUtils.unRegisterNetworkCallback();
     }
-
 
 
     private void setupImageCapture() {
