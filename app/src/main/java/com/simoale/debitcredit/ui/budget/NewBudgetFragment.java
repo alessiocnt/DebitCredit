@@ -84,26 +84,9 @@ public class NewBudgetFragment extends Fragment {
 
                 // Insert data
                 if (Utilities.checkDataValid(name, limit, number, interval, categorySelected, dateSelected)) {
-                    // Make the transaction
-
-                    long today = Calendar.getInstance().getTime().getTime();
-                    long last = Utilities.getDateFromString(dateSelected).getTime();
-                    long diff = today - last;
-                    long dayDiff = diff / (1000 * 60 * 60 * 24);
-                    // devo aggiornare ogni repeatNumber*repeatInterval
-                    int daysBetweenUpdates = Integer.parseInt(number) * Interval.valueOf(interval.toUpperCase()).daysNumber;
-                    long numberOfUpdates = dayDiff / daysBetweenUpdates;
-                    String dateNextUpdate;
-                    Calendar lastUpdate = Calendar.getInstance();
-                    lastUpdate.setTime(Utilities.getDateFromString(dateSelected));
-                    lastUpdate.add(Calendar.DAY_OF_MONTH, (int) (numberOfUpdates * daysBetweenUpdates));
-                    dateSelected = Utilities.getStringFromDate(lastUpdate.getTime());
-                    Calendar nextUpdate = Calendar.getInstance();
-                    nextUpdate.setTime(Utilities.getDateFromString(dateSelected));
-                    nextUpdate.add(Calendar.DAY_OF_MONTH, daysBetweenUpdates);
-                    dateNextUpdate = Utilities.getStringFromDate(nextUpdate.getTime());
-
-
+                    // Calculate the date of next update
+                    String dateNextUpdate = setupDateNextUpdate(Integer.parseInt(number), interval);
+                    // Create the new budget
                     budgetViewModel.addBudget(new Budget(name,
                             categorySelected, Float.parseFloat(limit), dateSelected, dateSelected, dateNextUpdate, Integer.parseInt(number), interval, Float.parseFloat(limit)));
                     Navigation.findNavController(v).navigate(R.id.action_newBudgetFragment_to_nav_budget);
@@ -115,6 +98,24 @@ public class NewBudgetFragment extends Fragment {
                 Navigation.findNavController(v).navigate(R.id.action_newBudgetFragment_to_nav_budget);
             });
         }
+    }
+
+    private String setupDateNextUpdate(int number, String interval) {
+        long today = Calendar.getInstance().getTime().getTime();
+        long last = Utilities.getDateFromString(dateSelected).getTime();
+        long diff = today - last;
+        long dayDiff = diff / (1000 * 60 * 60 * 24);
+        // devo aggiornare ogni repeatNumber*repeatInterval
+        int daysBetweenUpdates = number * Interval.valueOf(interval.toUpperCase()).daysNumber;
+        long numberOfUpdates = dayDiff / daysBetweenUpdates;
+        Calendar lastUpdate = Calendar.getInstance();
+        lastUpdate.setTime(Utilities.getDateFromString(dateSelected));
+        lastUpdate.add(Calendar.DAY_OF_MONTH, (int) (numberOfUpdates * daysBetweenUpdates));
+        dateSelected = Utilities.getStringFromDate(lastUpdate.getTime());
+        Calendar nextUpdate = Calendar.getInstance();
+        nextUpdate.setTime(Utilities.getDateFromString(dateSelected));
+        nextUpdate.add(Calendar.DAY_OF_MONTH, daysBetweenUpdates);
+        return Utilities.getStringFromDate(nextUpdate.getTime());
     }
 
     private void setupUi() {

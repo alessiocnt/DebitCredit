@@ -57,18 +57,8 @@ public class BudgetCardAdapter extends RecyclerView.Adapter<BudgetCardViewHolder
         Budget currentBudget = budgetList.get(position);
         holder.getName().setText(currentBudget.getName());
         holder.getRenovation().setText(String.format("Renovation date: %s", new SimpleDateFormat("dd/MM/yyyy").format(Utilities.getDateFromString(currentBudget.getDateNextUpdate()))));
-        holder.getCategory().setText(currentBudget.getCategoryName());
-        holder.getBudget().setText(String.format("%.2f€", currentBudget.getCurrentAmount()));
-
-
-        /**
-         Map<String, Integer> data = new HashMap<>();
-         Date lasteBudgetRefresh = new Date(System.currentTimeMillis());
-         data.put(currentBudget.getName(), new TransactionRepository(activity.getApplication()).getBudgetSpent(currentBudget.getCategoryId(), )));
-         Chart circularGauge = new CircularGaugeChart(holder.getGaugeChartView(), data, null);
-         circularGauge.instantiateChart();**/
-        // TODO calcolare laq data del prossimo budget!!!!
-        //holder.getRenovation().setText(String.valueOf(currentBudget.getDate()));
+        holder.getCategory().setText("Category: " + currentBudget.getCategoryName());
+        holder.getBudget().setText(String.format("Leftover: %.2f€", currentBudget.getCurrentAmount()));
     }
 
     @Override

@@ -32,9 +32,6 @@ public class BudgetCardViewHolder extends RecyclerView.ViewHolder {
         category = view.findViewById(R.id.budget_card_category);
         renovation = view.findViewById(R.id.budget_card_renovation);
         more = view.findViewById(R.id.wallet_more);
-
-        gaugeChartView = view.findViewById(R.id.budget_card_chart);
-        gaugeChartView.setProgressBar(view.findViewById(R.id.budget_card_progress_bar));
         APIlib.getInstance().setActiveAnyChartView(gaugeChartView);
     }
 
