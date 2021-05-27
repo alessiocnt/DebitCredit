@@ -2,6 +2,7 @@ package com.simoale.debitcredit.database;
 
 import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
+import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
@@ -23,4 +24,7 @@ public interface PayeeDAO {
     @Transaction
     @Query("UPDATE payee SET payee_name = :newPayee WHERE payee_name = :oldPayee")
     void editPayee(String oldPayee, String newPayee);
+
+    @Delete
+    void deletePayee(Payee payee);
 }

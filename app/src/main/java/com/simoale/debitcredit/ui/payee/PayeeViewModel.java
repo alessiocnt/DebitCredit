@@ -47,6 +47,10 @@ public class PayeeViewModel extends AndroidViewModel {
     public void editPayee(Payee oldPayee, Payee newPayee) {
         repository.editPayee(oldPayee, newPayee);
     }
+
+    public boolean deletePayee(Payee payee) {
+        return repository.deletePayee(payee);
+    }
 }
 
 
