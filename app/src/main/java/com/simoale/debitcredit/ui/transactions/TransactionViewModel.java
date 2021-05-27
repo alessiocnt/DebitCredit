@@ -72,6 +72,10 @@ public class TransactionViewModel extends AndroidViewModel {
         return this.transactionTagCrossRefRepository.getTagsOfTransaction(transaction.getId());
     }
 
+    // Used to get data for charts
+    public LiveData<List<Transaction>> getTransactionList(@Nullable String dateSelectedFrom, @Nullable String dateSelectedTo, @Nullable List<String> categorySelected, @Nullable List<String> walletSelected) {
+        return repository.getTransactionList(dateSelectedFrom, dateSelectedTo, categorySelected, walletSelected);
+    }
 }
 
 

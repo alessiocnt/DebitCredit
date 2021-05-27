@@ -1,16 +1,28 @@
 package com.simoale.debitcredit.ui.graphs;
 
+import android.app.Activity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.CompoundButton;
+import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.lifecycle.ViewModelStoreOwner;
+import androidx.navigation.Navigation;
 
 import com.anychart.APIlib;
 import com.anychart.AnyChart;
@@ -28,117 +40,242 @@ import com.anychart.enums.MarkerType;
 import com.anychart.enums.Position;
 import com.anychart.enums.TooltipPositionMode;
 import com.anychart.graphics.vector.Stroke;
+import com.google.android.material.chip.Chip;
+import com.google.android.material.chip.ChipGroup;
 import com.simoale.debitcredit.R;
+import com.simoale.debitcredit.model.Category;
+import com.simoale.debitcredit.model.Tag;
+import com.simoale.debitcredit.model.Transaction;
+import com.simoale.debitcredit.model.Wallet;
+import com.simoale.debitcredit.ui.category.CategoryViewModel;
+import com.simoale.debitcredit.ui.tag.TagViewModel;
+import com.simoale.debitcredit.ui.transactions.TransactionViewModel;
+import com.simoale.debitcredit.ui.wallet.WalletViewModel;
+import com.simoale.debitcredit.utils.DatePicker;
+import com.simoale.debitcredit.utils.Utilities;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.stream.Collectors;
 
 public class GraphsFragment extends Fragment {
-
+    private static final String LOG = "Graphs-Fragment_SIMOALE";
+    private Activity activity;
+    private View view;
     // private GraphsViewModel graphsViewModel;
+    private TransactionViewModel transactionViewModel;
+    private WalletViewModel walletViewModel;
+    private CategoryViewModel categoryViewModel;
+
+    private List<String> categorySelected;
+    private List<String> walletSelected;
+    private String dateSelectedFrom;
+    private String dateSelectedTo;
+
+    private Button applyBtn;
+    private TextView dateDisplayFrom;
+    private TextView dateDisplayTo;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
        // graphsViewModel = new ViewModelProvider(this).get(GraphsViewModel.class);
-        View root = inflater.inflate(R.layout.fragment_graphs, container, false);
-       /** final TextView textView = root.findViewById(R.id.text_home);
-        graphsViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
-            @Override
-            public void onChanged(@Nullable String s) {
-                textView.setText(s);
+        this.view = inflater.inflate(R.layout.fragment_graphs, container, false);
+        return this.view;
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        this.activity = getActivity();
+        if (activity != null) {
+
+            this.transactionViewModel = new ViewModelProvider((ViewModelStoreOwner) activity).get(TransactionViewModel.class);
+            this.walletViewModel = new ViewModelProvider((ViewModelStoreOwner) activity).get(WalletViewModel.class);
+            this.categoryViewModel = new ViewModelProvider((ViewModelStoreOwner) activity).get(CategoryViewModel.class);
+
+            setupUi();
+            setupChips();
+            setupDatePicker();
+
+            this.applyBtn.setOnClickListener(v -> {
+                if (Utilities.checkDataValid(dateSelectedFrom, dateSelectedTo)) {
+                    this.computeFilters();
+                } else {
+                    Toast.makeText(activity.getBaseContext(), "Select dates to analise a period", Toast.LENGTH_LONG).show();
+                }
+            });
+        } else {
+            Log.e(LOG, "Activity is null");
+        }
+    }
+
+    public void setupUi() {
+        this.dateDisplayFrom = activity.findViewById(R.id.graphs_date_from_date);
+        this.dateDisplayTo = activity.findViewById(R.id.graphs_date_to_date);
+        this.applyBtn = getView().findViewById(R.id.graphs_search_button);
+    }
+
+    private void setupChips() {
+        // Category chip group
+        ChipGroup categoryChipGroup = getView().findViewById(R.id.graphs_category_chip_group);
+        setupCategoryChips(categoryChipGroup);
+        // Wallet chip group
+        ChipGroup walletChipGroup = getView().findViewById(R.id.graphs_wallet_chip_group);
+        setupWalletChips(walletChipGroup);
+    }
+
+    private void setupCategoryChips(ChipGroup categoryChipGroup) {
+        this.categorySelected = new ArrayList<>();
+        categoryViewModel.getCategoryList().observe((LifecycleOwner) activity, category -> {
+            for (Category cat : category) {
+                Chip chip = (Chip) getLayoutInflater().inflate(R.layout.chip_choice, categoryChipGroup, false);
+                chip.setId(View.generateViewId());
+                chip.setText(cat.getName());
+                chip.setOnCheckedChangeListener((buttonView, isChecked) -> {
+                    if (isChecked) {
+                        categorySelected.add(chip.getText().toString());
+                    } else {
+                        categorySelected.remove(chip.getText().toString());
+                    }
+                });
+                categoryChipGroup.addView(chip);
             }
-        });**/
+            categoryViewModel.getCategoryList().removeObservers((LifecycleOwner) activity);
+        });
+    }
 
+    private void setupWalletChips(ChipGroup walletChipGroup) {
+        this.walletSelected = new ArrayList<>();
+        walletViewModel.getWalletList().observe((LifecycleOwner) activity, wallets -> {
+            for (Wallet wallet : wallets) {
+                Chip chip = (Chip) getLayoutInflater().inflate(R.layout.chip_choice, walletChipGroup, false);
+                chip.setId(View.generateViewId());
+                chip.setText(wallet.getName());
+                chip.setOnCheckedChangeListener((buttonView, isChecked) -> {
+                    if (isChecked) {
+                        walletSelected.add(chip.getText().toString());
+                    } else {
+                        walletSelected.remove(chip.getText().toString());
+                    }
+                });
+                walletChipGroup.addView(chip);
+            }
+            walletViewModel.getWalletList().removeObservers((LifecycleOwner) activity);
+        });
+    }
 
-        AnyChartView lineChartView = root.findViewById(R.id.line_chart);
-        lineChartView.setProgressBar(root.findViewById(R.id.line_chart_progress_bar));
+    private void setupDatePicker() {
+        setupDatePickerFrom();
+        setupDatePickerTo();
+    }
+
+    private void setupDatePickerFrom() {
+        ImageButton calendar = getView().findViewById(R.id.graphs_date_from_calendar);
+        AtomicInteger year = new AtomicInteger(Calendar.getInstance().get(Calendar.YEAR));
+        AtomicInteger month = new AtomicInteger(Calendar.getInstance().get(Calendar.MONTH));
+        AtomicInteger day = new AtomicInteger(Calendar.getInstance().get(Calendar.DAY_OF_MONTH));
+        calendar.setOnClickListener(v -> {
+            DatePicker datePicker = new DatePicker(year.get(), month.get(), day.get());
+            datePicker.show(requireActivity().getSupportFragmentManager(), "datePicker");
+            datePicker.getDataReady().observe(getActivity(), value -> {
+                if (value) {
+                    year.set(datePicker.getYear());
+                    month.set(datePicker.getMonth());
+                    day.set(datePicker.getDay());
+                    dateSelectedFrom = String.format("%04d%02d%02d", datePicker.getYear(), datePicker.getMonth(), datePicker.getDay());
+                    this.dateDisplayFrom.setText(String.format("From: %02d/%02d/%04d", datePicker.getDay(), datePicker.getMonth() + 1, datePicker.getYear()));
+                }
+            });
+        });
+    }
+
+    private void setupDatePickerTo() {
+        ImageButton calendar = getView().findViewById(R.id.graphs_date_to_calendar);
+        AtomicInteger year = new AtomicInteger(Calendar.getInstance().get(Calendar.YEAR));
+        AtomicInteger month = new AtomicInteger(Calendar.getInstance().get(Calendar.MONTH));
+        AtomicInteger day = new AtomicInteger(Calendar.getInstance().get(Calendar.DAY_OF_MONTH));
+        calendar.setOnClickListener(v -> {
+            DatePicker datePicker = new DatePicker(year.get(), month.get(), day.get());
+            datePicker.show(requireActivity().getSupportFragmentManager(), "datePicker");
+            datePicker.getDataReady().observe(getActivity(), value -> {
+                if (value) {
+                    year.set(datePicker.getYear());
+                    month.set(datePicker.getMonth());
+                    day.set(datePicker.getDay());
+                    dateSelectedTo = String.format("%04d%02d%02d", datePicker.getYear(), datePicker.getMonth(), datePicker.getDay());
+                    this.dateDisplayTo.setText(String.format("To: %02d/%02d/%04d", datePicker.getDay(), datePicker.getMonth() + 1, datePicker.getYear()));
+                }
+            });
+        });
+    }
+
+    private void computeFilters() {
+        /*transactionViewModel.getTransactionList(dateSelectedFrom, dateSelectedTo, categorySelected, walletSelected).observe((LifecycleOwner) getActivity(), transactions -> {
+            generateCharts(transactions);
+            transactionViewModel.getTransactionList().removeObservers((LifecycleOwner) getActivity());
+        });*/
+
+        transactionViewModel.getTransactionList().observe((LifecycleOwner) getActivity(), transactions -> {
+            generateCharts(transactions);
+            transactionViewModel.getTransactionList().removeObservers((LifecycleOwner) getActivity());
+        });
+    }
+
+    private void generateCharts(List<Transaction> transactions) {
+        AnyChartView lineChartView = view.findViewById(R.id.line_chart);
+        lineChartView.setProgressBar(view.findViewById(R.id.line_chart_progress_bar));
         APIlib.getInstance().setActiveAnyChartView(lineChartView);
-
-        List<DataEntry> brandySeriesData = new ArrayList<>();
-        brandySeriesData.add(new ValueDataEntry("1986", 3.6));
-        brandySeriesData.add(new ValueDataEntry("1987", 7.1));
-        brandySeriesData.add(new ValueDataEntry("1988", 8.5));
-        brandySeriesData.add(new ValueDataEntry("1989", 9.2));
-        brandySeriesData.add(new ValueDataEntry("1990", 10.1));
-        brandySeriesData.add(new ValueDataEntry("1991", 11.6));
-        brandySeriesData.add(new ValueDataEntry("1992", 16.4));
-        brandySeriesData.add(new ValueDataEntry("1993", 18.0));
-        brandySeriesData.add(new ValueDataEntry("1994", 13.2));
-        brandySeriesData.add(new ValueDataEntry("1995", 12.0));
-        brandySeriesData.add(new ValueDataEntry("1996", 3.2));
-        brandySeriesData.add(new ValueDataEntry("1997", 4.1));
-        brandySeriesData.add(new ValueDataEntry("1998", 6.3));
-        brandySeriesData.add(new ValueDataEntry("1999", 9.4));
-        brandySeriesData.add(new ValueDataEntry("2000", 11.5));
-
-        List<DataEntry> wiskySeriesData = new ArrayList<>();
-        wiskySeriesData.add(new ValueDataEntry("1986", 2.3));
-        wiskySeriesData.add(new ValueDataEntry("1987", 4.0));
-        wiskySeriesData.add(new ValueDataEntry("1988", 6.2));
-        wiskySeriesData.add(new ValueDataEntry("1989", 11.8));
-        wiskySeriesData.add(new ValueDataEntry("1990", 13.0));
-        wiskySeriesData.add(new ValueDataEntry("1991", 13.9));
-        wiskySeriesData.add(new ValueDataEntry("1992", 18.0));
-        wiskySeriesData.add(new ValueDataEntry("1993", 23.3));
-        wiskySeriesData.add(new ValueDataEntry("1994", 24.7));
-        wiskySeriesData.add(new ValueDataEntry("1995", 18.0));
-        wiskySeriesData.add(new ValueDataEntry("1996", 15.1));
-        wiskySeriesData.add(new ValueDataEntry("1997", 11.3));
-        wiskySeriesData.add(new ValueDataEntry("1998", 14.2));
-        wiskySeriesData.add(new ValueDataEntry("1999", 13.7));
-        wiskySeriesData.add(new ValueDataEntry("2000", 9.9));
-
-        List<DataEntry> tequilaSeriesData = new ArrayList<>();
-        tequilaSeriesData.add(new ValueDataEntry("1986", 3.3));
-        tequilaSeriesData.add(new ValueDataEntry("1987", 5.0));
-        tequilaSeriesData.add(new ValueDataEntry("1988", 7.2));
-        tequilaSeriesData.add(new ValueDataEntry("1989", 12.8));
-        tequilaSeriesData.add(new ValueDataEntry("1990", 14.0));
-        tequilaSeriesData.add(new ValueDataEntry("1991", 14.9));
-        tequilaSeriesData.add(new ValueDataEntry("1992", 19.0));
-        tequilaSeriesData.add(new ValueDataEntry("1993", 24.3));
-        tequilaSeriesData.add(new ValueDataEntry("1994", 25.7));
-        tequilaSeriesData.add(new ValueDataEntry("1995", 19.0));
-        tequilaSeriesData.add(new ValueDataEntry("1996", 16.1));
-        tequilaSeriesData.add(new ValueDataEntry("1997", 12.3));
-        tequilaSeriesData.add(new ValueDataEntry("1998", 15.2));
-        tequilaSeriesData.add(new ValueDataEntry("1999", 14.7));
-        tequilaSeriesData.add(new ValueDataEntry("2000", 10.9));
-
+        // Prepare data
+        HashSet<String> categorySet = new HashSet<>();
+        // Retrive Wallet ID's from names (selected)
+        List<Integer> walletIDList = new ArrayList<>();
+        walletViewModel.getWalletListFromNames(walletSelected).observe((LifecycleOwner) activity, o -> o.forEach(w -> walletIDList.add(w.getId())));
+        // Filter the transactions due to the selections of wallets and categories
+        transactions.forEach(t -> {
+            if (categorySelected.contains(t.getCategoryName())) {
+                categorySet.add(t.getCategoryName());
+            }
+        });
+        // Store all the lists
         Map<String, List<DataEntry>> lineData = new HashMap<>();
-        lineData.put("Brandy", brandySeriesData);
-        lineData.put("Whiskey", wiskySeriesData);
-        lineData.put("Tequila", tequilaSeriesData);
-
-        Chart lineChart = new LineChart(lineChartView, lineData, "Trend of Sales", "Years", "Bottles Sold");
+        categorySet.forEach(c -> {
+            List<DataEntry> categoryDataList = new ArrayList<>();
+            transactions.forEach(t -> {
+                if (c.equals(t.getCategoryName()) && walletIDList.contains(t.getWalletIdTo())) {
+                    categoryDataList.add(new ValueDataEntry(t.getDate(), t.getAmount()));
+                }
+            });
+            lineData.put(c, categoryDataList);
+        });
+        Chart lineChart = new LineChart(lineChartView, lineData, "Category trendline", "Time", "Amount(€)");
         lineChart.instantiateChart();
 
+        /*******************/
 
-
-        /***************************/
-
-        AnyChartView columnChartView = root.findViewById(R.id.candle_chart);
-        columnChartView.setProgressBar(root.findViewById(R.id.candle_chart_progress_bar));
+        AnyChartView columnChartView = view.findViewById(R.id.candle_chart);
+        columnChartView.setProgressBar(view.findViewById(R.id.candle_chart_progress_bar));
         APIlib.getInstance().setActiveAnyChartView(columnChartView);
 
-
+        // Store all the columns
         List<DataEntry> columnData = new ArrayList<>();
-        columnData.add(new ValueDataEntry("Rouge", 80540));
-        columnData.add(new ValueDataEntry("Foundation", 94190));
-        columnData.add(new ValueDataEntry("Mascara", 102610));
-        columnData.add(new ValueDataEntry("Lip gloss", 110430));
-        columnData.add(new ValueDataEntry("Lipstick", 128000));
-        columnData.add(new ValueDataEntry("Nail polish", 143760));
-        columnData.add(new ValueDataEntry("Eyebrow pencil", 170670));
-        columnData.add(new ValueDataEntry("Eyeliner", 213210));
-        columnData.add(new ValueDataEntry("Eyeshadows", 249980));
+        categorySet.forEach(c -> {
+            AtomicInteger amount = new AtomicInteger(0);
+            transactions.forEach(t -> {
+                if (c.equals(t.getCategoryName()) && walletIDList.contains(t.getWalletIdTo())) {
+                    amount.set(amount.intValue() - (int) t.getAmount());
+                }
+            });
+            columnData.add(new ValueDataEntry(c, amount.intValue()));
+        });
 
-        Chart columnChart = new ColumnChart(columnChartView, columnData, "Top 10 Cosmetic", "prod", "revenue");
+        Chart columnChart = new ColumnChart(columnChartView, columnData, "Expenses overview", "Categories", "Expenses");
         columnChart.instantiateChart();
 
-        return root;
     }
 
 }

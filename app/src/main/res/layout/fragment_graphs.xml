@@ -10,28 +10,19 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_margin="10dp">
 
-        <com.google.android.material.textfield.TextInputLayout
+        <TextView
             android:id="@+id/graphs_wallet_TextInput"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            android:layout_width="match_parent"
-            android:layout_height="65dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginRight="10dp"
-            android:hint="@string/wallet"
-            android:inputType="text"
-            app:endIconMode="clear_text"
-            app:errorEnabled="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:text="@string/wallet"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
+            android:textColor="@android:color/darker_gray"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/graphs_wallet_InputEditText"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:imeOptions="flagNoExtractUi" />
-        </com.google.android.material.textfield.TextInputLayout>
+            app:layout_constraintTop_toBottomOf="@+id/transaction_out_description_TextInput" />
         <com.google.android.material.chip.ChipGroup
             android:id="@+id/graphs_wallet_chip_group"
             android:layout_width="0dp"
@@ -40,7 +31,9 @@
             android:layout_marginRight="10dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/graphs_wallet_TextInput">
+            app:layout_constraintTop_toBottomOf="@+id/graphs_wallet_TextInput"
+            app:selectionRequired="true"
+            app:singleSelection="true">
             <com.google.android.material.chip.Chip
                 android:id="@+id/chip_wallet"
                 style="@style/Widget.MaterialComponents.Chip.Entry"
@@ -49,24 +42,16 @@
                 android:text="Chip3" />
         </com.google.android.material.chip.ChipGroup>
 
-        <com.google.android.material.textfield.TextInputLayout
+        <TextView
             android:id="@+id/graphs_category_TextInput"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            android:layout_width="match_parent"
-            android:layout_height="65dp"
-            android:layout_marginLeft="10dp"
-            android:hint="@string/category"
-            android:inputType="text"
-            app:endIconMode="clear_text"
-            app:errorEnabled="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:text="@string/wallet"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
+            android:textColor="@android:color/darker_gray"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/graphs_wallet_chip_group">
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/graphs_category_InputEditText"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:imeOptions="flagNoExtractUi" />
-        </com.google.android.material.textfield.TextInputLayout>
+            app:layout_constraintTop_toBottomOf="@+id/graphs_wallet_chip_group" />
         <com.google.android.material.chip.ChipGroup
             android:id="@+id/graphs_category_chip_group"
             android:layout_width="0dp"
@@ -75,17 +60,19 @@
             android:layout_marginRight="10dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/graphs_category_TextInput">
+            app:layout_constraintTop_toBottomOf="@+id/graphs_category_TextInput"
+            app:selectionRequired="true"
+            app:singleSelection="true">
             <com.google.android.material.chip.Chip
-                android:id="@+id/chip_category"
+                android:id="@+id/chipas_wallet"
                 style="@style/Widget.MaterialComponents.Chip.Entry"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Chip1" />
+                android:text="Chip3" />
         </com.google.android.material.chip.ChipGroup>
 
         <TextView
-            android:id="@+id/from_date"
+            android:id="@+id/graphs_date_from_date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
@@ -93,8 +80,8 @@
             android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/graphs_category_chip_group" />
-        <ImageView
-            android:id="@+id/from_calendar"
+        <ImageButton
+            android:id="@+id/graphs_date_from_calendar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
@@ -104,23 +91,32 @@
             app:layout_constraintTop_toBottomOf="@id/graphs_category_chip_group" />
 
         <TextView
-            android:id="@+id/to_date"
+            android:id="@+id/graphs_date_to_date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
             android:text="Al: 14/06/2021"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/from_date" />
-        <ImageView
-            android:id="@+id/to_calendar"
+            app:layout_constraintTop_toBottomOf="@id/graphs_date_from_date" />
+        <ImageButton
+            android:id="@+id/graphs_date_to_calendar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
             android:contentDescription="calendar_picker"
             android:src="@drawable/ic_calendar_24dp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/from_calendar" />
+            app:layout_constraintTop_toBottomOf="@id/graphs_date_from_calendar" />
+
+        <Button
+            android:id="@+id/graphs_search_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:text="@string/apply_filters"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/graphs_date_to_calendar" />
 
         <View
             android:id="@+id/separator"
@@ -129,7 +125,7 @@
             android:layout_margin="10dp"
             android:background="@android:color/darker_gray"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/to_date"
+            app:layout_constraintTop_toBottomOf="@id/graphs_search_button"
             tools:layout_editor_absoluteX="10dp" />
 
         <com.anychart.AnyChartView
@@ -137,15 +133,14 @@
             android:layout_width="match_parent"
             android:layout_height="300dp"
             android:layout_margin="10dp"
-            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@id/separator" />
+            app:layout_constraintTop_toBottomOf="@id/separator" />
         <ProgressBar
             android:id="@+id/line_chart_progress_bar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
-            app:layout_constraintBottom_toBottomOf="@id/line_chart"
+            app:layout_constraintTop_toBottomOf="@id/line_chart"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/line_chart"/>
@@ -165,7 +160,6 @@
             android:layout_width="match_parent"
             android:layout_height="300dp"
             android:layout_margin="10dp"
-            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/separator2" />
         <ProgressBar
@@ -177,6 +171,8 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/candle_chart"/>
+
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

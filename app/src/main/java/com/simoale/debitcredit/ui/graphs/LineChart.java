@@ -33,11 +33,6 @@ public class LineChart implements Chart {
                     .name(k)
                     .hovered().markers().enabled(true)
                     .type(MarkerType.CIRCLE).size(4d);
-            cartesian.line(v).tooltip()
-                .position("right")
-                .anchor(Anchor.LEFT_CENTER)
-                .offsetX(5d)
-                .offsetY(5d);
             }
         );
     }

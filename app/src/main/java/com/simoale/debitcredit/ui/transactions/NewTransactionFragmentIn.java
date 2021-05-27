@@ -138,16 +138,13 @@ public class NewTransactionFragmentIn extends Fragment {
 
             this.locationUtils = new LocationUtils(activity);
             requestPermissionLauncher = registerForActivityResult(new ActivityResultContracts.RequestPermission(),
-                    new ActivityResultCallback<Boolean>() {
-                        @Override
-                        public void onActivityResult(Boolean result) {
-                            if (result) {
-                                locationUtils.startLocationUpdates();
-                                Log.d("LAB", "PERMISSION GRANTED");
-                            } else {
-                                Log.d("LAB", "PERMISSION NOT GRANTED");
-                                locationUtils.showDialog();
-                            }
+                    result -> {
+                        if (result) {
+                            locationUtils.startLocationUpdates();
+                            Log.d("LAB", "PERMISSION GRANTED");
+                        } else {
+                            Log.d("LAB", "PERMISSION NOT GRANTED");
+                            locationUtils.showDialog();
                         }
                     });
             locationUtils.initializeLocation(locationText, requestPermissionLauncher);
@@ -159,38 +156,35 @@ public class NewTransactionFragmentIn extends Fragment {
             setupLocation();
 
 
-            saveBtn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    try {
-                        // Retrive data
-                        Float amount = transactionType.getType() * Math.abs(Float.parseFloat(amountEditText.getEditText().getText().toString().replace(',', '.')));
-                        String description = descriptionEditText.getEditText().getText().toString();
-                        String location = locationText.getText().toString();
-                        String note = noteEditText.getEditText().getText().toString();
-                        Bitmap bitmap = transactionViewModel.getBitmap().getValue();
-                        String imageUriString;
-                        if (bitmap != null) {
-                            //method to save the image in the gallery of the device
-                            imageUriString = String.valueOf(saveImage(bitmap, activity));
-                            //Toast.makeText(activity,"Image Saved", Toast.LENGTH_SHORT).show();
-                        } else {
-                            imageUriString = "ic_launcher_foreground";
-                        }
-                        // Insert data
-                        Wallet currentWallet = walletViewModel.getWalletFromName(walletSelected).getValue();
-                        if (Utilities.checkDataValid(amount.toString(), categorySelected, dateSelected, walletSelected)) {
-                            transactionViewModel.addTransaction(new Transaction(amount,
-                                    description, categorySelected, payeeSelected, dateSelected, currentWallet.getId(), currentWallet.getId(), location, note, imageUriString), tagSelected);
-//                            walletViewModel.updateBalance(currentWallet.getId(), amount);
-                            Navigation.findNavController(v).navigate(R.id.action_newTransactionTabFragment_to_nav_home);
-                        } else {
-                            Toast.makeText(activity.getBaseContext(), "Every field must be filled", Toast.LENGTH_LONG).show();
-                        }
-                        transactionViewModel.setImageBitmpap(null);
-                    } catch (IOException e) {
-                        e.printStackTrace();
+            saveBtn.setOnClickListener(v -> {
+                try {
+                    // Retrive data
+                    Float amount = transactionType.getType() * Math.abs(Float.parseFloat(amountEditText.getEditText().getText().toString().replace(',', '.')));
+                    String description = descriptionEditText.getEditText().getText().toString();
+                    String location = locationText.getText().toString();
+                    String note = noteEditText.getEditText().getText().toString();
+                    Bitmap bitmap = transactionViewModel.getBitmap().getValue();
+                    String imageUriString;
+                    if (bitmap != null) {
+                        //method to save the image in the gallery of the device
+                        imageUriString = String.valueOf(saveImage(bitmap, activity));
+                        //Toast.makeText(activity,"Image Saved", Toast.LENGTH_SHORT).show();
+                    } else {
+                        imageUriString = "ic_launcher_foreground";
                     }
+                    // Insert data
+                    Wallet currentWallet = walletViewModel.getWalletFromName(walletSelected).getValue();
+                    if (Utilities.checkDataValid(amount.toString(), categorySelected, dateSelected, walletSelected)) {
+                        transactionViewModel.addTransaction(new Transaction(amount,
+                                description, categorySelected, payeeSelected, dateSelected, currentWallet.getId(), currentWallet.getId(), location, note, imageUriString), tagSelected);
+//                            walletViewModel.updateBalance(currentWallet.getId(), amount);
+                        Navigation.findNavController(v).navigate(R.id.action_newTransactionTabFragment_to_nav_home);
+                    } else {
+                        Toast.makeText(activity.getBaseContext(), "Every field must be filled", Toast.LENGTH_LONG).show();
+                    }
+                    transactionViewModel.setImageBitmpap(null);
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
             });
             this.cancelBtn.setOnClickListener(v -> {
