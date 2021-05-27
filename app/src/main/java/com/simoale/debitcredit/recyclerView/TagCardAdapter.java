@@ -15,51 +15,52 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.textfield.TextInputLayout;
 import com.simoale.debitcredit.R;
-import com.simoale.debitcredit.model.Category;
-import com.simoale.debitcredit.ui.category.CategoryViewModel;
-import com.simoale.debitcredit.ui.category.EditCategoryCardViewHolder;
+import com.simoale.debitcredit.model.Tag;
+import com.simoale.debitcredit.ui.tag.EditTagCardViewHolder;
+import com.simoale.debitcredit.ui.tag.TagViewModel;
 import com.simoale.debitcredit.utils.Utilities;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class CategoryCardAdapter extends RecyclerView.Adapter<EditCategoryCardViewHolder> {
+public class TagCardAdapter extends RecyclerView.Adapter<EditTagCardViewHolder> {
 
-    private List<Category> categoryList = new ArrayList<>();
+    private List<Tag> tagList = new ArrayList<>();
     private Activity activity;
-    private CategoryViewModel categoryViewModel;
+    private TagViewModel tagViewModel;
 
-    public CategoryCardAdapter(Activity activity) {
+    public TagCardAdapter(Activity activity) {
         this.activity = activity;
-        this.categoryViewModel = new ViewModelProvider((ViewModelStoreOwner) activity).get(CategoryViewModel.class);
+        this.tagViewModel = new ViewModelProvider((ViewModelStoreOwner) activity).get(TagViewModel.class);
     }
+
 
     @NonNull
     @Override
-    public EditCategoryCardViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View layoutView = LayoutInflater.from(parent.getContext()).inflate(R.layout.card_category,
+    public EditTagCardViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View layoutView = LayoutInflater.from(parent.getContext()).inflate(R.layout.card_tag,
                 parent, false);
-        return new EditCategoryCardViewHolder(layoutView);
+        return new EditTagCardViewHolder(layoutView);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull EditCategoryCardViewHolder holder, int position) {
-        Category category = categoryList.get(position);
-        holder.getCategoryName().setText(category.getName());
+    public void onBindViewHolder(@NonNull EditTagCardViewHolder holder, int position) {
+        Tag tag = tagList.get(position);
+        holder.getTagName().setText(tag.getName());
         holder.getMore().setOnClickListener(v -> {
             View dialogView = this.activity.getLayoutInflater().inflate(R.layout.dialog_add, null);
             AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(activity).setView(dialogView);
             EditText editText = (EditText) dialogView.findViewById(R.id.dialog_add_InputEditText);
-            editText.setText(category.getName());
+            editText.setText(tag.getName());
             TextInputLayout layout = dialogView.findViewById(R.id.dialog_add_TextInput);
-            layout.setHint("Edit category");
-            dialogBuilder.setMessage("Change category name")
+            layout.setHint("Edit tag");
+            dialogBuilder.setMessage("Change tag name")
                     .setCancelable(false) //Sets whether this dialog is cancelable with the BACK key.
                     .setPositiveButton("Save", (dialog, id) -> {
                         if (Utilities.checkDataValid(editText.getText().toString())) {
-                            categoryViewModel.editCategory(category, new Category(editText.getText().toString()));
+                            tagViewModel.editTag(tag, new Tag(editText.getText().toString()));
                         } else {
-                            Toast.makeText(activity.getBaseContext(), "Category name cannot be empty", Toast.LENGTH_LONG).show();
+                            Toast.makeText(activity.getBaseContext(), "Tag name cannot be empty", Toast.LENGTH_LONG).show();
                         }
                     })
                     .setNegativeButton("Cancel", (dialog, id) -> dialog.cancel());
@@ -70,15 +71,15 @@ public class CategoryCardAdapter extends RecyclerView.Adapter<EditCategoryCardVi
 
     @Override
     public int getItemCount() {
-        return categoryList.size();
+        return tagList.size();
     }
 
-    public void setData(List<Category> categoryList) {
-        this.categoryList = new ArrayList<>(categoryList);
+    public void setData(List<Tag> tagList) {
+        this.tagList = tagList;
         notifyDataSetChanged();
     }
 
-    public Category getCategory(int position) {
-        return categoryList.get(position);
+    public Tag getTag(int position) {
+        return tagList.get(position);
     }
 }

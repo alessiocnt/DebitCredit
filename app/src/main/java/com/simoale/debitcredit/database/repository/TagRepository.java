@@ -27,4 +27,8 @@ public class TagRepository {
     public void addTag(final Tag tag) {
         DatabaseInstance.databaseWriteExecutor.execute(() -> this.tagDAO.addTag(tag));
     }
+
+    public void editTag(Tag oldTag, Tag newTag) {
+        DatabaseInstance.databaseWriteExecutor.execute(() -> tagDAO.editTag(oldTag.getName(), newTag.getName()));
+    }
 }

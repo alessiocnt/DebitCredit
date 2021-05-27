@@ -7,9 +7,7 @@ import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 import androidx.room.Transaction;
 
-import com.simoale.debitcredit.model.Category;
 import com.simoale.debitcredit.model.Tag;
-import com.simoale.debitcredit.model.Wallet;
 
 import java.util.List;
 
@@ -21,4 +19,8 @@ public interface TagDAO {
     @Transaction
     @Query("SELECT * from tag ORDER BY tag_name")
     LiveData<List<Tag>> getTags();
+
+    @Transaction
+    @Query("UPDATE tag SET tag_name = :newTag WHERE tag_name = :oldTag")
+    void editTag(String oldTag, String newTag);
 }
