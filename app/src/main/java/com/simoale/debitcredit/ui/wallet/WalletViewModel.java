@@ -50,7 +50,7 @@ public class WalletViewModel extends AndroidViewModel {
         //return repository.getWalletFromName(walletName);
         MutableLiveData<Wallet> selected = new MutableLiveData<>();
         this.walletList.getValue().forEach(w -> {
-            if (w.getName() == walletName) {
+            if (w.getName().equals(walletName)) {
                 selected.setValue(w);
             }
         });
