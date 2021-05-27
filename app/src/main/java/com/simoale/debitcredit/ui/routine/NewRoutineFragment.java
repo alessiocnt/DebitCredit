@@ -172,7 +172,7 @@ public class NewRoutineFragment extends Fragment {
                     year.set(datePicker.getYear());
                     month.set(datePicker.getMonth());
                     day.set(datePicker.getDay());
-                    this.dateSelected = String.format("%04d%02d%02d", datePicker.getYear(), datePicker.getMonth(), datePicker.getDay());
+                    this.dateSelected = String.format("%04d%02d%02d", datePicker.getYear(), datePicker.getMonth() + 1, datePicker.getDay());
                     this.dateStartTextView.setText(String.format("Start date: %02d/%02d/%04d", datePicker.getDay(), datePicker.getMonth() + 1, datePicker.getYear()));
                 }
             });
