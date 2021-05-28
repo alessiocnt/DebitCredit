@@ -1,7 +1,5 @@
 package com.simoale.debitcredit.ui.graphs;
 
-import android.util.Log;
-
 import com.anychart.AnyChart;
 import com.anychart.AnyChartView;
 import com.anychart.chart.common.dataentry.SingleValueDataSet;
@@ -16,7 +14,6 @@ import com.anychart.graphics.vector.text.VAlign;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
