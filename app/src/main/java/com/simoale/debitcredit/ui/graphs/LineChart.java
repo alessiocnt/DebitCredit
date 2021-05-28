@@ -1,24 +1,24 @@
 package com.simoale.debitcredit.ui.graphs;
 
+import android.util.Pair;
+
 import com.anychart.AnyChart;
 import com.anychart.AnyChartView;
 import com.anychart.chart.common.dataentry.DataEntry;
 import com.anychart.charts.Cartesian;
-import com.anychart.enums.Anchor;
 import com.anychart.enums.MarkerType;
 import com.anychart.enums.TooltipPositionMode;
 
 import java.util.List;
-import java.util.Map;
 
 public class LineChart implements Chart {
 
     AnyChartView anyChartView;
     Cartesian cartesian;
 
-    Map<String, List<DataEntry>> data;
+    List<Pair<String, List<DataEntry>>> data;
 
-    public LineChart(AnyChartView anyChartView, Map<String, List<DataEntry>> data, String title, String xLabel, String yLabel){
+    public LineChart(AnyChartView anyChartView, List<Pair<String, List<DataEntry>>> data, String title, String xLabel, String yLabel) {
         this.anyChartView = anyChartView;
         this.data = data;
         this.cartesian = AnyChart.line();
@@ -28,12 +28,12 @@ public class LineChart implements Chart {
     }
 
     private void setupLines() {
-        this.data.forEach((k, v) -> {
-            cartesian.line(v)
-                    .name(k)
-                    .hovered().markers().enabled(true)
-                    .type(MarkerType.CIRCLE).size(4d);
-            }
+        this.data.forEach(p -> {
+                    cartesian.line(p.second)
+                            .name(p.first)
+                            .hovered().markers().enabled(true)
+                            .type(MarkerType.CIRCLE).size(4d);
+                }
         );
     }
 
