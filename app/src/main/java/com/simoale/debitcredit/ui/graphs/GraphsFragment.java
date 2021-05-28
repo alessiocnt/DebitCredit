@@ -187,7 +187,7 @@ public class GraphsFragment extends Fragment {
                     year.set(datePicker.getYear());
                     month.set(datePicker.getMonth());
                     day.set(datePicker.getDay());
-                    dateSelectedFrom = String.format("%04d%02d%02d", datePicker.getYear(), datePicker.getMonth(), datePicker.getDay());
+                    dateSelectedFrom = String.format("%04d%02d%02d", datePicker.getYear(), datePicker.getMonth() + 1, datePicker.getDay());
                     this.dateDisplayFrom.setText(String.format("From: %02d/%02d/%04d", datePicker.getDay(), datePicker.getMonth() + 1, datePicker.getYear()));
                 }
             });
@@ -207,7 +207,7 @@ public class GraphsFragment extends Fragment {
                     year.set(datePicker.getYear());
                     month.set(datePicker.getMonth());
                     day.set(datePicker.getDay());
-                    dateSelectedTo = String.format("%04d%02d%02d", datePicker.getYear(), datePicker.getMonth(), datePicker.getDay());
+                    dateSelectedTo = String.format("%04d%02d%02d", datePicker.getYear(), datePicker.getMonth() + 1, datePicker.getDay());
                     this.dateDisplayTo.setText(String.format("To: %02d/%02d/%04d", datePicker.getDay(), datePicker.getMonth() + 1, datePicker.getYear()));
                 }
             });
@@ -215,15 +215,18 @@ public class GraphsFragment extends Fragment {
     }
 
     private void computeFilters() {
-        /*transactionViewModel.getTransactionList(dateSelectedFrom, dateSelectedTo, categorySelected, walletSelected).observe((LifecycleOwner) getActivity(), transactions -> {
+        transactionViewModel.getTransactionList(dateSelectedFrom, dateSelectedTo).observe((LifecycleOwner) getActivity(), transactions -> {
+            Log.e("trans", transactions.size() + "");
+            Log.e("from", dateSelectedFrom );
+            Log.e("to", dateSelectedTo );
+            generateCharts(transactions);
+            transactionViewModel.getTransactionList(dateSelectedFrom, dateSelectedTo).removeObservers((LifecycleOwner) getActivity());
+        });
+
+        /*transactionViewModel.getTransactionList().observe((LifecycleOwner) getActivity(), transactions -> {
             generateCharts(transactions);
             transactionViewModel.getTransactionList().removeObservers((LifecycleOwner) getActivity());
         });*/
-
-        transactionViewModel.getTransactionList().observe((LifecycleOwner) getActivity(), transactions -> {
-            generateCharts(transactions);
-            transactionViewModel.getTransactionList().removeObservers((LifecycleOwner) getActivity());
-        });
     }
 
     private void generateCharts(List<Transaction> transactions) {

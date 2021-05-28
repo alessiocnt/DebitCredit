@@ -73,8 +73,8 @@ public class TransactionViewModel extends AndroidViewModel {
     }
 
     // Used to get data for charts
-    public LiveData<List<Transaction>> getTransactionList(@Nullable String dateSelectedFrom, @Nullable String dateSelectedTo, @Nullable List<String> categorySelected, @Nullable List<String> walletSelected) {
-        return repository.getTransactionList(dateSelectedFrom, dateSelectedTo, categorySelected, walletSelected);
+    public LiveData<List<Transaction>> getTransactionList(String dateSelectedFrom, String dateSelectedTo) {
+        return repository.getTransactionList(dateSelectedFrom, dateSelectedTo);
     }
 }
 

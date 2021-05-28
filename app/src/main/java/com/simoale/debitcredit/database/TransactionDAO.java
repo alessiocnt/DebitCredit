@@ -45,30 +45,9 @@ public interface TransactionDAO {
     Integer getBudgetSpent(String budgetCategoryName, String lastBudgetUpdate);
 
     @androidx.room.Transaction
-    @Query("SELECT DISTINCT * from `transaction` " +
-            "WHERE (:dateSelectedFrom IS NULL OR :dateSelectedTo IS NULL OR transaction_date BETWEEN :dateSelectedFrom AND :dateSelectedTo)" +
+    @Query("SELECT * from `transaction` " +
+            "WHERE (transaction_date BETWEEN :dateSelectedFrom AND :dateSelectedTo)" +
             "ORDER BY transaction_category_name, transaction_date")
     LiveData<List<Transaction>> getTransactionsFromPeriod(String dateSelectedFrom, String dateSelectedTo);
 
-    @androidx.room.Transaction
-    @Query("SELECT DISTINCT * from `transaction`" +
-            "WHERE (:dateSelectedFrom IS NULL OR :dateSelectedTo IS NULL OR transaction_date BETWEEN :dateSelectedFrom AND :dateSelectedTo)" +
-            "AND transaction_wallet_id_from IN (:wallets)" +
-            "ORDER BY transaction_category_name, transaction_date")
-    LiveData<List<Transaction>> getTransactionsFromPeriodAndWallet(String dateSelectedFrom, String dateSelectedTo, String[] wallets);
-
-    @androidx.room.Transaction
-    @Query("SELECT DISTINCT * from `transaction`" +
-            "WHERE (:dateSelectedFrom IS NULL OR :dateSelectedTo IS NULL OR transaction_date BETWEEN :dateSelectedFrom AND :dateSelectedTo)" +
-            "AND transaction_category_name IN (:categories)" +
-            "ORDER BY transaction_category_name, transaction_date")
-    LiveData<List<Transaction>>getTransactionsFromPeriodAndCategory(String dateSelectedFrom, String dateSelectedTo, String[] categories);
-
-    @androidx.room.Transaction
-    @Query("SELECT DISTINCT * from `transaction`" +
-            "WHERE (:dateSelectedFrom IS NULL OR :dateSelectedTo IS NULL OR transaction_date BETWEEN :dateSelectedFrom AND :dateSelectedTo)" +
-            "AND transaction_category_name IN (:categories)" +
-            "AND transaction_wallet_id_from IN (:wallets)" +
-            "ORDER BY transaction_category_name, transaction_date")
-    LiveData<List<Transaction>> getTransactionsFromPeriodAndCategoryAndWallet(String dateSelectedFrom, String dateSelectedTo, String[] categories, String[] wallets);
 }

@@ -67,15 +67,7 @@ public class TransactionRepository {
         return result == null ? 0 : result;
     }
 
-    public LiveData<List<Transaction>> getTransactionList(String dateSelectedFrom, String dateSelectedTo, List<String> categorySelected, List<String> walletSelected) {
-        if ((categorySelected == null || categorySelected.size() == 0) && (walletSelected == null || walletSelected.size() == 0)) {
-            return transactionDAO.getTransactionsFromPeriod(dateSelectedFrom, dateSelectedTo);
-        } else if ((categorySelected == null || categorySelected.size() == 0) && (walletSelected != null || walletSelected.size() != 0)) {
-            return transactionDAO.getTransactionsFromPeriodAndWallet(dateSelectedFrom, dateSelectedTo, walletSelected.toArray(new String[0]));
-        } else if ((categorySelected != null || categorySelected.size() != 0) && (walletSelected == null || walletSelected.size() == 0)) {
-            return transactionDAO.getTransactionsFromPeriodAndCategory(dateSelectedFrom, dateSelectedTo, categorySelected.toArray(new String[0]));
-        } else {
-            return transactionDAO.getTransactionsFromPeriodAndCategoryAndWallet(dateSelectedFrom, dateSelectedTo, categorySelected.toArray(new String[0]), walletSelected.toArray(new String[0]));
-        }
+    public LiveData<List<Transaction>> getTransactionList(String dateSelectedFrom, String dateSelectedTo) {
+        return transactionDAO.getTransactionsFromPeriod(dateSelectedFrom, dateSelectedTo);
     }
 }
