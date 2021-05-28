@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         tools:listitem="@layout/card_routine" />
-    
+
     <include layout="@layout/fab_add" />
 
 
