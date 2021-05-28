@@ -28,12 +28,14 @@ public class LineChart implements Chart {
     }
 
     private void setupLines() {
-        this.data.forEach(p -> {
-                    cartesian.line(p.second)
-                            .name(p.first)
-                            .hovered().markers().enabled(true)
-                            .type(MarkerType.CIRCLE).size(4d);
-                }
+        this.data.forEach(p ->
+            cartesian.line(p.second)
+                .name(p.first)
+                .hovered()
+                .markers()
+                .enabled(true)
+                .type(MarkerType.CIRCLE)
+                .size(4d)
         );
     }
 

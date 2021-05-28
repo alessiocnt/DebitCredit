@@ -222,27 +222,24 @@ public class GraphsFragment extends Fragment {
         lineChartView.setProgressBar(view.findViewById(R.id.line_chart_progress_bar));
         lineChartView.setVisibility(View.VISIBLE);
         APIlib.getInstance().setActiveAnyChartView(lineChartView);
-        //lineChartView.clear();
         // Prepare data
-        List<String> categorySet = new ArrayList<>();
+        List<String> categoryList = new ArrayList<>();
         // Retrive Wallet ID's from names (selected)
         List<Integer> walletIDList = new ArrayList<>();
         walletViewModel.getWalletListFromNames(walletSelected).observe((LifecycleOwner) activity, o -> o.forEach(w -> walletIDList.add(w.getId())));
         // Filter the transactions due to the selections of wallets and categories
         transactions.forEach(t -> {
-            Log.e("TAG", "generateCharts: " + new SimpleDateFormat("dd/MM/yyyy").format(Utilities.getDateFromString(t.getDate())) + " " + t.getCategoryName());
-            if (categorySelected.contains(t.getCategoryName()) && !categorySet.contains(t.getCategoryName())) {
-                categorySet.add(t.getCategoryName());
+            if (categorySelected.contains(t.getCategoryName()) && !categoryList.contains(t.getCategoryName())) {
+                categoryList.add(t.getCategoryName());
             }
         });
         // Store all the lists
         List<Pair<String, List<DataEntry>>> lineData = new ArrayList<>();
-        categorySet.forEach(c -> {
+        categoryList.forEach(c -> {
             List<DataEntry> categoryDataList = new ArrayList<>();
             transactions.forEach(t -> {
                 if (c.equals(t.getCategoryName()) && walletIDList.contains(t.getWalletIdTo())) {
                     categoryDataList.add(new ValueDataEntry(new SimpleDateFormat("dd/MM/yyyy").format(Utilities.getDateFromString(t.getDate())), t.getAmount()));
-                    Log.e("TAG", "generateCharts: " + new SimpleDateFormat("dd/MM/yyyy").format(Utilities.getDateFromString(t.getDate())) + " " + t.getAmount());
                 }
             });
             lineData.add(new Pair<>(c, categoryDataList));
@@ -260,7 +257,7 @@ public class GraphsFragment extends Fragment {
 
         // Store all the columns
         List<DataEntry> columnData = new ArrayList<>();
-        categorySet.forEach(c -> {
+        categoryList.forEach(c -> {
             AtomicInteger amount = new AtomicInteger(0);
             transactions.forEach(t -> {
                 if (c.equals(t.getCategoryName()) && walletIDList.contains(t.getWalletIdTo()) && t.getAmount() < 0) {
