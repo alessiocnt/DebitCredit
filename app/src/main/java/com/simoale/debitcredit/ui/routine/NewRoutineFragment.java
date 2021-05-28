@@ -54,28 +54,24 @@ public class NewRoutineFragment extends Fragment {
     private WalletViewModel walletViewModel;
     private CategoryViewModel categoryViewModel;
     private PayeeViewModel payeeViewModel;
-    private TagViewModel tagViewModel;
 
     private TextInputLayout routineNameTextInput;
     private TextInputLayout routineImportTextInput;
     private ChipGroup walletChipGroup;
     private ChipGroup categoryChipGroup;
     private ChipGroup payeeChipGroup;
-    private ChipGroup tagChipGroup;
     private TextView dateStartTextView;
     private ImageButton calendarButton;
     private AutoCompleteTextView timesTextView;
     private AutoCompleteTextView intervalTextView;
     private ImageButton addCategoryButton;
     private ImageButton addPayeeButton;
-    private ImageButton addTagButton;
     private Button saveButton;
     private Button cancelButton;
 
     private String selectedWallet;
     private String selectedCategory;
     private String selectedPayee;
-    private List<String> selectedTags = new ArrayList<>();
     private String dateSelected;
 
 
@@ -94,21 +90,18 @@ public class NewRoutineFragment extends Fragment {
             this.walletViewModel = new ViewModelProvider((ViewModelStoreOwner) this.activity).get(WalletViewModel.class);
             this.categoryViewModel = new ViewModelProvider((ViewModelStoreOwner) this.activity).get(CategoryViewModel.class);
             this.payeeViewModel = new ViewModelProvider((ViewModelStoreOwner) this.activity).get(PayeeViewModel.class);
-            this.tagViewModel = new ViewModelProvider((ViewModelStoreOwner) this.activity).get(TagViewModel.class);
 
             this.routineNameTextInput = view.findViewById(R.id.routine_name_TextInput);
             this.routineImportTextInput = view.findViewById(R.id.routine_import_TextInput);
             this.walletChipGroup = view.findViewById(R.id.new_routine_wallet_chip_group);
             this.categoryChipGroup = view.findViewById(R.id.new_routine_category_chip_group);
             this.payeeChipGroup = view.findViewById(R.id.new_routine_payee_chip_group);
-            this.tagChipGroup = view.findViewById(R.id.new_routine_tag_chip_group);
             this.dateStartTextView = view.findViewById(R.id.routine_start_date);
             this.calendarButton = view.findViewById(R.id.new_routine_calendar);
             this.timesTextView = view.findViewById(R.id.routine_repeat_number_autocomplete);
             this.intervalTextView = view.findViewById(R.id.routine_repeat_interval_autocomplete);
             this.addCategoryButton = view.findViewById(R.id.new_routine_add_category);
             this.addPayeeButton = view.findViewById(R.id.new_routine_add_payee);
-            this.addTagButton = view.findViewById(R.id.new_routine_add_tag);
             this.saveButton = view.findViewById(R.id.new_routine_save_button);
             this.cancelButton = view.findViewById(R.id.new_routine_cancel_button);
 
@@ -133,12 +126,12 @@ public class NewRoutineFragment extends Fragment {
         String times = this.timesTextView.getText().toString();
         String interval = this.intervalTextView.getText().toString().replace("(s)", "");
 
-        dataOk = Utilities.checkDataValid(routineName, routineImport, this.selectedWallet, this.selectedCategory, this.selectedPayee, this.selectedTags.get(0), this.dateSelected, times, interval);
+        dataOk = Utilities.checkDataValid(routineName, routineImport, this.selectedWallet, this.selectedCategory, this.selectedPayee, this.dateSelected, times, interval);
 
         if (dataOk) {
             this.routineViewModel.addRoutine(new Routine(routineName, Float.parseFloat(routineImport),
                     this.selectedPayee, this.walletViewModel.getWalletFromName(this.selectedWallet).getValue().getId(),
-                    this.selectedCategory, this.dateSelected, this.dateSelected, null, Integer.parseInt(times), interval), this.selectedTags);
+                    this.selectedCategory, this.dateSelected, this.dateSelected, null, Integer.parseInt(times), interval));
             Navigation.findNavController(view).navigate(R.id.action_newRoutineFragment_to_nav_routine);
         } else {
             Toast.makeText(getContext(), "All fields are required", Toast.LENGTH_LONG).show();
@@ -225,25 +218,6 @@ public class NewRoutineFragment extends Fragment {
             this.selectedPayee = chip.getText().toString();
         });
 
-        this.tagViewModel.getTagList().observe((LifecycleOwner) this.activity, tags -> {
-            this.tagChipGroup.removeAllViews();
-            for (Tag tag : tags) {
-                Chip chip = (Chip) getLayoutInflater().inflate(R.layout.chip_choice, this.tagChipGroup, false);
-                chip.setId(View.generateViewId());
-                chip.setText(tag.getName());
-                chip.setOnCheckedChangeListener((buttonView, isChecked) -> {
-                    if (isChecked) {
-                        this.selectedTags.add(chip.getText().toString());
-                        Log.e("Added", chip.getText().toString());
-                    } else {
-                        this.selectedTags.remove(chip.getText().toString());
-                        Log.e("Removed", chip.getText().toString());
-                    }
-                });
-                this.tagChipGroup.addView(chip);
-            }
-
-        });
 
     }
 
@@ -289,25 +263,6 @@ public class NewRoutineFragment extends Fragment {
             alertDialog.show();
         });
 
-        this.addTagButton.setOnClickListener(v -> {
-            View dialogView = this.getLayoutInflater().inflate(R.layout.dialog_add, null);
-            AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(activity).setView(dialogView);
-            EditText editText = (EditText) dialogView.findViewById(R.id.dialog_add_InputEditText);
-            TextInputLayout layout = dialogView.findViewById(R.id.dialog_add_TextInput);
-            layout.setHint("New tag name");
-            dialogBuilder.setMessage("Add a new tag\nRemember that an item must be unique!")
-                    .setCancelable(false) //Sets whether this dialog is cancelable with the BACK key.
-                    .setPositiveButton("Save", (dialog, id) -> {
-                        if (Utilities.checkDataValid(editText.getText().toString())) {
-                            tagViewModel.addTag(new Tag(editText.getText().toString()));
-                        } else {
-                            Toast.makeText(activity.getBaseContext(), "Insert a category name to create a new one", Toast.LENGTH_LONG).show();
-                        }
-                    })
-                    .setNegativeButton("Cancel", (dialog, id) -> dialog.cancel());
-            AlertDialog alertDialog = dialogBuilder.create();
-            alertDialog.show();
-        });
     }
 
     @Override
@@ -316,6 +271,5 @@ public class NewRoutineFragment extends Fragment {
         this.walletViewModel.getWalletList().removeObservers((LifecycleOwner) this.activity);
         this.categoryViewModel.getCategoryList().removeObservers((LifecycleOwner) this.activity);
         this.payeeViewModel.getPayeeList().removeObservers((LifecycleOwner) this.activity);
-        this.tagViewModel.getTagList().removeObservers((LifecycleOwner) this.activity);
     }
 }

@@ -42,11 +42,6 @@ public class RoutineViewModel extends AndroidViewModel {
         repository.addRoutine(routine);
     }
 
-    public void addRoutine(Routine routine, List<String> selectedTags) {
-        long id = repository.addRoutine(routine);
-        routineTagCrossRefRepository.addRoutineTags(selectedTags.stream().map(s -> new RoutineTagCrossRef((int) id, s)).toArray(RoutineTagCrossRef[]::new));
-    }
-
     public LiveData<List<Routine>> getRoutineList() {
         return routineList;
     }

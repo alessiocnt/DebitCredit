@@ -7,6 +7,7 @@
     android:layout_margin="16dp"
     app:cardCornerRadius="@dimen/cardview_default_radius"
     app:strokeColor="@color/material_on_surface_stroke"
+    android:backgroundTint="@color/rally_card_background"
     app:strokeWidth="1dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout

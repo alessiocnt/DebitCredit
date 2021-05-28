@@ -148,40 +148,6 @@
             app:selectionRequired="true"
             app:singleSelection="true" />
 
-
-        <TextView
-            android:id="@+id/tag_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:text="@string/tag"
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
-            android:textColor="@android:color/darker_gray"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/new_routine_payee_chip_group" />
-
-        <ImageButton
-            android:id="@+id/new_routine_add_tag"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:backgroundTint="@color/rally_green_500"
-            android:contentDescription="@string/add_tag"
-            android:src="@drawable/ic_plus_sign_24dp"
-            android:tint="@color/white"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/new_routine_payee_chip_group" />
-
-        <com.google.android.material.chip.ChipGroup
-            android:id="@+id/new_routine_tag_chip_group"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/new_routine_add_tag" />
-
-
         <View
             android:id="@+id/separator"
             android:layout_width="match_parent"
@@ -189,7 +155,7 @@
             android:layout_margin="10dp"
             android:background="@android:color/darker_gray"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/new_routine_tag_chip_group"
+            app:layout_constraintTop_toBottomOf="@id/new_routine_payee_chip_group"
             tools:layout_editor_absoluteX="10dp" />
 
         <TextView
