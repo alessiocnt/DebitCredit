@@ -447,7 +447,7 @@ public class NewExchangeTransactionFragment extends Fragment {
                     year.set(datePicker.getYear());
                     month.set(datePicker.getMonth());
                     day.set(datePicker.getDay());
-                    dateSelected = String.format("%04d%02d%02d", datePicker.getYear(), datePicker.getMonth(), datePicker.getDay());
+                    dateSelected = String.format("%04d%02d%02d", datePicker.getYear(), datePicker.getMonth() + 1, datePicker.getDay());
                     this.dateDisplay.setText(String.format("Date: %02d/%02d/%04d", datePicker.getDay(), datePicker.getMonth() + 1, datePicker.getYear()));
                 }
             });
