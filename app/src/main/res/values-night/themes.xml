@@ -6,7 +6,7 @@
         <item name="colorPrimaryVariant">@color/rally_dark_green_700</item>
         <item name="colorOnPrimary">@color/white</item>
         <!-- Secondary brand color. -->
-        <item name="colorSecondary">@color/rally_orange_300</item>
+        <item name="colorSecondary">@color/rally_green_500</item>
         <item name="colorSecondaryVariant">@color/rally_yellow_300</item>
         <item name="colorOnSecondary">@color/white</item>
         <!-- Status bar color. -->
@@ -17,11 +17,25 @@
         <item name="colorOnSurface">@color/white</item>
         <item name="backgroundStacked">#00000000</item>
         <item name="android:textColor">@color/white</item>
+        <item name="colorBackgroundFloating">
+            @color/rally_background
+        </item>
+        <item name="android:colorBackgroundFloating" tools:targetApi="23">
+            @color/rally_background
+        </item>
+        <item name="dialogCornerRadius">16dp</item>
+        <item name="android:textColorPrimary">@color/white</item>
+        <item name="android:textColorSecondary">@color/white</item>
+        <item name="android:dayOfWeekTextAppearance">@color/white</item>
     </style>
 
     <style name="Theme.DebitCredit.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="ColorSheet">
+        <item name="android:background">@color/rally_background</item>
     </style>
 
     <style name="CustomCard" parent="Widget.MaterialComponents.CardView">
@@ -30,5 +44,13 @@
 
     <style name="Theme.DebitCredit.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
-    <style name="Theme.DebitCredit.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+    <style name="Theme.DebitCredit.PopupOverlay" parent="ThemeOverlay.AppCompat.Dialog" />
+
+    <style name="CustomAlertDialog" parent="Theme.AppCompat.Light.Dialog">
+        <item name="android:backgroundTint">@color/rally_background</item>
+        <item name="android:textColor">@color/rally_orange_300</item>
+        <item name="android:textColorPrimary">@color/white</item>
+        <item name="dialogCornerRadius">16dp</item>
+    </style>
+
 </resources>
