@@ -2,6 +2,7 @@ package com.simoale.debitcredit.database;
 
 import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
+import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
@@ -49,5 +50,8 @@ public interface TransactionDAO {
             "WHERE (transaction_date BETWEEN :dateSelectedFrom AND :dateSelectedTo)" +
             "ORDER BY transaction_date, transaction_category_name")
     LiveData<List<Transaction>> getTransactionsFromPeriod(String dateSelectedFrom, String dateSelectedTo);
+
+    @Delete
+    void deleteTransaction(Transaction transaction);
 
 }

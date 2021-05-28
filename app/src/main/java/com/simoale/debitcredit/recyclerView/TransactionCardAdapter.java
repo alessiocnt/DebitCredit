@@ -1,16 +1,20 @@
 package com.simoale.debitcredit.recyclerView;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.lifecycle.ViewModelStoreOwner;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.simoale.debitcredit.R;
 import com.simoale.debitcredit.model.Transaction;
 import com.simoale.debitcredit.ui.transactions.TransactionCardViewHolder;
+import com.simoale.debitcredit.ui.transactions.TransactionViewModel;
 import com.simoale.debitcredit.utils.Utilities;
 
 import java.text.SimpleDateFormat;
@@ -24,12 +28,14 @@ public class TransactionCardAdapter extends RecyclerView.Adapter<TransactionCard
 
     private Activity activity;
     private OnItemListener listener;
+    private TransactionViewModel transactionViewModel;
     //list that contains all the element added by the user
     private List<Transaction> transactionList = new ArrayList<>();
 
     public TransactionCardAdapter(Activity activity, OnItemListener listener) {
         this.activity = activity;
         this.listener = listener;
+        this.transactionViewModel = new ViewModelProvider((ViewModelStoreOwner) activity).get(TransactionViewModel.class);
     }
 
     /**
@@ -55,6 +61,23 @@ public class TransactionCardAdapter extends RecyclerView.Adapter<TransactionCard
         holder.getDescription().setText(currentTransaction.getDescription());
         holder.getDate().setText(new SimpleDateFormat("dd/MM/yyyy").format(Utilities.getDateFromString(currentTransaction.getDate())));
         holder.getAmount().setText(String.format("%.2f€", currentTransaction.getAmount()));
+        holder.getMore().setOnClickListener(v -> {
+            new AlertDialog.Builder(activity)
+                    .setTitle("Delete")
+                    .setMessage("Are you sure you want to delete this transaction?")
+                    .setPositiveButton("Delete", (dialog1, which) -> {
+                        if (!transactionViewModel.deleteTransaction(currentTransaction)) {
+                            new AlertDialog.Builder(activity)
+                                    .setTitle("Error")
+                                    .setMessage("Cannot delete transaction")
+                                    .setPositiveButton("Ok", (dialog2, which1) -> dialog2.cancel())
+                                    .create().show();
+
+                        }
+                    })
+                    .setNegativeButton("Cancel", (dialog1, which) -> dialog1.cancel())
+                    .create().show();
+        });
     }
 
     @Override

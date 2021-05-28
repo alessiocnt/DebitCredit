@@ -11,6 +11,7 @@ import com.simoale.debitcredit.model.Transaction;
 
 import java.util.List;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicLong;
 
 public class TransactionRepository {
@@ -70,4 +71,26 @@ public class TransactionRepository {
     public LiveData<List<Transaction>> getTransactionList(String dateSelectedFrom, String dateSelectedTo) {
         return transactionDAO.getTransactionsFromPeriod(dateSelectedFrom, dateSelectedTo);
     }
+
+    public boolean deleteTransaction(Transaction transaction) {
+        AtomicBoolean ret = new AtomicBoolean(true);
+        DatabaseInstance.databaseWriteExecutor.execute(() -> {
+            try {
+                transactionDAO.deleteTransaction(transaction);
+            } catch (Exception e) {
+                ret.set(false);
+            }
+        });
+        try {
+            DatabaseInstance.databaseWriteExecutor.awaitTermination(100, TimeUnit.MILLISECONDS);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        if (ret.get()) {
+            this.walletRepository.updateBalance(transaction.getWalletIdFrom(), -transaction.getAmount());
+            this.budgetRepository.updateBalance(transaction.getCategoryName(), -transaction.getAmount());
+        }
+        return ret.get();
+    }
+
 }

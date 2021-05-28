@@ -76,6 +76,10 @@ public class TransactionViewModel extends AndroidViewModel {
     public LiveData<List<Transaction>> getTransactionList(String dateSelectedFrom, String dateSelectedTo) {
         return repository.getTransactionList(dateSelectedFrom, dateSelectedTo);
     }
+
+    public boolean deleteTransaction(Transaction transaction) {
+        return repository.deleteTransaction(transaction);
+    }
 }
 
 
