@@ -63,6 +63,10 @@ public class RoutineViewModel extends AndroidViewModel {
         return routineSelected;
     }
 
+    public boolean deleteRoutine(Routine routine) {
+        return repository.deleteRoutine(routine);
+    }
+
     public void update(List<Routine> routines) {
         ExecutorService executorService = Executors.newSingleThreadExecutor();
         executorService.execute(() -> {

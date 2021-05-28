@@ -10,6 +10,7 @@ import com.simoale.debitcredit.model.Routine;
 
 import java.util.List;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicLong;
 
 public class RoutineRepository {
@@ -40,5 +41,22 @@ public class RoutineRepository {
 
     public void updateRoutineDates(String lastUpdate, String nextUpdate, int id) {
         routineDAO.updateRoutineDates(lastUpdate, nextUpdate, id);
+    }
+
+    public boolean deleteRoutine(Routine routine) {
+        AtomicBoolean ret = new AtomicBoolean(true);
+        DatabaseInstance.databaseWriteExecutor.execute(() -> {
+            try {
+                routineDAO.deleteRoutine(routine);
+            } catch (Exception e) {
+                ret.set(false);
+            }
+        });
+        try {
+            DatabaseInstance.databaseWriteExecutor.awaitTermination(100, TimeUnit.MILLISECONDS);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        return ret.get();
     }
 }

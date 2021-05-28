@@ -1,16 +1,20 @@
 package com.simoale.debitcredit.recyclerView;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.lifecycle.ViewModelStoreOwner;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.simoale.debitcredit.R;
 import com.simoale.debitcredit.model.Routine;
 import com.simoale.debitcredit.ui.routine.RoutineCardViewHolder;
+import com.simoale.debitcredit.ui.routine.RoutineViewModel;
 import com.simoale.debitcredit.utils.Utilities;
 
 import java.text.SimpleDateFormat;
@@ -20,12 +24,14 @@ import java.util.List;
 public class RoutineCardAdapter extends RecyclerView.Adapter<RoutineCardViewHolder> {
     private Activity activity;
     private OnItemListener listener;
+    private RoutineViewModel routineViewModel;
     //list that contains all the element added by the user
     private List<Routine> routineList = new ArrayList<>();
 
     public RoutineCardAdapter(Activity activity, OnItemListener listener) {
         this.activity = activity;
         this.listener = listener;
+        this.routineViewModel = new ViewModelProvider((ViewModelStoreOwner) activity).get(RoutineViewModel.class);
     }
 
     /**
@@ -52,6 +58,22 @@ public class RoutineCardAdapter extends RecyclerView.Adapter<RoutineCardViewHold
         // TODO fix dates and intervals
         holder.getFrequency().setText(String.format("Repeat every: %s %s(s)", String.valueOf(currentRoutine.getRepeatNumber()), String.valueOf(currentRoutine.getRepeatInterval())));
         holder.getStartDate().setText(String.format("Starting from: %s", new SimpleDateFormat("dd/MM/yyyy").format(Utilities.getDateFromString(currentRoutine.getDate()))));
+        holder.getMore().setOnClickListener(v -> {
+            new AlertDialog.Builder(activity).setCancelable(false)
+                    .setTitle("Delete routine")
+                    .setMessage("Are you sure you want to delete this routine?")
+                    .setPositiveButton("Delete", (dialog, which) -> {
+                        if (!this.routineViewModel.deleteRoutine(currentRoutine)) {
+                            new AlertDialog.Builder(activity)
+                                    .setTitle("Error")
+                                    .setMessage("Cannot delete routine")
+                                    .setPositiveButton("Ok", (dialog1, which1) -> dialog1.cancel())
+                                    .create().show();
+                        }
+                    })
+                    .setNegativeButton("Cancel", (dialog, which) -> dialog.cancel())
+                    .create().show();
+        });
     }
 
     @Override

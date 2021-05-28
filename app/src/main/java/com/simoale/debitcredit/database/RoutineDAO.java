@@ -2,6 +2,7 @@ package com.simoale.debitcredit.database;
 
 import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
+import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
@@ -25,4 +26,7 @@ public interface RoutineDAO {
             "SET routine_last_update = :lastUpdate, routine_next_update = :nextUpdate " +
             "WHERE routine_id = :id")
     void updateRoutineDates(String lastUpdate, String nextUpdate, int id);
+
+    @Delete
+    void deleteRoutine(Routine routine);
 }
