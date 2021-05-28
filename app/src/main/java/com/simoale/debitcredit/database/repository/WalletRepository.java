@@ -3,11 +3,14 @@ package com.simoale.debitcredit.database.repository;
 import android.app.Application;
 
 import androidx.lifecycle.LiveData;
+
 import com.simoale.debitcredit.database.DatabaseInstance;
 import com.simoale.debitcredit.database.WalletDAO;
 import com.simoale.debitcredit.model.Wallet;
 
 import java.util.List;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class WalletRepository {
     private WalletDAO walletDAO;
@@ -19,7 +22,7 @@ public class WalletRepository {
         walletList = walletDAO.getWallets();
     }
 
-    public LiveData<List<Wallet>> getWalletList(){
+    public LiveData<List<Wallet>> getWalletList() {
         return walletList;
     }
 
@@ -39,5 +42,22 @@ public class WalletRepository {
                 walletDAO.updateBalance(walletId, amount);
             }
         });
+    }
+
+    public boolean deleteWallet(Wallet wallet) {
+        AtomicBoolean ret = new AtomicBoolean(true);
+        DatabaseInstance.databaseWriteExecutor.execute(() -> {
+            try {
+                walletDAO.deleteWallet(wallet);
+            } catch (Exception e) {
+                ret.set(false);
+            }
+        });
+        try {
+            DatabaseInstance.databaseWriteExecutor.awaitTermination(100, TimeUnit.MILLISECONDS);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        return ret.get();
     }
 }

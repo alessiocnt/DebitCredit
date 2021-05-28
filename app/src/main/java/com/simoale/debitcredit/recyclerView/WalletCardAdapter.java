@@ -1,16 +1,20 @@
 package com.simoale.debitcredit.recyclerView;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.lifecycle.ViewModelStoreOwner;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.simoale.debitcredit.R;
 import com.simoale.debitcredit.model.Wallet;
 import com.simoale.debitcredit.ui.wallet.WalletCardViewHolder;
+import com.simoale.debitcredit.ui.wallet.WalletViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,12 +26,14 @@ public class WalletCardAdapter extends RecyclerView.Adapter<WalletCardViewHolder
 
     private Activity activity;
     private OnItemListener listener;
+    private WalletViewModel walletViewModel;
     //list that contains all the element added by the user
     private List<Wallet> walletList = new ArrayList<>();
 
     public WalletCardAdapter(Activity activity, OnItemListener listener) {
         this.activity = activity;
         this.listener = listener;
+        this.walletViewModel = new ViewModelProvider((ViewModelStoreOwner) activity).get(WalletViewModel.class);
     }
 
     /**
@@ -54,6 +60,23 @@ public class WalletCardAdapter extends RecyclerView.Adapter<WalletCardViewHolder
         holder.getImage().getDrawable().setTint(Integer.parseInt(icon_color));
         holder.getName().setText(currentWallet.getName());
         holder.getBalance().setText(String.format("%.2f€", currentWallet.getBalance()));
+        holder.getMore().setOnClickListener(v -> {
+            new AlertDialog.Builder(activity)
+                    .setTitle("Delete")
+                    .setMessage("Are you sure you want to delete this wallet?")
+                    .setPositiveButton("Delete", (dialog1, which) -> {
+                        if (!walletViewModel.deleteWallet(currentWallet)) {
+                            new AlertDialog.Builder(activity)
+                                    .setTitle("Error")
+                                    .setMessage("Cannot delete wallet")
+                                    .setPositiveButton("Ok", (dialog2, which1) -> dialog2.cancel())
+                                    .create().show();
+
+                        }
+                    })
+                    .setNegativeButton("Cancel", (dialog1, which) -> dialog1.cancel())
+                    .create().show();
+        });
     }
 
     @Override

@@ -77,6 +77,10 @@ public class WalletViewModel extends AndroidViewModel {
         repository.updateBalance(walletId, amount);
     }
 
+    public boolean deleteWallet(Wallet wallet) {
+        return repository.deleteWallet(wallet);
+    }
+
 }
 
 
