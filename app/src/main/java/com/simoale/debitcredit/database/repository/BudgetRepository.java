@@ -7,11 +7,11 @@ import androidx.lifecycle.LiveData;
 
 import com.simoale.debitcredit.database.BudgetDAO;
 import com.simoale.debitcredit.database.DatabaseInstance;
-import com.simoale.debitcredit.database.WalletDAO;
 import com.simoale.debitcredit.model.Budget;
-import com.simoale.debitcredit.model.Wallet;
 
 import java.util.List;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class BudgetRepository {
     private BudgetDAO budgetDAO;
@@ -23,7 +23,7 @@ public class BudgetRepository {
         budgetList = budgetDAO.getBudgets();
     }
 
-    public LiveData<List<Budget>> getBudgetList(){
+    public LiveData<List<Budget>> getBudgetList() {
         return budgetList;
     }
 
@@ -45,9 +45,26 @@ public class BudgetRepository {
         DatabaseInstance.databaseWriteExecutor.execute(new Runnable() {
             @Override
             public void run() {
-                Log.e("adsfsdfgasdgadfgdasfg", ""+ categoryName + " " + amount);
+                Log.e("adsfsdfgasdgadfgdasfg", "" + categoryName + " " + amount);
                 budgetDAO.updateBalance(categoryName, amount);
             }
         });
+    }
+
+    public boolean deleteBudget(Budget budget) {
+        AtomicBoolean ret = new AtomicBoolean(true);
+        DatabaseInstance.databaseWriteExecutor.execute(() -> {
+            try {
+                budgetDAO.deleteBudget(budget);
+            } catch (Exception e) {
+                ret.set(false);
+            }
+        });
+        try {
+            DatabaseInstance.databaseWriteExecutor.awaitTermination(100, TimeUnit.MILLISECONDS);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        return ret.get();
     }
 }

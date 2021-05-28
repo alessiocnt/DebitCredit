@@ -2,6 +2,7 @@ package com.simoale.debitcredit.database;
 
 import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
+import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
@@ -31,4 +32,7 @@ public interface BudgetDAO {
             "SET budget_current_amount = budget_current_amount + :amount " +
             "WHERE budget_category_name = :categoryName")
     void updateBalance(String categoryName, float amount);
+
+    @Delete
+    void deleteBudget(Budget budget);
 }

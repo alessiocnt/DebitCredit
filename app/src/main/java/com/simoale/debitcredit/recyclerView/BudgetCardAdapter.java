@@ -1,6 +1,7 @@
 package com.simoale.debitcredit.recyclerView;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,12 +28,14 @@ public class BudgetCardAdapter extends RecyclerView.Adapter<BudgetCardViewHolder
 
     private Activity activity;
     private OnItemListener listener;
+    private BudgetViewModel budgetViewModel;
     //list that contains all the element added by the user
     private List<Budget> budgetList = new ArrayList<>();
 
     public BudgetCardAdapter(Activity activity, OnItemListener listener) {
         this.activity = activity;
         this.listener = listener;
+        this.budgetViewModel = new ViewModelProvider((ViewModelStoreOwner) activity).get(BudgetViewModel.class);
     }
 
     /**
@@ -53,12 +56,28 @@ public class BudgetCardAdapter extends RecyclerView.Adapter<BudgetCardViewHolder
      */
     @Override
     public void onBindViewHolder(@NonNull BudgetCardViewHolder holder, int position) {
-        BudgetViewModel budgetViewModel = new ViewModelProvider((ViewModelStoreOwner) activity).get(BudgetViewModel.class);
         Budget currentBudget = budgetList.get(position);
         holder.getName().setText(currentBudget.getName());
         holder.getRenovation().setText(String.format("Renovation date: %s", new SimpleDateFormat("dd/MM/yyyy").format(Utilities.getDateFromString(currentBudget.getDateNextUpdate()))));
         holder.getCategory().setText("Category: " + currentBudget.getCategoryName());
         holder.getBudget().setText(String.format("Leftover: %.2f€", currentBudget.getCurrentAmount()));
+        holder.getMore().setOnClickListener(v -> {
+            new AlertDialog.Builder(activity)
+                    .setTitle("Delete")
+                    .setMessage("Are you sure you want to delete this budget?")
+                    .setPositiveButton("Delete", (dialog1, which) -> {
+                        if (!budgetViewModel.deleteBudget(currentBudget)) {
+                            new AlertDialog.Builder(activity)
+                                    .setTitle("Error")
+                                    .setMessage("Cannot delete budget")
+                                    .setPositiveButton("Ok", (dialog2, which1) -> dialog2.cancel())
+                                    .create().show();
+
+                        }
+                    })
+                    .setNegativeButton("Cancel", (dialog1, which) -> dialog1.cancel())
+                    .create().show();
+        });
     }
 
     @Override

@@ -1,7 +1,6 @@
 package com.simoale.debitcredit.ui.budget;
 
 import android.app.Application;
-import android.util.Log;
 import android.util.Pair;
 
 import androidx.lifecycle.AndroidViewModel;
@@ -57,6 +56,10 @@ public class BudgetViewModel extends AndroidViewModel {
 
     public LiveData<Budget> getSelected() {
         return budgetSelected;
+    }
+
+    public boolean deleteBudget(Budget budget) {
+        return repository.deleteBudget(budget);
     }
 
     public void update(List<Budget> budgets) {
