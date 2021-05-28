@@ -253,6 +253,8 @@ public class NewRoutineFragment extends Fragment {
             View dialogView = this.getLayoutInflater().inflate(R.layout.dialog_add, null);
             AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(activity).setView(dialogView);
             EditText editText = (EditText) dialogView.findViewById(R.id.dialog_add_InputEditText);
+            TextInputLayout layout = dialogView.findViewById(R.id.dialog_add_TextInput);
+            layout.setHint("New category name");
             dialogBuilder.setMessage("Add a new category\nRemember that an item must be unique!")
                     .setCancelable(false) //Sets whether this dialog is cancelable with the BACK key.
                     .setPositiveButton("Save", (dialog, id) -> {
@@ -271,6 +273,8 @@ public class NewRoutineFragment extends Fragment {
             View dialogView = this.getLayoutInflater().inflate(R.layout.dialog_add, null);
             AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(activity).setView(dialogView);
             EditText editText = (EditText) dialogView.findViewById(R.id.dialog_add_InputEditText);
+            TextInputLayout layout = dialogView.findViewById(R.id.dialog_add_TextInput);
+            layout.setHint("New payee name");
             dialogBuilder.setMessage("Add a new payee\nRemember that an item must be unique!")
                     .setCancelable(false) //Sets whether this dialog is cancelable with the BACK key.
                     .setPositiveButton("Save", (dialog, id) -> {
@@ -289,6 +293,8 @@ public class NewRoutineFragment extends Fragment {
             View dialogView = this.getLayoutInflater().inflate(R.layout.dialog_add, null);
             AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(activity).setView(dialogView);
             EditText editText = (EditText) dialogView.findViewById(R.id.dialog_add_InputEditText);
+            TextInputLayout layout = dialogView.findViewById(R.id.dialog_add_TextInput);
+            layout.setHint("New tag name");
             dialogBuilder.setMessage("Add a new tag\nRemember that an item must be unique!")
                     .setCancelable(false) //Sets whether this dialog is cancelable with the BACK key.
                     .setPositiveButton("Save", (dialog, id) -> {

@@ -48,7 +48,7 @@ public class CategoryCardAdapter extends RecyclerView.Adapter<EditCategoryCardVi
         holder.getCategoryName().setText(category.getName());
         holder.getMore().setOnClickListener(v -> {
             View dialogView = this.activity.getLayoutInflater().inflate(R.layout.dialog_add, null);
-            AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(activity).setView(dialogView);
+            AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(activity, R.style.CustomAlertDialog).setView(dialogView);
             EditText editText = (EditText) dialogView.findViewById(R.id.dialog_add_InputEditText);
             editText.setText(category.getName());
             TextInputLayout layout = dialogView.findViewById(R.id.dialog_add_TextInput);

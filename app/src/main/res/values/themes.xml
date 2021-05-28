@@ -23,6 +23,10 @@
         <item name="android:colorBackgroundFloating" tools:targetApi="23">
             @color/rally_background
         </item>
+        <item name="dialogCornerRadius">16dp</item>
+        <item name="android:textColorPrimary">@color/white</item>
+        <item name="android:textColorSecondary">@color/white</item>
+        <item name="android:dayOfWeekTextAppearance">@color/white</item>
     </style>
 
     <style name="Theme.DebitCredit.NoActionBar">
@@ -48,4 +52,5 @@
         <item name="android:textColorPrimary">@color/white</item>
         <item name="dialogCornerRadius">16dp</item>
     </style>
+
 </resources>
