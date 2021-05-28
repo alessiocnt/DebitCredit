@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="16dp"
+    android:backgroundTint="@color/rally_card_background"
     app:cardCornerRadius="@dimen/cardview_default_radius"
     app:strokeColor="@color/material_on_surface_stroke"
     app:strokeWidth="1dp">
