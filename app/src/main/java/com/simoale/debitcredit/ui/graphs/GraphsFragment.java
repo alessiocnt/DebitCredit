@@ -233,6 +233,7 @@ public class GraphsFragment extends Fragment {
         AnyChartView lineChartView = view.findViewById(R.id.line_chart);
         lineChartView.setProgressBar(view.findViewById(R.id.line_chart_progress_bar));
         APIlib.getInstance().setActiveAnyChartView(lineChartView);
+        //lineChartView.clear();
         // Prepare data
         HashSet<String> categorySet = new HashSet<>();
         // Retrive Wallet ID's from names (selected)

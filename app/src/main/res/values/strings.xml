@@ -70,4 +70,6 @@
     <string name="wallet_from">Wallet from</string>
     <string name="wallet_to">Wallet to</string>
     <string name="repeat_every">Repeat every</string>
+    <string name="select_date_from">Select date from</string>
+    <string name="select_date_to">Select date to</string>
 </resources>

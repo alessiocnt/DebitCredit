@@ -53,21 +53,6 @@ public class HomeFragment extends Fragment implements OnItemListener {
         homeViewModel =
                 new ViewModelProvider(this).get(HomeViewModel.class);
         this.view = inflater.inflate(R.layout.fragment_home, container, false);
-/*
-        AnyChartView gaugeChartView = view.findViewById(R.id.home_budget_chart);
-        gaugeChartView.setProgressBar(view.findViewById(R.id.home_budget_progress_bar));
-        APIlib.getInstance().setActiveAnyChartView(gaugeChartView);
-
-        Map<String, Integer> lineData = new HashMap<>();
-        lineData.put("Primo", 90);
-        lineData.put("Secondo", 15);
-        lineData.put("Terzo", 90);
-        lineData.put("Quarto", 15);
-        lineData.put("Quinto", 90);
-
-        Chart circularGauge = new CircularGaugeChart(gaugeChartView, lineData, "Your current budgets status");
-        circularGauge.instantiateChart();*/
-       // this.updateDbData(activity);
         return this.view;
     }
 
@@ -84,20 +69,10 @@ public class HomeFragment extends Fragment implements OnItemListener {
             setRecyclerView(activity);
             walletViewModel = new ViewModelProvider((ViewModelStoreOwner) activity).get(WalletViewModel.class);
             //when the list of the wallets changed, the adapter gets the new list.
-            walletViewModel.getWalletList().observe((LifecycleOwner) activity, new Observer<List<Wallet>>() {
-                @Override
-                public void onChanged(List<Wallet> wallets) {
-                    walletAdapter.setData(wallets);
-                }
-            });
+            walletViewModel.getWalletList().observe((LifecycleOwner) activity, wallets -> walletAdapter.setData(wallets));
             this.updateDbData(activity);
             FloatingActionButton fab = view.findViewById(R.id.fab_add);
-            fab.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Navigation.findNavController(view).navigate(R.id.action_nav_home_to_newTransactionTabFragment);
-                }
-            });
+            fab.setOnClickListener(v -> Navigation.findNavController(v).navigate(R.id.action_nav_home_to_newTransactionTabFragment));
         } else {
             Log.e(LOG, "Activity is null");
         }
