@@ -44,6 +44,7 @@ public class HomeFragment extends Fragment implements OnItemListener {
     private WalletCardAdapter walletAdapter;
     private WalletViewModel walletViewModel;
     private RecyclerView recyclerView;
+    AnyChartView gaugeChartView;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -64,6 +65,7 @@ public class HomeFragment extends Fragment implements OnItemListener {
 
         if (activity != null) {
             setRecyclerView(activity);
+            gaugeChartView = view.findViewById(R.id.home_budget_chart);
             walletViewModel = new ViewModelProvider((ViewModelStoreOwner) activity).get(WalletViewModel.class);
             //when the list of the wallets changed, the adapter gets the new list.
             walletViewModel.getWalletList().observe((LifecycleOwner) activity, wallets -> walletAdapter.setData(wallets));
@@ -85,7 +87,6 @@ public class HomeFragment extends Fragment implements OnItemListener {
     }
 
     private void generateChart(Map<String, Integer> budgetLeftover) {
-        AnyChartView gaugeChartView = view.findViewById(R.id.home_budget_chart);
         gaugeChartView.setProgressBar(view.findViewById(R.id.home_budget_progress_bar));
         APIlib.getInstance().setActiveAnyChartView(gaugeChartView);
         Chart circularGauge = new CircularGaugeChart(gaugeChartView, budgetLeftover, "Your current budgets status");
@@ -106,15 +107,13 @@ public class HomeFragment extends Fragment implements OnItemListener {
         budgetViewModel.getBudgetList().observe((LifecycleOwner) activity, budgets -> {
             // Update budgets if needed
             budgetViewModel.update(budgets);
+            gaugeChartView.setVisibility(budgets.size() == 0 ? View.INVISIBLE : View.VISIBLE);
             // Retrive data from viewModel for budget's leftover
             budgetViewModel.calculateBudgetsLeftover(budgets).observe((LifecycleOwner) activity, budgetLeftover -> {
-                Log.e("budg", budgets.size() + "");
-                Log.e("leftover", budgetLeftover.values().size() + "");
                 if (budgetLeftover.values().size() != 0) {
                     generateChart(budgetLeftover);
                 }
             });
-            //budgetViewModel.getBudgetList().removeObservers((LifecycleOwner) activity);
         });
 
         RoutineViewModel routineViewModel = new ViewModelProvider((ViewModelStoreOwner) activity).get(RoutineViewModel.class);

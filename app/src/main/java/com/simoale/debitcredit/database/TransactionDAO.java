@@ -41,7 +41,8 @@ public interface TransactionDAO {
     @Query("SELECT sum(transaction_amount) " +
             "from `transaction` " +
             "where transaction_category_name = :budgetCategoryName " +
-            "and transaction_date >= :lastBudgetUpdate " +
+            "AND transaction_date >= :lastBudgetUpdate " +
+            "AND transaction_amount < 0 " +
             "GROUP BY transaction_category_name")
     Integer getBudgetSpent(String budgetCategoryName, String lastBudgetUpdate);
 
