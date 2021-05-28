@@ -26,13 +26,16 @@
                 app:errorEnabled="true"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
+                app:layout_constraintTop_toTopOf="parent"
+
+                >
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/wallet_name_InputEditText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:imeOptions="flagNoExtractUi" />
+                    android:singleLine="true"
+                    android:imeOptions="actionDone" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -42,18 +45,19 @@
                 android:layout_height="65dp"
                 android:layout_margin="10dp"
                 android:hint="@string/initial_amount"
-                android:inputType="numberDecimal"
                 app:endIconMode="clear_text"
                 app:errorEnabled="true"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
+                app:prefixText="€"
                 app:layout_constraintTop_toBottomOf="@+id/wallet_name_TextInput">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/wallet_initial_value_TextInputEditText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:imeOptions="flagNoExtractUi" />
+                    android:inputType="numberDecimal"
+                    android:imeOptions="actionDone" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -75,7 +79,8 @@
                     android:id="@+id/wallet_description_TextInputEditText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:imeOptions="flagNoExtractUi" />
+                    android:singleLine="true"
+                    android:imeOptions="actionDone" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
