@@ -41,4 +41,10 @@
     <style name="Theme.DebitCredit.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="Theme.DebitCredit.PopupOverlay" parent="ThemeOverlay.AppCompat.Dialog" />
+
+    <style name="CustomAlertDialog" parent="Theme.AppCompat.Light.Dialog">
+        <item name="android:backgroundTint">@color/rally_background</item>
+        <item name="android:textColor">@color/rally_orange_300</item>
+        <item name="android:textColorPrimary">@color/white</item>
+    </style>
 </resources>

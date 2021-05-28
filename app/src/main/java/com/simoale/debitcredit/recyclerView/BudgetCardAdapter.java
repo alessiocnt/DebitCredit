@@ -62,12 +62,12 @@ public class BudgetCardAdapter extends RecyclerView.Adapter<BudgetCardViewHolder
         holder.getCategory().setText("Category: " + currentBudget.getCategoryName());
         holder.getBudget().setText(String.format("Leftover: %.2f€", currentBudget.getCurrentAmount()));
         holder.getMore().setOnClickListener(v -> {
-            new AlertDialog.Builder(activity)
+            new AlertDialog.Builder(activity, R.style.CustomAlertDialog)
                     .setTitle("Delete")
                     .setMessage("Are you sure you want to delete this budget?")
                     .setPositiveButton("Delete", (dialog1, which) -> {
                         if (!budgetViewModel.deleteBudget(currentBudget)) {
-                            new AlertDialog.Builder(activity)
+                            new AlertDialog.Builder(activity, R.style.CustomAlertDialog)
                                     .setTitle("Error")
                                     .setMessage("Cannot delete budget")
                                     .setPositiveButton("Ok", (dialog2, which1) -> dialog2.cancel())

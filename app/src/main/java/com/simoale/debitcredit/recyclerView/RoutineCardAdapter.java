@@ -59,12 +59,12 @@ public class RoutineCardAdapter extends RecyclerView.Adapter<RoutineCardViewHold
         holder.getFrequency().setText(String.format("Repeat every: %s %s(s)", String.valueOf(currentRoutine.getRepeatNumber()), String.valueOf(currentRoutine.getRepeatInterval())));
         holder.getStartDate().setText(String.format("Starting from: %s", new SimpleDateFormat("dd/MM/yyyy").format(Utilities.getDateFromString(currentRoutine.getDate()))));
         holder.getMore().setOnClickListener(v -> {
-            new AlertDialog.Builder(activity).setCancelable(false)
+            new AlertDialog.Builder(activity, R.style.CustomAlertDialog).setCancelable(false)
                     .setTitle("Delete routine")
                     .setMessage("Are you sure you want to delete this routine?")
                     .setPositiveButton("Delete", (dialog, which) -> {
                         if (!this.routineViewModel.deleteRoutine(currentRoutine)) {
-                            new AlertDialog.Builder(activity)
+                            new AlertDialog.Builder(activity, R.style.CustomAlertDialog)
                                     .setTitle("Error")
                                     .setMessage("Cannot delete routine")
                                     .setPositiveButton("Ok", (dialog1, which1) -> dialog1.cancel())

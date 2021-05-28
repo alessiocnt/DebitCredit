@@ -61,12 +61,12 @@ public class WalletCardAdapter extends RecyclerView.Adapter<WalletCardViewHolder
         holder.getName().setText(currentWallet.getName());
         holder.getBalance().setText(String.format("%.2f€", currentWallet.getBalance()));
         holder.getMore().setOnClickListener(v -> {
-            new AlertDialog.Builder(activity)
+            new AlertDialog.Builder(activity, R.style.CustomAlertDialog)
                     .setTitle("Delete")
                     .setMessage("Are you sure you want to delete this wallet?")
                     .setPositiveButton("Delete", (dialog1, which) -> {
                         if (!walletViewModel.deleteWallet(currentWallet)) {
-                            new AlertDialog.Builder(activity)
+                            new AlertDialog.Builder(activity, R.style.CustomAlertDialog)
                                     .setTitle("Error")
                                     .setMessage("Cannot delete wallet")
                                     .setPositiveButton("Ok", (dialog2, which1) -> dialog2.cancel())

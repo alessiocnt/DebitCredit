@@ -65,13 +65,13 @@ public class PayeeCardAdapter extends RecyclerView.Adapter<EditTagCardViewHolder
                     })
                     .setNegativeButton("Cancel", (dialog, id) -> dialog.cancel())
                     .setNeutralButton("Delete", (dialog, id) -> {
-                        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(activity);
+                        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(activity, R.style.CustomAlertDialog);
                         alertDialogBuilder.setCancelable(false)
                                 .setTitle("Delete")
                                 .setMessage("Are you sure you want to delete this category?")
                                 .setPositiveButton("Delete", (dialog1, which) -> {
                                     if (!payeeViewModel.deletePayee(payee)) {
-                                        new AlertDialog.Builder(activity)
+                                        new AlertDialog.Builder(activity, R.style.CustomAlertDialog)
                                                 .setTitle("Error")
                                                 .setMessage("Cannot delete payee")
                                                 .setPositiveButton("Ok", (dialog2, which1) -> dialog2.cancel())

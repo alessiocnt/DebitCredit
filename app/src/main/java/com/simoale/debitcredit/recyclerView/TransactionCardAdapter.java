@@ -62,12 +62,12 @@ public class TransactionCardAdapter extends RecyclerView.Adapter<TransactionCard
         holder.getDate().setText(new SimpleDateFormat("dd/MM/yyyy").format(Utilities.getDateFromString(currentTransaction.getDate())));
         holder.getAmount().setText(String.format("%.2f€", currentTransaction.getAmount()));
         holder.getMore().setOnClickListener(v -> {
-            new AlertDialog.Builder(activity)
+            new AlertDialog.Builder(activity, R.style.CustomAlertDialog)
                     .setTitle("Delete")
                     .setMessage("Are you sure you want to delete this transaction?")
                     .setPositiveButton("Delete", (dialog1, which) -> {
                         if (!transactionViewModel.deleteTransaction(currentTransaction)) {
-                            new AlertDialog.Builder(activity)
+                            new AlertDialog.Builder(activity, R.style.CustomAlertDialog)
                                     .setTitle("Error")
                                     .setMessage("Cannot delete transaction")
                                     .setPositiveButton("Ok", (dialog2, which1) -> dialog2.cancel())
