@@ -6,7 +6,7 @@
         <item name="colorPrimaryVariant">@color/rally_dark_green_700</item>
         <item name="colorOnPrimary">@color/white</item>
         <!-- Secondary brand color. -->
-        <item name="colorSecondary">@color/rally_orange_300</item>
+        <item name="colorSecondary">@color/rally_green_500</item>
         <item name="colorSecondaryVariant">@color/rally_yellow_300</item>
         <item name="colorOnSecondary">@color/white</item>
         <!-- Status bar color. -->
@@ -40,5 +40,5 @@
 
     <style name="Theme.DebitCredit.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
-    <style name="Theme.DebitCredit.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+    <style name="Theme.DebitCredit.PopupOverlay" parent="ThemeOverlay.AppCompat.Dialog" />
 </resources>
