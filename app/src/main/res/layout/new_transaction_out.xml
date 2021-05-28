@@ -74,6 +74,8 @@
                 android:layout_margin="10dp"
                 android:contentDescription="@string/add_category"
                 android:src="@drawable/ic_plus_sign_24dp"
+                android:backgroundTint="@color/rally_green_500"
+                android:tint="@color/white"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/transaction_out_description_TextInput" />
 
@@ -85,10 +87,9 @@
                 android:layout_marginRight="10dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/category_text"
+                app:layout_constraintTop_toBottomOf="@+id/transaction_out_add_category"
                 app:selectionRequired="true"
                 app:singleSelection="true" />
-
 
             <TextView
                 android:id="@+id/payee_text"
@@ -108,6 +109,8 @@
                 android:layout_margin="10dp"
                 android:contentDescription="@string/add_payee"
                 android:src="@drawable/ic_plus_sign_24dp"
+                android:backgroundTint="@color/rally_green_500"
+                android:tint="@color/white"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/transaction_out_category_chip_group" />
 
@@ -118,7 +121,7 @@
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/payee_text"
+                app:layout_constraintTop_toBottomOf="@+id/transaction_out_add_payee"
                 app:selectionRequired="true"
                 app:singleSelection="true"></com.google.android.material.chip.ChipGroup>
 
@@ -137,10 +140,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
-                android:backgroundTint="@color/rally_background"
                 android:contentDescription="calendar_picker"
-                android:padding="0dp"
                 android:src="@drawable/ic_calendar_24dp"
+                android:backgroundTint="@color/rally_green_500"
+                android:tint="@color/white"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/transaction_out_payee_chip_group" />
 
@@ -185,6 +188,8 @@
                 android:layout_margin="10dp"
                 android:contentDescription="@string/add_tag"
                 android:src="@drawable/ic_plus_sign_24dp"
+                android:backgroundTint="@color/rally_green_500"
+                android:tint="@color/white"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/transaction_out_wallet_chip_group" />
 
@@ -195,7 +200,7 @@
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tag_text"></com.google.android.material.chip.ChipGroup>
+                app:layout_constraintTop_toBottomOf="@+id/transaction_out_add_tag"></com.google.android.material.chip.ChipGroup>
 
             <TextView
                 android:id="@+id/extra"
@@ -275,7 +280,7 @@
                 android:layout_width="0dp"
                 android:layout_height="150dp"
                 android:layout_margin="10dp"
-                android:background="@color/purple_500"
+                android:background="@color/rally_green_500"
                 android:contentDescription="@string/image_taken"
                 android:src="@drawable/ic_menu_gallery"
                 app:layout_constraintEnd_toEndOf="parent"

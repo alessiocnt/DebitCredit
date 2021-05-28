@@ -122,6 +122,8 @@ android:layout_height="match_parent">
             android:layout_margin="10dp"
             android:contentDescription="@string/add_category"
             android:src="@drawable/ic_plus_sign_24dp"
+            android:backgroundTint="@color/rally_green_500"
+            android:tint="@color/white"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/transaction_exchange_description_TextInput" />
 
@@ -132,7 +134,7 @@ android:layout_height="match_parent">
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/category_text"
+            app:layout_constraintTop_toBottomOf="@+id/transaction_exchange_add_category"
             app:selectionRequired="true"
             app:singleSelection="true"/>
 
@@ -154,6 +156,8 @@ android:layout_height="match_parent">
             android:layout_margin="10dp"
             android:contentDescription="@string/add_payee"
             android:src="@drawable/ic_plus_sign_24dp"
+            android:backgroundTint="@color/rally_green_500"
+            android:tint="@color/white"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/transaction_exchange_category_chip_group" />
 
@@ -164,7 +168,7 @@ android:layout_height="match_parent">
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/payee_text"
+            app:layout_constraintTop_toBottomOf="@+id/transaction_exchange_add_payee"
             app:selectionRequired="true"
             app:singleSelection="true"/>
 
@@ -185,6 +189,8 @@ android:layout_height="match_parent">
             android:layout_margin="10dp"
             android:contentDescription="calendar_picker"
             android:src="@drawable/ic_calendar_24dp"
+            android:backgroundTint="@color/rally_green_500"
+            android:tint="@color/white"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/transaction_exchange_payee_chip_group" />
 
@@ -197,7 +203,7 @@ android:layout_height="match_parent">
             android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
             android:textColor="@android:color/darker_gray"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/transaction_exchange_date_display" />
+            app:layout_constraintTop_toBottomOf="@+id/transaction_exchange_calendar" />
 
         <com.google.android.material.chip.ChipGroup
             android:id="@+id/transaction_exchange_tag_chip_group"
@@ -215,8 +221,10 @@ android:layout_height="match_parent">
             android:layout_margin="10dp"
             android:contentDescription="@string/add_payee"
             android:src="@drawable/ic_plus_sign_24dp"
+            android:backgroundTint="@color/rally_green_500"
+            android:tint="@color/white"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/transaction_exchange_date_display" />
+            app:layout_constraintTop_toBottomOf="@id/transaction_exchange_calendar" />
 
         <TextView
             android:id="@+id/extra"
@@ -227,7 +235,7 @@ android:layout_height="match_parent">
             android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
             android:textColor="@android:color/darker_gray"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/transaction_exchange_tag_chip_group" />
+            app:layout_constraintTop_toBottomOf="@id/transaction_exchange_add_tag" />
 
         <View
             android:id="@+id/separator"
@@ -296,7 +304,7 @@ android:layout_height="match_parent">
             android:layout_width="0dp"
             android:layout_height="150dp"
             android:layout_margin="10dp"
-            android:background="@color/purple_500"
+            android:background="@color/rally_green_500"
             android:contentDescription="@string/image_taken"
             android:src="@drawable/ic_menu_gallery"
             app:layout_constraintEnd_toEndOf="parent"
