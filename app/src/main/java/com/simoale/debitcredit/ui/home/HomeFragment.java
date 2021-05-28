@@ -12,7 +12,6 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.LifecycleOwner;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelStoreOwner;
 import androidx.navigation.Navigation;
@@ -22,7 +21,6 @@ import com.anychart.APIlib;
 import com.anychart.AnyChartView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.simoale.debitcredit.R;
-import com.simoale.debitcredit.model.Wallet;
 import com.simoale.debitcredit.recyclerView.OnItemListener;
 import com.simoale.debitcredit.recyclerView.WalletCardAdapter;
 import com.simoale.debitcredit.ui.budget.BudgetViewModel;
@@ -31,7 +29,6 @@ import com.simoale.debitcredit.ui.graphs.CircularGaugeChart;
 import com.simoale.debitcredit.ui.routine.RoutineViewModel;
 import com.simoale.debitcredit.ui.wallet.WalletViewModel;
 
-import java.util.List;
 import java.util.Map;
 
 public class HomeFragment extends Fragment implements OnItemListener {

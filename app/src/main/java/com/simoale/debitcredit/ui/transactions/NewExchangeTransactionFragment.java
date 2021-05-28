@@ -243,7 +243,10 @@ public class NewExchangeTransactionFragment extends Fragment {
         transactionViewModel.getBitmap().observe(getViewLifecycleOwner(), new Observer<Bitmap>() {
             @Override
             public void onChanged(Bitmap bitmap) {
-                imageView.setImageBitmap(bitmap);
+                if (bitmap != null) {
+                    imageView.setImageBitmap(bitmap);
+                }
+                transactionViewModel.getBitmap().removeObservers(getViewLifecycleOwner());
             }
         });
     }

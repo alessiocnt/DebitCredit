@@ -21,7 +21,6 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
@@ -239,7 +238,10 @@ public class NewTransactionFragmentIn extends Fragment {
         transactionViewModel.getBitmap().observe(getViewLifecycleOwner(), new Observer<Bitmap>() {
             @Override
             public void onChanged(Bitmap bitmap) {
-                imageView.setImageBitmap(bitmap);
+                if (bitmap != null) {
+                    imageView.setImageBitmap(bitmap);
+                }
+                transactionViewModel.getBitmap().removeObservers(getViewLifecycleOwner());
             }
         });
     }

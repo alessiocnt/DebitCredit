@@ -47,7 +47,7 @@ public interface TransactionDAO {
     @androidx.room.Transaction
     @Query("SELECT * from `transaction` " +
             "WHERE (transaction_date BETWEEN :dateSelectedFrom AND :dateSelectedTo)" +
-            "ORDER BY transaction_category_name, transaction_date")
+            "ORDER BY transaction_date, transaction_category_name")
     LiveData<List<Transaction>> getTransactionsFromPeriod(String dateSelectedFrom, String dateSelectedTo);
 
 }
