@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <adaptive-icon xmlns:android="http://schemas.android.com/apk/res/android">
     <background android:drawable="@color/rally_green_500" />
-    <foreground android:drawable="@drawable/ic_baseline_paid_128" />
+    <foreground
+        android:width="72px"
+        android:height="72px"
+        android:drawable="@drawable/ic_baseline_paid_128" />
 </adaptive-icon>
