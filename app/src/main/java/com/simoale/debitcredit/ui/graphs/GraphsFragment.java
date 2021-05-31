@@ -63,7 +63,6 @@ public class GraphsFragment extends Fragment {
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        // graphsViewModel = new ViewModelProvider(this).get(GraphsViewModel.class);
         this.view = inflater.inflate(R.layout.fragment_graphs, container, false);
         return this.view;
     }

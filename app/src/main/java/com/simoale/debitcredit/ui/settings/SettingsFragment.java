@@ -15,8 +15,6 @@ import com.simoale.debitcredit.R;
 
 public class SettingsFragment extends Fragment {
 
-    private SettingsViewModel settingsViewModel;
-
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 

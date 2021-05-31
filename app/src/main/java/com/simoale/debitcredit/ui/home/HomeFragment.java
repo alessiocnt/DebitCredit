@@ -35,7 +35,6 @@ public class HomeFragment extends Fragment implements OnItemListener {
 
     private static final String LOG = "Home-Fragment_SIMOALE";
 
-    private HomeViewModel homeViewModel;
     private View view;
     private Activity activity;
 
@@ -48,8 +47,7 @@ public class HomeFragment extends Fragment implements OnItemListener {
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        homeViewModel =
-                new ViewModelProvider(this).get(HomeViewModel.class);
+
         this.view = inflater.inflate(R.layout.fragment_home, container, false);
         return this.view;
     }
