@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -21,6 +22,7 @@ public class LoginActivity extends AppCompatActivity {
 
     private TextInputLayout passwordTextInput;
     private Button loginButton;
+    private ImageButton buttonFingerprint;
 
     private Executor executor;
     private BiometricPrompt biometricPrompt;
@@ -35,6 +37,7 @@ public class LoginActivity extends AppCompatActivity {
 
         this.passwordTextInput = findViewById(R.id.login_password_textInput);
         this.loginButton = findViewById(R.id.login_button);
+        this.buttonFingerprint = findViewById(R.id.button_fingerprint);
         SharedPreferences preferences = getSharedPreferences("pwd", MODE_PRIVATE);
         String password = preferences.getString("password", "-1");
         if (password.equals("-1")) {
@@ -63,9 +66,6 @@ public class LoginActivity extends AppCompatActivity {
                 public void onAuthenticationError(int errorCode,
                                                   @NonNull CharSequence errString) {
                     super.onAuthenticationError(errorCode, errString);
-                    Toast.makeText(getApplicationContext(),
-                            "Authentication error: " + errString, Toast.LENGTH_SHORT)
-                            .show();
                 }
 
                 @Override
@@ -88,9 +88,12 @@ public class LoginActivity extends AppCompatActivity {
             promptInfo = new BiometricPrompt.PromptInfo.Builder()
                     .setTitle("Biometric login for my app")
                     .setSubtitle("Log in using your biometric credential")
-                    .setNegativeButtonText("Use account password")
+                    .setNegativeButtonText("Use standard login")
                     .build();
             biometricPrompt.authenticate(promptInfo);
+            this.buttonFingerprint.setOnClickListener(v -> biometricPrompt.authenticate(promptInfo));
+        } else {
+            this.buttonFingerprint.setVisibility(View.INVISIBLE);
         }
     }
 

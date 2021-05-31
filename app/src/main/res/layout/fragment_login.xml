@@ -64,5 +64,17 @@
         app:layout_constraintStart_toStartOf="@+id/login_password_textInput"
         app:layout_constraintTop_toBottomOf="@+id/login_password_textInput" />
 
+    <ImageButton
+        android:id="@+id/button_fingerprint"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@color/rally_background"
+        android:src="@drawable/ic_baseline_fingerprint_96"
+        android:tint="@color/rally_green_500"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/login_button" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
