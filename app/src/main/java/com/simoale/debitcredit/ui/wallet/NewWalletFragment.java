@@ -65,7 +65,7 @@ public class NewWalletFragment extends Fragment {
                     this.walletViewModel.addWallet(new Wallet(walletName, walletDescription, Float.parseFloat(walletAmount), selectedColor.toString()));
                     Navigation.findNavController(v).navigate(R.id.action_new_wallet_to_nav_wallet);
                 } else {
-                    Toast.makeText(activity.getBaseContext(), "Every field must be filled", Toast.LENGTH_LONG).show();
+                    Toast.makeText(activity.getBaseContext(), "All fields are required", Toast.LENGTH_LONG).show();
                 }
             });
 

@@ -91,7 +91,7 @@ public class NewBudgetFragment extends Fragment {
                             categorySelected, Float.parseFloat(limit), dateSelected, dateSelected, dateNextUpdate, Integer.parseInt(number), interval, Float.parseFloat(limit)));
                     Navigation.findNavController(v).navigate(R.id.action_newBudgetFragment_to_nav_budget);
                 } else {
-                    Toast.makeText(activity.getBaseContext(), "Every field must be filled", Toast.LENGTH_LONG).show();
+                    Toast.makeText(activity.getBaseContext(), "All fields are required", Toast.LENGTH_LONG).show();
                 }
             });
             this.cancelBtn.setOnClickListener(v -> {

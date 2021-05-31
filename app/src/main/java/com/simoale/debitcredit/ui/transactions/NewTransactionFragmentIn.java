@@ -158,7 +158,7 @@ public class NewTransactionFragmentIn extends Fragment {
             saveBtn.setOnClickListener(v -> {
                 try {
                     // Retrive data
-                    Float amount = transactionType.getType() * Math.abs(Float.parseFloat(amountEditText.getEditText().getText().toString().replace(',', '.')));
+                    String amountString = amountEditText.getEditText().getText().toString();
                     String description = descriptionEditText.getEditText().getText().toString();
                     String location = locationText.getText().toString();
                     String note = noteEditText.getEditText().getText().toString();
@@ -173,13 +173,14 @@ public class NewTransactionFragmentIn extends Fragment {
                     }
                     // Insert data
                     Wallet currentWallet = walletViewModel.getWalletFromName(walletSelected).getValue();
-                    if (Utilities.checkDataValid(amount.toString(), categorySelected, dateSelected, walletSelected)) {
+                    if (Utilities.checkDataValid(amountString, categorySelected, dateSelected, walletSelected)) {
+                        Float amount = transactionType.getType() * Math.abs(Float.parseFloat(amountString.replace(',', '.')));
                         transactionViewModel.addTransaction(new Transaction(amount,
                                 description, categorySelected, payeeSelected, dateSelected, currentWallet.getId(), currentWallet.getId(), location, note, imageUriString), tagSelected);
 //                            walletViewModel.updateBalance(currentWallet.getId(), amount);
                         Navigation.findNavController(v).navigate(R.id.action_newTransactionTabFragment_to_nav_home);
                     } else {
-                        Toast.makeText(activity.getBaseContext(), "Every field must be filled", Toast.LENGTH_LONG).show();
+                        Toast.makeText(activity.getBaseContext(), "All fields are required", Toast.LENGTH_LONG).show();
                     }
                     transactionViewModel.setImageBitmpap(null);
                 } catch (IOException e) {
