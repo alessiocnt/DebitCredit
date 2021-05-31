@@ -74,19 +74,20 @@ public class NewWalletFragment extends Fragment {
             });
 
             Drawable walletDrawable = selectColorBtn.getCompoundDrawables()[1];
-            ColorSheet c = new ColorSheet().colorPicker(
-                    colors,
-                    selectedColor.get(),
-                    false,
-                    color -> {
-                        selectedColor.set(color);
-                        walletDrawable.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
-                        return null;
-                    }
 
-            );
-            c.setStyle(BottomSheetDialogFragment.STYLE_NORMAL, R.style.ColorSheet);
             this.selectColorBtn.setOnClickListener(v -> {
+                ColorSheet c = new ColorSheet().colorPicker(
+                        colors,
+                        selectedColor.get(),
+                        false,
+                        color -> {
+                            selectedColor.set(color);
+                            walletDrawable.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
+                            return null;
+                        }
+
+                );
+                c.setStyle(BottomSheetDialogFragment.STYLE_NORMAL, R.style.ColorSheet);
                 c.show(((AppCompatActivity) activity).getSupportFragmentManager());
             });
         }
