@@ -19,11 +19,12 @@
 
         <TextView
             android:id="@+id/routine_name"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
             android:text="@string/routine_name"
             android:textAppearance="?attr/textAppearanceHeadline4"
+            app:layout_constraintEnd_toStartOf="@+id/routine_more"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
