@@ -49,7 +49,7 @@ public class LoginActivity extends AppCompatActivity {
                 if (val.equals(password)) {
                     this.startActivity(new Intent(this, MainActivity.class));
                 } else {
-                    Toast.makeText(this, "Wrong password:" + password + "/", Toast.LENGTH_LONG);
+                    Toast.makeText(this, "Wrong password", Toast.LENGTH_LONG).show();
                 }
             });
         }
@@ -115,10 +115,10 @@ public class LoginActivity extends AppCompatActivity {
                     preferences.edit().putString("password", p1).apply();
                     this.startActivity(new Intent(this, MainActivity.class));
                 } else {
-                    Toast.makeText(this, "Password does not match", Toast.LENGTH_LONG);
+                    Toast.makeText(this, "Wrong password", Toast.LENGTH_LONG).show();
                 }
             } else {
-                Toast.makeText(this, "Password must be not empty", Toast.LENGTH_LONG);
+                Toast.makeText(this, "Password must be not empty", Toast.LENGTH_LONG).show();
             }
         });
     }
