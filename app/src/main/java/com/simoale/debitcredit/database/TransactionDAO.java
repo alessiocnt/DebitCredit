@@ -25,7 +25,8 @@ public interface TransactionDAO {
             "WHERE (:walletIdFrom IS NULL OR transaction_wallet_id_from = :walletIdFrom) " +
             "AND (:description IS NULL OR transaction_description LIKE :description)" +
             "AND (:dateFrom IS NULL OR :dateTo IS NULL OR transaction_date BETWEEN :dateFrom AND :dateTo)" +
-            "AND (:category IS NULL OR :category = 0 OR transaction_category_name = :category)")
+            "AND (:category IS NULL OR :category = 0 OR transaction_category_name = :category)" +
+            "ORDER BY transaction_date DESC")
     LiveData<List<Transaction>> getTransactions(int walletIdFrom, String description, String dateFrom, String dateTo, String category);
 
     @androidx.room.Transaction
@@ -34,7 +35,8 @@ public interface TransactionDAO {
             "AND (:description IS NULL OR transaction_description LIKE :description)" +
             "AND (:dateFrom IS NULL OR :dateTo IS NULL OR transaction_date BETWEEN :dateFrom AND :dateTo)" +
             "AND (:category IS NULL OR :category = 0 OR transaction_category_name = :category)" +
-            "AND transaction_tag.tag_name IN (:tags)")
+            "AND transaction_tag.tag_name IN (:tags)" +
+            "ORDER BY transaction_date DESC")
     LiveData<List<Transaction>> getTransactions(int walletIdFrom, String description, String dateFrom, String dateTo, String category, String[] tags);
 
     @androidx.room.Transaction
