@@ -23,7 +23,8 @@
 
     <include
         android:id="@+id/main_container"
-        layout="@layout/content_main" />
+        layout="@layout/content_main"
+        android:screenOrientation="portrait" />
 
     <!--    <com.google.android.material.floatingactionbutton.FloatingActionButton-->
     <!--        android:id="@+id/fab"-->
