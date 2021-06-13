@@ -34,7 +34,8 @@
         android:theme="@style/Theme.DebitCredit">
         <activity
             android:name=".LoginActivity"
-            android:noHistory="true">
+            android:noHistory="true"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -43,7 +44,8 @@
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name"
-            android:theme="@style/Theme.DebitCredit.NoActionBar" />
+            android:theme="@style/Theme.DebitCredit.NoActionBar"
+            android:screenOrientation="portrait"/>
     </application>
 
 </manifest>
