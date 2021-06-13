@@ -83,7 +83,7 @@ public class TransactionDetailsFragment extends Fragment {
             } else {
                 this.notesTextView.setText("Notes: NA");
             }
-            if (transaction.getLocation() != null && !transaction.getLocation().equals("Save location")) {
+            if (transaction.getLocation() != null && !transaction.getLocation().equals("Save location") && !transaction.getLocation().equals("null")) {
                 this.positionTextView.setText(String.format("Location: %s", transaction.getLocation()));
             } else {
                 this.positionTextView.setText("Location: NA");
