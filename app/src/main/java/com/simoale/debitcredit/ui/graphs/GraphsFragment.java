@@ -203,17 +203,9 @@ public class GraphsFragment extends Fragment {
 
     private void computeFilters() {
         transactionViewModel.getTransactionList(dateSelectedFrom, dateSelectedTo).observe((LifecycleOwner) getActivity(), transactions -> {
-            Log.e("trans", transactions.size() + "");
-            Log.e("from", dateSelectedFrom);
-            Log.e("to", dateSelectedTo);
             generateCharts(transactions);
             transactionViewModel.getTransactionList(dateSelectedFrom, dateSelectedTo).removeObservers((LifecycleOwner) getActivity());
         });
-
-        /*transactionViewModel.getTransactionList().observe((LifecycleOwner) getActivity(), transactions -> {
-            generateCharts(transactions);
-            transactionViewModel.getTransactionList().removeObservers((LifecycleOwner) getActivity());
-        });*/
     }
 
     private void generateCharts(List<Transaction> transactions) {

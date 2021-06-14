@@ -78,7 +78,6 @@ public class LocationUtils {
                 super.onLocationResult(locationResult);
                 // Update UI with location data
                 android.location.Location location = locationResult.getLastLocation();
-                Log.e("lat", String.valueOf(location.getLatitude()));
                 if (isNetworkConnected) {
                     //if internet connection is available, I can make the request
                     sendVolleyRequest(endPointTextView, String.valueOf(location.getLatitude()), String.valueOf(location.getLongitude()));
@@ -179,7 +178,6 @@ public class LocationUtils {
      * @param longitude        longitude of the device
      */
     private void sendVolleyRequest(TextView endPointTextView, String latitude, String longitude) {
-        Log.e("aa", "1");
         String url = "https://nominatim.openstreetmap.org/reverse?lat=" + latitude +
                 "&lon=" + longitude + "&format=jsonv2&limit=1";
 
@@ -188,9 +186,7 @@ public class LocationUtils {
                 null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
-                Log.e("ssss", "dentro");
                 try {
-                    Log.e("aa", "2");
                     endPointTextView.setText(response.get("name").toString());
                     unRegisterNetworkCallback();
                 } catch (JSONException e) {

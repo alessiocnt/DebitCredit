@@ -58,7 +58,6 @@ public class TransactionRepository {
             e.printStackTrace();
         }
         this.walletRepository.updateBalance(transaction.getWalletIdFrom(), transaction.getAmount());
-        Log.e("viewmodel trans", transaction.getAmount() + "");
         this.budgetRepository.updateBalance(transaction.getCategoryName(), transaction.getAmount());
         return result.get();
     }

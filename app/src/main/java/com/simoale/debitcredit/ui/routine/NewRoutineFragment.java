@@ -123,7 +123,6 @@ public class NewRoutineFragment extends Fragment {
         boolean dataOk = false;
         String routineName = this.routineNameTextInput.getEditText().getText().toString();
         String routineImport = this.routineImportTextInput.getEditText().getText().toString().replace(',', '.');
-        Log.e("routineImport", routineImport);
         String times = this.timesTextView.getText().toString();
         String interval = this.intervalTextView.getText().toString().replace("(s)", "");
 

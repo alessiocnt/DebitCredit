@@ -88,22 +88,18 @@ public class RoutineViewModel extends AndroidViewModel {
         // devo aggiornare ogni repeatNumber*repeatInterval
         int daysBetweenUpdates = repeatNumber * Interval.valueOf(repeatInterval.toUpperCase()).daysNumber;
         long numberOfUpdates = dayDiff / daysBetweenUpdates;
-        Log.e("Routine number of updates", numberOfUpdates + "");
         if (numberOfUpdates != 0) {
             lastUpdate.setTime(Utilities.getDateFromString(dateLastUpdate));
             lastUpdate.add(Calendar.DAY_OF_MONTH, (int) (numberOfUpdates * daysBetweenUpdates));
             dateLastUpdate = Utilities.getStringFromDate(lastUpdate.getTime());
-            Log.e("LastUpdate", dateLastUpdate);
             nextUpdate.setTime(Utilities.getDateFromString(dateLastUpdate));
             nextUpdate.add(Calendar.DAY_OF_MONTH, daysBetweenUpdates);
             dateNextUpdate = Utilities.getStringFromDate(nextUpdate.getTime());
-            Log.e("NextUpdate", dateNextUpdate);
         }
 
         while (numberOfUpdates > 0) {
             numberOfUpdates--;
             nextUpdate.add(Calendar.DAY_OF_MONTH, -daysBetweenUpdates);
-            Log.e("aaa", String.valueOf(routine.getAmount()));
             this.transactionRepository.addTransaction(new Transaction(routine.getAmount(),
                     "Transaction from routine: " + routine.getName(), routine.getCategoryName(),
                     routine.getPayeeName(), Utilities.getStringFromDate(nextUpdate.getTime()),

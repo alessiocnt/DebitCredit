@@ -45,7 +45,6 @@ public class BudgetRepository {
         DatabaseInstance.databaseWriteExecutor.execute(new Runnable() {
             @Override
             public void run() {
-                Log.e("adsfsdfgasdgadfgdasfg", "" + categoryName + " " + amount);
                 budgetDAO.updateBalance(categoryName, amount);
             }
         });
