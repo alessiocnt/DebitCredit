@@ -167,7 +167,6 @@ public class NewTransactionFragmentIn extends Fragment {
                     if (bitmap != null) {
                         //method to save the image in the gallery of the device
                         imageUriString = String.valueOf(saveImage(bitmap, activity));
-                        //Toast.makeText(activity,"Image Saved", Toast.LENGTH_SHORT).show();
                     } else {
                         imageUriString = "ic_launcher_foreground";
                     }
@@ -177,7 +176,6 @@ public class NewTransactionFragmentIn extends Fragment {
                         Float amount = transactionType.getType() * Math.abs(Float.parseFloat(amountString.replace(',', '.')));
                         transactionViewModel.addTransaction(new Transaction(amount,
                                 description, categorySelected, payeeSelected, dateSelected, currentWallet.getId(), currentWallet.getId(), location, note, imageUriString), tagSelected);
-//                            walletViewModel.updateBalance(currentWallet.getId(), amount);
                         Navigation.findNavController(v).navigate(R.id.action_newTransactionTabFragment_to_nav_home);
                     } else {
                         Toast.makeText(activity.getBaseContext(), "All fields are required", Toast.LENGTH_LONG).show();
@@ -226,35 +224,27 @@ public class NewTransactionFragmentIn extends Fragment {
 
 
     private void setupImageCapture() {
-        captureBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                // Ensure that there is a camera activity to handle the intent
-                if (takePictureIntent.resolveActivity(activity.getPackageManager()) != null) {
-                    activity.startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
-                }
+        captureBtn.setOnClickListener(v -> {
+            Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+            // Ensure that there is a camera activity to handle the intent
+            if (takePictureIntent.resolveActivity(activity.getPackageManager()) != null) {
+                activity.startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
             }
         });
-        transactionViewModel.getBitmap().observe(getViewLifecycleOwner(), new Observer<Bitmap>() {
-            @Override
-            public void onChanged(Bitmap bitmap) {
-                if (bitmap != null) {
-                    imageView.setImageBitmap(bitmap);
-                }
-                transactionViewModel.getBitmap().removeObservers(getViewLifecycleOwner());
+        transactionViewModel.getBitmap().observe(getViewLifecycleOwner(), bitmap -> {
+            if (bitmap != null) {
+                imageView.setImageBitmap(bitmap);
             }
+            transactionViewModel.getBitmap().removeObservers(getViewLifecycleOwner());
         });
     }
 
     private void setupLocation() {
-        locationSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    locationUtils.setRequestingLocationUpdates(true);
-                    locationUtils.registerNetworkCallback();
-                    locationUtils.startLocationUpdates();
-                }
+        locationSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (isChecked) {
+                locationUtils.setRequestingLocationUpdates(true);
+                locationUtils.registerNetworkCallback();
+                locationUtils.startLocationUpdates();
             }
         });
     }

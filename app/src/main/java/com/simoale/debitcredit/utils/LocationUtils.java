@@ -194,12 +194,7 @@ public class LocationUtils {
                     e.printStackTrace();
                 }
             }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Log.d("Network", error.toString());
-            }
-        });
+        }, error -> Log.d("Network", error.toString()));
 
         jsonObjectRequest.setTag(OSM_REQUEST_TAG);
         // Add the request to the RequestQueue.
