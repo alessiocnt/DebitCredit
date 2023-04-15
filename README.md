@@ -6,5 +6,5 @@ The project was made for the project work in "Programmazione di sistemi mobile" 
 Take a look at the [project documentation](doc/Debit%26Credit.pdf) for more info!
 
 ### Team members ###
-simone.ceredi@studio.unibo.it
+simone.ceredi@studio.unibo.it <br>
 alessio alessio.conti3@studio.unibo.it 
