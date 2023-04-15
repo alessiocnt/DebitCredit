@@ -1,29 +1,10 @@
-# README #
+# DebitCredit #
 
-This README would normally document whatever steps are necessary to get your application up and running.
+Android application for money and expenses management.
+The project was made for the project work in "Programmazione di sistemi mobile" - 72787 - BSc in Computer Science Engineering at Unibo.
 
-### What is this repository for? ###
+Take a look at the [project documentation](doc/Debit%26Credit.pdf) for more info!
 
-* Quick summary
-* Version
-* [Learn Markdown](https://bitbucket.org/tutorials/markdowndemo)
-
-### How do I get set up? ###
-
-* Summary of set up
-* Configuration
-* Dependencies
-* Database configuration
-* How to run tests
-* Deployment instructions
-
-### Contribution guidelines ###
-
-* Writing tests
-* Code review
-* Other guidelines
-
-### Who do I talk to? ###
-
-* Repo owner or admin
-* Other community or team contact
+### Team members ###
+simone.ceredi@studio.unibo.it
+alessio alessio.conti3@studio.unibo.it 
