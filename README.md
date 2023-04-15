@@ -1,6 +1,6 @@
 # DebitCredit #
 
-Android application for money and expenses management.
+Android application for money and expenses management. <br>
 The project was made for the project work in "Programmazione di sistemi mobile" - 72787 - BSc in Computer Science Engineering at Unibo.
 
 Take a look at the [project documentation](doc/Debit%26Credit.pdf) for more info!
